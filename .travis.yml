@@ -26,7 +26,7 @@ script:
   - vendor/bin/phpstan analyse --level max bin/ src/ tests/
   - |
     if [[ $TRAVIS_PHP_VERSION == '7.0' ]]; then
-      php devtools/phar-builder-download-latest
+      composer require macfja/phar-builder --dev --no-interaction --prefer-dist
       php -dphar.readonly=0 vendor/bin/phar-builder package
       test -e build/cfditopdf.phar
     fi
