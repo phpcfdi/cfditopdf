@@ -14,9 +14,15 @@ addons:
     packages:
       - poppler-utils
 
+env:
+  - FULL_BUILD_PHP_VERSION="7.0"
+
 before_script:
-  - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-dist
+  - |
+    if [[ $TRAVIS_PHP_VERSION != $FULL_BUILD_PHP_VERSION ]]; then
+        phpenv config-rm xdebug.ini
+    fi
 
 script:
   - mkdir -p build/tests/
@@ -26,15 +32,23 @@ script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
   - vendor/bin/phpstan analyse --level max bin/ src/ tests/
   - |
-    if [[ $TRAVIS_PHP_VERSION == '7.0' ]]; then
+    if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
+      vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
+    else
+      vendor/bin/phpunit
+    fi
+  # build phar
+  - |
+    if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
       composer require macfja/phar-builder --dev --no-interaction --prefer-dist
       php -dphar.readonly=0 vendor/bin/phar-builder package
       test -e build/cfditopdf.phar
     fi
 
 after_script:
+  # upload test covegare to scrutinizer
   - |
-    if [[ $TRAVIS_PHP_VERSION == '7.0' ]]; then
+    if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
       wget https://scrutinizer-ci.com/ocular.phar
       php ocular.phar code-coverage:upload --format=php-clover build/tests/coverage.xml
     fi
@@ -46,7 +60,7 @@ deploy:
   file: build/cfditopdf.phar
   on:
     repo: phpcfdi/cfditopdf
-    php: 7.0
+    condition: $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION
     tags: true
 
 notifications:
