@@ -1,0 +1,57 @@
+{
+    "name": "phpcfdi/cfditopdf",
+    "description": "Create a generic PDF file from a CFDI 3.3 (CLI included)",
+    "keywords": ["cfdi", "mexico", "invoice", "pdf", "factura"],
+    "homepage": "https://github.com/phpcfdi/cfditopdf",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carlos C Soto",
+            "email": "eclipxe13@gmail.com",
+            "homepage": "http://eclipxe.com.mx/"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "eclipxe/cfdiutils": "master-dev",
+        "league/plates": "^3.3",
+        "spipu/html2pdf": "^5.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5",
+        "overtrue/phplint": "^1.0",
+        "squizlabs/php_codesniffer": "^3.0",
+        "friendsofphp/php-cs-fixer": "^2.4",
+        "phpstan/phpstan-shim": "^0.9.2",
+        "macfja/phar-builder": "^0.2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpCfdi\\CfdiToPdf\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpCfdi\\CfdiToPdf\\Tests\\": "tests/"
+        }
+    },
+    "bin": ["bin/cfditopdf"],
+    "extra": {
+        "phar-builder": {
+            "compression": "GZip",
+            "name": "cfditopdf.phar",
+            "output-dir": "build/",
+            "entry-point": "bin/cfditopdf",
+            "include": ["bin", "src", "templates"],
+            "include-dev": false,
+            "skip-shebang": false,
+            "events": {
+                "build.before" : "git describe --tags > bin/version.txt",
+                "build.after": [
+                    "rm bin/version.txt",
+                    "chmod +x build/cfditopdf.phar"
+                ]
+            }
+        }
+    }
+}

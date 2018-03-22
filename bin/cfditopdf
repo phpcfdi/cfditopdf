@@ -1,0 +1,77 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+exit(call_user_func(function (array $arguments) {
+    try {
+        $versionGetter = function (): string {
+            $versionFile = __DIR__ . '/version.txt';
+            $version = '';
+            if (file_exists($versionFile)) {
+                $version = trim((string) file_get_contents($versionFile));
+            }
+            if ('' === $version) {
+                $version = 'dev';
+            }
+            return $version;
+        };
+
+        $loadComposerLoader = function (array $locations) : bool {
+            foreach ($locations as $autoload) {
+                if (is_readable($autoload) && is_file($autoload)) {
+                    /** @noinspection PhpIncludeInspection */
+                    $classLoader = require $autoload;
+                    if ($classLoader instanceof \Composer\Autoload\ClassLoader) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+
+        $autoloadFound = $loadComposerLoader([
+            __DIR__ . '/../vendor/autoload.php',    // in bin/
+            dirname(__DIR__, 3) . '/autoload.php',  // in vendor/PhpCfdi/CfdiToPdf/bin
+            __DIR__ . '/../autoload.php',           // in vendor/bin/
+        ]);
+        if (! $autoloadFound) {
+            throw new \RuntimeException('Cannot found autoload.php, did you run composer update?');
+        }
+
+        $command = basename((string) array_shift($arguments));
+        $options = \PhpCfdi\CfdiToPdf\Script\ConvertOptions::createFromArguments($arguments);
+
+        if ($options->askForVersion()) {
+            echo "$command version {$versionGetter()}\n";
+            return 0;
+        }
+
+        if ($options->askForHelp()) {
+            echo implode("\n", [
+                $command . ' [options] <cfdi-file> [<pdf-file>]',
+                '  -h, --help                Show this help',
+                '  -v, --version             Show command version',
+                '  -d, --dirty               Do not try to clean up the cfdi file',
+                '  -l, --resource-location   Use this path to store the xml resources locally,',
+                '                            if none then it will always download xlst resources',
+                '  cfdi-file                 Path of the XML file (input file)',
+                '  pdf-file                  Path of the PDF file (output file) if none then it will remove',
+                '                            ".xml" extension and sufix ".pdf" extension',
+                ''
+            ]);
+            return 0;
+        }
+
+        $script = new PhpCfdi\CfdiToPdf\Script\ConvertScript();
+        $script->run($options);
+
+        return 0;
+    } catch (\Throwable $exception) {
+        // white/red message reset-color EOL
+        $message = "\033[1;31m" . $exception->getMessage() . " \033[0m" . PHP_EOL;
+        file_put_contents('php://stderr', $message, FILE_APPEND);
+
+        return 1;
+    }
+}, $argv));

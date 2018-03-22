@@ -1,0 +1,45 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+
+# This triggers builds to run on the new TravisCI infrastructure.
+# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-dist
+
+script:
+  - mkdir -p build/tests/
+  - vendor/bin/phplint
+  - vendor/bin/phpcs -sp src/ tests/
+  - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
+  - vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
+  - vendor/bin/phpstan analyse --level max bin/ src/ tests/
+  - |
+    if [[ $TRAVIS_PHP_VERSION == '7.0' ]]; then
+      php devtools/phar-builder-download-latest
+      php -dphar.readonly=0 vendor/bin/phar-builder package
+      test -e build/cfditopdf.phar
+    fi
+
+after_script:
+  - |
+    if [[ $TRAVIS_PHP_VERSION == '7.0' ]]; then
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover build/tests/coverage.xml
+    fi
+
+deploy:
+  provider: releases
+  api_key:
+    secure: S8EccWweBA/CBAQXGiNm0o8UanBrR7OYF5if9lqba60IGyiJh7sgE3wiLsPjuh6gvy9GMv9SjAYmBsBeKwbSNE63ebeUF7RKxZpWLQvw3W8uQMrqXsRo68jkp13msK4tQoaecpmMra0eLD8JpFyCxK35MEpz6WvHzyWbcyUETezxIfoUSQrZfJiOUSAm8m4Wq7KJztOI8BBuLFRt4XtM8VlgjrkzDUveUqczVqQDo7r27II8Yz4oeXddvQokxa1bUnWlc6QIvBltqbnR4AfT/n2/VQPRo3XK0+qf+o4EHRUOg20rW16kxXR+iU0I06hYlQ0Q0VEQsAjXLIzHO5ssoUNfXDo93pzPsCRyjkRHgkCEKQ/nZgBdmv6s0XFIcdXZgLcCLUU5rNtgFqXPMfwgyfTA2OwPYb+l89x/GNBgeEdNYaOBK2AA5ZWtTnVGDvzw5FeLtJ/XlZpanTOGmcD9vGLPg0ldmwv25QMIHvIYOfEqjpvW6zcJElckZWc6X5EIn9+4fVuhKYNM7G5QlA1wjWf0v5HEZ4lVeIDNLa9PNXzxBcAYyyXP+y83fdjHM8y8N/R6RktqyH9hUk6Am70nVSDx1mcfseM/H3/Q3KqROys7lKVyp+NAW0wpRvihcvGdZWss2ND9FtnN85rD68GTzBgjVFZrHciQ4nIlSvSU21U=
+  file: build/cfditopdf.phar
+  on:
+    repo: phpcfdi/cfditopdf
+
+notifications:
+  email: false
