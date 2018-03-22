@@ -29,14 +29,13 @@ script:
   - vendor/bin/phplint
   - vendor/bin/phpcs -sp src/ tests/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
-  - vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
-  - vendor/bin/phpstan analyse --level max bin/ src/ tests/
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
       vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
     else
       vendor/bin/phpunit
     fi
+  - vendor/bin/phpstan analyse --level max bin/ src/ tests/
   # build phar
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
