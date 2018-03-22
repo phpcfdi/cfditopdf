@@ -46,6 +46,8 @@ deploy:
   file: build/cfditopdf.phar
   on:
     repo: phpcfdi/cfditopdf
+    php: 7.0
+    tags: true
 
 notifications:
   email: false
