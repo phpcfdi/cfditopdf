@@ -18,7 +18,9 @@ env:
   - FULL_BUILD_PHP_VERSION="7.0"
 
 before_script:
-  - travis_retry composer install --no-interaction --prefer-dist
+  - travis_retry composer install --no-progress --no-interaction --prefer-dist
+  - composer phive:info
+  - composer phive:run --no-progress install --trust-gpg-keys 31C7E470E2138192,8E730BA25823D8B5
   - |
     if [[ $TRAVIS_PHP_VERSION != $FULL_BUILD_PHP_VERSION ]]; then
         phpenv config-rm xdebug.ini
@@ -27,7 +29,7 @@ before_script:
 script:
   - mkdir -p build/tests/
   - vendor/bin/phplint
-  - vendor/bin/phpcs -sp src/ tests/
+  - tools/phpcs -sp bin/ src/ tests/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
@@ -35,7 +37,7 @@ script:
     else
       vendor/bin/phpunit
     fi
-  - vendor/bin/phpstan analyse --level max bin/ src/ tests/
+  - tools/phpstan analyse --level max bin/ src/ tests/
   # build phar
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then

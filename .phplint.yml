@@ -8,4 +8,5 @@ extensions:
   - php
 exclude:
   - vendor
+  - tools
   - build

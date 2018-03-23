@@ -59,13 +59,30 @@ When you do begin working on your feature, here are some guidelines to consider:
 * **Submit one feature per pull request.** If you have multiple features you wish to submit, please break them up into separate pull requests.
 * **Send coherent history**. Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
 
+## Prepare environment for development
+
+This package is using composer and phive to get dependences.
+`composer` is used to get library dependences or command line dependences when not available
+`phive` via `composer phive:run` is used to get command line dependences when available
+
+```shell
+git clone phpcfdi/cfditopdf
+cd cfditopdf
+composer install
+composer phive:run install --trust-gpg-keys 31C7E470E2138192 --trust-gpg-keys 8E730BA25823D8B5 
+```
+
+If you are running an IDE like PhpStorm mark as excluded the folders `build` and `vendor`.
+
+
+
 ## Check the code style
 
 If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
 
 ```shell
 vendor/bin/php-cs-fixer fix -v
-vendor/bin/phpcbf src/ tests/
+tools/phpcbf src/ tests/
 ```
 
 ## Running Tests
@@ -76,8 +93,8 @@ Before you can run these, be sure to `composer install` or `composer update`.
 
 ```shell
 vendor/bin/phplint
-vendor/bin/phpcs -sp src/ tests/
+tools/phpcs -sp bin/ src/ tests/
 vendor/bin/php-cs-fixer fix -v --dry-run
 vendor/bin/phpunit --coverage-text
-vendor/bin/phpstan analyse --level max bin/ src/ tests/
+tools/phpstan analyse --level max bin/ src/ tests/
 ```
