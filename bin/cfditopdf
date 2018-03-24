@@ -6,6 +6,13 @@ declare(strict_types=1);
 exit(call_user_func(function (array $arguments): int {
     try {
 
+        set_error_handler(function (int $errno , string $errstr): bool {
+            if (in_array($errno, [E_WARNING, E_USER_ERROR, E_USER_WARNING], true)) {
+                throw new \Exception("[$errno] $errstr", $errno);
+            }
+            return true; // do not continue with normal error handler
+        });
+
         $loadComposerLoader = function (array $locations) : bool {
             foreach ($locations as $autoload) {
                 if (is_readable($autoload) && is_file($autoload)) {
