@@ -39,7 +39,8 @@ exit(call_user_func(function (array $arguments) {
             throw new \RuntimeException('Cannot found autoload.php, did you run composer update?');
         }
 
-        $command = basename((string) array_shift($arguments));
+        $command = basename(__FILE__);
+        array_shift($arguments);
         $options = \PhpCfdi\CfdiToPdf\Script\ConvertOptions::createFromArguments($arguments);
 
         if ($options->askForVersion()) {
