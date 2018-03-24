@@ -69,8 +69,9 @@ exit(call_user_func(function (array $arguments) {
         return 0;
     } catch (\Throwable $exception) {
         // white/red message reset-color EOL
-        $message = "\033[1;31m" . $exception->getMessage() . " \033[0m" . PHP_EOL;
-        file_put_contents('php://stderr', $message, FILE_APPEND);
+        $setColor = "\033[1;31m";   // light-red
+        $resetColor = "\033[0m";    // default
+        file_put_contents('php://stderr', $setColor . $exception->getMessage() . $resetColor . PHP_EOL, FILE_APPEND);
 
         return 1;
     }
