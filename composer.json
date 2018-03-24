@@ -36,6 +36,48 @@
         }
     },
     "bin": ["bin/cfditopdf"],
+    "scripts": {
+        "build:check-style": [
+            "vendor/bin/php-cs-fixer fix --dry-run --verbose",
+            "tools/phpcs --colors -sp bin/ src/ tests/"
+        ],
+        "build:fix-style": [
+            "vendor/bin/php-cs-fixer fix --verbose",
+            "tools/phpcbf --colors -sp bin/ src/ tests/"
+        ],
+        "build:build": [
+            "@build:fix-style",
+            "@build:qa"
+            ],
+        "build:qa": [
+            "vendor/bin/phplint",
+            "tools/phpstan analyse --no-progress --level max bin/ src/ tests/",
+            "@build:test"
+        ],
+        "build:test": [
+            "vendor/bin/phpunit"
+        ],
+        "build:coverage": [
+            "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
+        ],
+        "build:phar": [
+            "@composer require --no-interaction --prefer-dist --no-suggest --dev macfja/phar-builder",
+            "git describe --tags > bin/version.txt",
+            "test -x /usr/local/bin/phar-builder || /usr/local/bin/phar-builder package --no-interaction",
+            "@php -dphar.readonly=0 vendor/bin/phar-builder package --no-interaction",
+            "rm bin/version.txt",
+            "@composer remove --no-interaction --dev macfja/phar-builder"
+        ]
+    },
+    "scripts-descriptions": {
+        "build:check-style": "Run php-cs-fixer and phpcs to check code style violations",
+        "build:fix-style": "Run php-cs-fixer and phpcbf to fix code style violations",
+        "build:build": "Fix code style violations, run quality assurance and run test",
+        "build:qa": "Run phplint and phpstan",
+        "build:test": "Run phpunit",
+        "build:coverage": "Run phpunit with code coverage and store the html results in build/coverage/html/",
+        "build:phar": "Build the phar file into build/cfditopdf.phar using macfja/phar-builder"
+    },
     "extra": {
         "phar-builder": {
             "compression": "GZip",
