@@ -52,7 +52,7 @@ exit(call_user_func(function (array $arguments) {
             echo implode(PHP_EOL, [
                 $command . ' [options] <cfdi-file> [<pdf-file>]',
                 '  -h, --help                Show this help',
-                '  -v, --version             Show command version',
+                '  -V, --version             Show command version',
                 '  -d, --dirty               Do not try to clean up the cfdi file',
                 '  -l, --resource-location   Use this path to store the xml resources locally,',
                 '                            if none then it will always download xlst resources',
