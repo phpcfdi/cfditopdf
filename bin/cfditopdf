@@ -5,17 +5,6 @@ declare(strict_types=1);
 
 exit(call_user_func(function (array $arguments): int {
     try {
-        $versionGetter = function (): string {
-            $versionFile = __DIR__ . '/version.txt';
-            $version = '';
-            if (file_exists($versionFile)) {
-                $version = trim((string) file_get_contents($versionFile));
-            }
-            if ('' === $version) {
-                $version = 'dev';
-            }
-            return $version;
-        };
 
         $loadComposerLoader = function (array $locations) : bool {
             foreach ($locations as $autoload) {
@@ -38,6 +27,18 @@ exit(call_user_func(function (array $arguments): int {
         if (! $autoloadFound) {
             throw new \RuntimeException('Cannot found autoload.php, did you run composer update?');
         }
+
+        $versionGetter = function (): string {
+            $versionFile = __DIR__ . '/version.txt';
+            $version = '';
+            if (is_readable($versionFile)) {
+                $version = trim((string) file_get_contents($versionFile));
+            }
+            if ('' === $version) {
+                $version = 'development';
+            }
+            return $version;
+        };
 
         $command = basename(__FILE__);
         array_shift($arguments);
