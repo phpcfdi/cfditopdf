@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-exit(call_user_func(function (array $arguments) {
+exit(call_user_func(function (array $arguments): int {
     try {
         $versionGetter = function (): string {
             $versionFile = __DIR__ . '/version.txt';
