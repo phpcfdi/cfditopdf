@@ -65,6 +65,7 @@ exit(call_user_func(function (array $arguments) {
 
         $script = new PhpCfdi\CfdiToPdf\Script\ConvertScript();
         $script->run($options);
+        echo $options->outputFile() . PHP_EOL;
 
         return 0;
     } catch (\Throwable $exception) {
