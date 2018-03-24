@@ -43,12 +43,12 @@ exit(call_user_func(function (array $arguments) {
         $options = \PhpCfdi\CfdiToPdf\Script\ConvertOptions::createFromArguments($arguments);
 
         if ($options->askForVersion()) {
-            echo "$command version {$versionGetter()}\n";
+            echo "$command version {$versionGetter()}" . PHP_EOL;
             return 0;
         }
 
         if ($options->askForHelp()) {
-            echo implode("\n", [
+            echo implode(PHP_EOL, [
                 $command . ' [options] <cfdi-file> [<pdf-file>]',
                 '  -h, --help                Show this help',
                 '  -v, --version             Show command version',
