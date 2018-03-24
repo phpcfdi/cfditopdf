@@ -44,14 +44,7 @@
             "entry-point": "bin/cfditopdf",
             "include": ["bin", "src", "templates"],
             "include-dev": false,
-            "skip-shebang": false,
-            "events": {
-                "build.before" : "git describe --tags > bin/version.txt",
-                "build.after": [
-                    "rm bin/version.txt",
-                    "chmod +x build/cfditopdf.phar"
-                ]
-            }
+            "skip-shebang": false
         }
     }
 }
