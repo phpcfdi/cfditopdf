@@ -14,27 +14,41 @@ addons:
     packages:
       - poppler-utils
 
+env:
+  - FULL_BUILD_PHP_VERSION="7.0"
+
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-dist
+  - travis_retry composer install --no-progress --no-interaction --prefer-dist
+  - composer phive:info
+  - composer phive:run --no-progress install --trust-gpg-keys 31C7E470E2138192,8E730BA25823D8B5,6FD34E2566B7B0B2
+  - |
+    if [[ $TRAVIS_PHP_VERSION != $FULL_BUILD_PHP_VERSION ]]; then
+        phpenv config-rm xdebug.ini
+    fi
 
 script:
   - mkdir -p build/tests/
   - vendor/bin/phplint
-  - vendor/bin/phpcs -sp src/ tests/
+  - tools/phpcs -sp bin/ src/ tests/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
-  - vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
-  - vendor/bin/phpstan analyse --level max bin/ src/ tests/
   - |
-    if [[ $TRAVIS_PHP_VERSION == '7.0' ]]; then
-      composer require macfja/phar-builder --dev --no-interaction --prefer-dist
-      php -dphar.readonly=0 vendor/bin/phar-builder package
-      test -e build/cfditopdf.phar
+    if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
+      vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
+    else
+      vendor/bin/phpunit
+    fi
+  - tools/phpstan analyse --level max bin/ src/ tests/
+  # build phar
+  - |
+    if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
+      php -dphar.readonly=0 tools/phar-builder package
+      test -f build/cfditopdf.phar
     fi
 
 after_script:
+  # upload test covegare to scrutinizer
   - |
-    if [[ $TRAVIS_PHP_VERSION == '7.0' ]]; then
+    if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
       wget https://scrutinizer-ci.com/ocular.phar
       php ocular.phar code-coverage:upload --format=php-clover build/tests/coverage.xml
     fi
@@ -46,7 +60,7 @@ deploy:
   file: build/cfditopdf.phar
   on:
     repo: phpcfdi/cfditopdf
-    php: 7.0
+    condition: $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION
     tags: true
 
 notifications:
