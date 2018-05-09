@@ -15,7 +15,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.0",
-        "eclipxe/cfdiutils": "master-dev",
+        "eclipxe/cfdiutils": "^2.4.3",
         "league/plates": "^3.3",
         "spipu/html2pdf": "^5.1"
     },
