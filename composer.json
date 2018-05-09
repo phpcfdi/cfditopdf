@@ -61,12 +61,9 @@
             "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
         ],
         "build:phar": [
-            "@composer require --no-interaction --prefer-dist --no-suggest --dev macfja/phar-builder",
             "git describe --tags > bin/version.txt",
-            "test -x /usr/local/bin/phar-builder || /usr/local/bin/phar-builder package --no-interaction",
-            "@php -dphar.readonly=0 vendor/bin/phar-builder package --no-interaction",
-            "rm bin/version.txt",
-            "@composer remove --no-interaction --dev macfja/phar-builder"
+            "@php -dphar.readonly=0 tools/phar-builder package --no-interaction",
+            "rm bin/version.txt"
         ]
     },
     "scripts-descriptions": {

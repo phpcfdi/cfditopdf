@@ -20,7 +20,7 @@ env:
 before_script:
   - travis_retry composer install --no-progress --no-interaction --prefer-dist
   - composer phive:info
-  - composer phive:run --no-progress install --trust-gpg-keys 31C7E470E2138192,8E730BA25823D8B5
+  - composer phive:run --no-progress install --trust-gpg-keys 31C7E470E2138192,8E730BA25823D8B5,6FD34E2566B7B0B2
   - |
     if [[ $TRAVIS_PHP_VERSION != $FULL_BUILD_PHP_VERSION ]]; then
         phpenv config-rm xdebug.ini
@@ -41,9 +41,8 @@ script:
   # build phar
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
-      composer require macfja/phar-builder --dev --no-interaction --prefer-dist
-      php -dphar.readonly=0 vendor/bin/phar-builder package
-      test -e build/cfditopdf.phar
+      php -dphar.readonly=0 tools/phar-builder package
+      test -f build/cfditopdf.phar
     fi
 
 after_script:

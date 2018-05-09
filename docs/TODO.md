@@ -13,7 +13,6 @@
 
 - [ ] Improve testing
 
-- [ ] When macfja/phar-builder reaches phive move it from composer script requiere run remove
+- [X] When macfja/phar-builder reaches phive move it from composer script requiere run remove
       to phive dependence
 
-- 

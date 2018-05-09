@@ -69,10 +69,10 @@ This package is using composer and phive to get dependences.
 git clone phpcfdi/cfditopdf
 cd cfditopdf
 composer install
-composer phive:run install --trust-gpg-keys 31C7E470E2138192 --trust-gpg-keys 8E730BA25823D8B5 
+composer phive:run install --trust-gpg-keys 31C7E470E2138192,8E730BA25823D8B5,6FD34E2566B7B0B2 
 ```
 
-If you are running an IDE like PhpStorm mark as excluded the folders `build` and `vendor`.
+If you are running an IDE like PhpStorm mark as excluded the folders `build`, `vendor` and `tools`.
 
 
 
@@ -92,9 +92,15 @@ If any of these do not pass, it will result in a complete build failure.
 Before you can run these, be sure to `composer install` or `composer update`.
 
 ```shell
+composer build:build
+```
+
+It will run:
+
+```shell
+vendor/bin/php-cs-fixer fix --verbose
+tools/phpcbf --colors -sp bin/ src/ tests/
 vendor/bin/phplint
-tools/phpcs -sp bin/ src/ tests/
-vendor/bin/php-cs-fixer fix -v --dry-run
-vendor/bin/phpunit --coverage-text
-tools/phpstan analyse --level max bin/ src/ tests/
+tools/phpstan analyse --no-progress --level max bin/ src/ tests/
+vendor/bin/phpunit
 ```
