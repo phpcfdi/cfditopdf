@@ -82,7 +82,7 @@ If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
 
 ```shell
 vendor/bin/php-cs-fixer fix -v
-tools/phpcbf src/ tests/
+vendor/bin/phpcbf src/ tests/
 ```
 
 ## Running Tests
@@ -99,8 +99,8 @@ It will run:
 
 ```shell
 vendor/bin/php-cs-fixer fix --verbose
-tools/phpcbf --colors -sp bin/ src/ tests/
+vendor/bin/phpcbf --colors -sp bin/ src/ tests/
 vendor/bin/phplint
-tools/phpstan analyse --no-progress --level max bin/ src/ tests/
+vendor/bin/phpstan analyse --no-progress --level max bin/ src/ tests/
 vendor/bin/phpunit
 ```

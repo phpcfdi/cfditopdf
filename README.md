@@ -13,18 +13,17 @@
 In some cases you just simply need a PDF file from a Mexican CFDI (Comprobante Fiscal Digital por Internet).
 This tool help you to create a generic one. You can also use it to build your own and pretty formats.
 
-
 ## Installation
 
 Use [composer](https://getcomposer.org/), so please run
+
 ```shell
 composer require phpcfdi/cfditopdf
 ```
 
-
 ## Basic usage from CLI
 
-```shell
+```text
 $ bin/cfditopdf --help
 bin/cfditopdf [options] <cfdi-file> [<pdf-file>]
   -h, --help                Show this help
@@ -35,7 +34,6 @@ bin/cfditopdf [options] <cfdi-file> [<pdf-file>]
   cfdi-file                 Path of the XML file (input file)
   pdf-file                  Path of the PDF file (output file) if none then it will remove
                             ".xml" extension and sufix ".pdf" extension
-
 ```
 
 ## Basic usage as a PHP library
@@ -65,24 +63,20 @@ $converter = new \PhpCfdi\CfdiToPdf\Converter(
 $converter->createPdfAs($cfdiData, 'output.pdf');
 ```
 
-
 ## PHP Support
 
 This library is compatible with PHP versions 7.0 and above.
 Please, try to use the full potential of the language.
-
 
 ## Contributing
 
 Contributions are welcome! Please read [CONTRIBUTING][] for details
 and don't forget to take a look in the [TODO][] and [CHANGELOG][] files.
 
-
 ## Copyright and License
 
 The phpcfdi/cfditopdf library is copyright © [Carlos C Soto](http://eclipxe.com.mx/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
-
 
 [contributing]: https://github.com/phpcfdi/cfditopdf/blob/master/CONTRIBUTING.md
 [changelog]: https://github.com/phpcfdi/cfditopdf/blob/master/docs/CHANGELOG.md
@@ -93,13 +87,13 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [license]: https://github.com/phpcfdi/cfditopdf/blob/master/LICENSE
 [build]: https://travis-ci.org/phpcfdi/cfditopdf?branch=master
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/cfditopdf/
-[coverage]: https://scrutinizer-ci.com/g/phpcfdi/cfditopdf/code-structure/master/code-coverage
+[coverage]: https://scrutinizer-ci.com/g/phpcfdi/cfditopdf/code-structure/master/code-coverage/src
 [downloads]: https://packagist.org/packages/phpcfdi/cfditopdf
 
-[badge-source]: http://img.shields.io/badge/source-phpcfdi/cfditopdf-blue.svg?style=flat-square
-[badge-release]: https://img.shields.io/github/release/phpcfdi/cfditopdf.svg?style=flat-square
-[badge-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[badge-build]: https://img.shields.io/travis/phpcfdi/cfditopdf/master.svg?style=flat-square
-[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/cfditopdf/master.svg?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/cfditopdf/master.svg?style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/cfditopdf.svg?style=flat-square
+[badge-source]: http://img.shields.io/badge/source-phpcfdi/cfditopdf-blue?style=flat-square
+[badge-release]: https://img.shields.io/github/release/phpcfdi/cfditopdf?style=flat-square
+[badge-license]: https://img.shields.io/github/license/phpcfdi/cfditopdf?style=flat-square
+[badge-build]: https://img.shields.io/travis/phpcfdi/cfditopdf/master?style=flat-square
+[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/cfditopdf/master?style=flat-square
+[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/cfditopdf/master?style=flat-square
+[badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/cfditopdf?style=flat-square
