@@ -47,6 +47,7 @@
         ],
         "build:build": [
             "@build:fix-style",
+            "@build:check-style",
             "@build:qa"
             ],
         "build:qa": [
