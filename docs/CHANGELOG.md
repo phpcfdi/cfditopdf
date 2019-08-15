@@ -1,3 +1,8 @@
+# Version 0.2.3 2019-08-15
+
+- Due GitHub API change, need to upgrade deploy section on Travis and tag a new release
+  to make upload and perform a full release cicle.
+
 # Version 0.2.2 2019-08-15
 
 - Development improvements, code does not have significant changes.
