@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<phive xmlns="https://phar.io/phive">
-  <phar name="phpcs" version="^3.2.3" installed="3.2.3" location="./tools/phpcs" copy="true"/>
-  <phar name="phpcbf" version="^3.2.3" installed="3.2.3" location="./tools/phpcbf" copy="true"/>
-  <phar name="phpstan" version="^0.9.2" installed="0.9.2" location="./tools/phpstan" copy="true"/>
-  <phar name="macfja/pharbuilder" version="^0.2.7" installed="0.2.7" location="./tools/phar-builder"/>
-</phive>

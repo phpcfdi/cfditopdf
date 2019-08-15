@@ -1,9 +1,6 @@
 language: php
 
-php:
-  - 7.0
-  - 7.1
-  - 7.2
+php: ["7.0", "7.1", "7.2"]
 
 # This triggers builds to run on the new TravisCI infrastructure.
 # See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
@@ -18,30 +15,26 @@ env:
   - FULL_BUILD_PHP_VERSION="7.0"
 
 before_script:
+  - phpenv config-rm xdebug.ini
   - travis_retry composer install --no-progress --no-interaction --prefer-dist
-  - composer phive:info
-  - composer phive:run --no-progress install --trust-gpg-keys 31C7E470E2138192,8E730BA25823D8B5,6FD34E2566B7B0B2
-  - |
-    if [[ $TRAVIS_PHP_VERSION != $FULL_BUILD_PHP_VERSION ]]; then
-        phpenv config-rm xdebug.ini
-    fi
 
 script:
   - mkdir -p build/tests/
   - vendor/bin/phplint
-  - tools/phpcs -sp bin/ src/ tests/
+  - vendor/bin/phpcs -sp bin/ src/ tests/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
+      phpenv config-add xdebug.ini
       vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
     else
       vendor/bin/phpunit
     fi
-  - tools/phpstan analyse --level max bin/ src/ tests/
+  - vendor/bin/phpstan analyse --level max bin/ src/ tests/
   # build phar
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
-      php -dphar.readonly=0 tools/phar-builder package
+      bash build-phar
       test -f build/cfditopdf.phar
     fi
 
