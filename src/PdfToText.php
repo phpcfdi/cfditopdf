@@ -16,7 +16,7 @@ class PdfToText
     public function __construct(string $pathPdfToText = '')
     {
         if ('' === $pathPdfToText) {
-            $pathPdfToText = (string) shell_exec('which pdftotext');
+            $pathPdfToText = trim(strval(shell_exec('which pdftotext')));
             if ('' === $pathPdfToText) {
                 throw new \RuntimeException('pdftotext command was not found');
             }
@@ -26,19 +26,19 @@ class PdfToText
 
     /**
      * @param string $filename
-     * @return string[] file contents
+     * @return string file contents
      */
-    public function extract(string $filename): array
+    public function extract(string $filename): string
     {
-        $shellExec = ShellExec::run($this->buildCommand($filename));
+        $shellExec = (new ShellExec($this->buildCommand($filename)))->run();
         if (0 !== $shellExec->exitStatus()) {
             throw new \RuntimeException("Running pdftotext exit with error (exit status: {$shellExec->exitStatus()})");
         }
         return $shellExec->output();
     }
 
-    public function buildCommand(string $pdfFile): string
+    public function buildCommand(string $pdfFile): array
     {
-        return escapeshellcmd($this->pdftotext) . ' -eol unix -raw -q ' . escapeshellarg($pdfFile) . ' -';
+        return [$this->pdftotext, '-eol', 'unix', '-raw', '-q', $pdfFile, '-'];
     }
 }

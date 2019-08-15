@@ -34,7 +34,7 @@ class ConverterTest extends CfdiToPdfTestCase
         $this->assertFileExists($created);
 
         $pdfToString = new PdfToText();
-        $contents = implode(' ', $pdfToString->extract($created));
+        $contents = $pdfToString->extract($created);
 
         $this->assertContains($uuid, $contents);
 
