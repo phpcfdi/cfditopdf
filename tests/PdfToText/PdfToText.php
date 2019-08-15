@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\CfdiToPdf;
-
-use PhpCfdi\CfdiToPdf\Utils\ShellExec;
+namespace PhpCfdi\CfdiToPdf\Tests\PdfToText;
 
 /**
  * Extract the contents of a pdf file using pdftotext (apt-get install poppler-utils)

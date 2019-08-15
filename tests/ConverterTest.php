@@ -10,7 +10,7 @@ use CfdiUtils\XmlResolver\XmlResolver;
 use PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder;
 use PhpCfdi\CfdiToPdf\CfdiDataBuilder;
 use PhpCfdi\CfdiToPdf\Converter;
-use PhpCfdi\CfdiToPdf\PdfToText;
+use PhpCfdi\CfdiToPdf\Tests\PdfToText\PdfToText;
 
 class ConverterTest extends CfdiToPdfTestCase
 {
