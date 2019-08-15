@@ -19,7 +19,7 @@ class ConverterTest extends CfdiToPdfTestCase
         $resourcesFolder = $this->utilAsset('/../../build/resources');
         $sourcefile = $this->utilAsset('cfdi33-valid.xml');
 
-        $cfdi = Cfdi::newFromString(Cleaner::staticClean(file_get_contents($sourcefile)));
+        $cfdi = Cfdi::newFromString(Cleaner::staticClean(strval(file_get_contents($sourcefile))));
 
         $cfdiData = (new CfdiDataBuilder())
             ->withXmlResolver(new XmlResolver($resourcesFolder))
