@@ -21,9 +21,7 @@ class Converter
 
     public function createPdfAs(CfdiData $cfdiData, string $destination)
     {
-        $temporary = $this->createPdf($cfdiData);
-        copy($temporary, $destination);
-        unlink($temporary);
+        $this->builder->build($cfdiData, $destination);
     }
 
     public function createPdf(CfdiData $cfdiData): string

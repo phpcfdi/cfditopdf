@@ -1,3 +1,16 @@
+# Version 0.3.0 2019-08-26
+
+- Fix bug on `CfdiDataBuilder::createTfdSourceString` when *TimbreFiscalDigital* is version 1.0.
+- Extract logic from `Html2PdfBuilder::build` to:
+    - `Html2PdfBuilder::buildPdf`: convert from CfdiData to html to pdf
+    - `Html2PdfBuilder::convertHtmlToPdf`: contains the logic of Html2Pdf
+- Template `generic.php` uses alternative syntax for control structures
+- Removed:
+    - `PhpCfdi\CfdiToPdf\Utils\TemporaryFilename`: using `CfdiUtils`
+    - `PhpCfdi\CfdiToPdf\Utils\ShellExec`: using `CfdiUtils`
+    - `PhpCfdi\CfdiToPdf\PdfToText`: used only on testing environment
+- Improve test coverage
+
 # Version 0.2.3 2019-08-15
 
 - Due GitHub API change, need to upgrade deploy section on Travis and tag a new release

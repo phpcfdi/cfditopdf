@@ -37,7 +37,6 @@ class ConverterTest extends TestCase
 
         $pdfToString = new PdfToText();
         $contents = $pdfToString->extract($created);
-
         $this->assertContains($uuid, $contents);
 
         unlink($created);

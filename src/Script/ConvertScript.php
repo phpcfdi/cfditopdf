@@ -39,11 +39,9 @@ class ConvertScript
         if (! is_file($filename)) {
             throw new RuntimeException("The path $inputfile is not a file");
         }
-        if (! is_readable($filename)) {
-            throw new RuntimeException("The file $inputfile is not readable");
-        }
 
-        $source = (string) file_get_contents($filename);
+        /** @noinspection PhpUsageOfSilenceOperatorInspection */
+        $source = strval(@file_get_contents($filename));
         if ('' === $source) {
             throw new RuntimeException("The file $inputfile is empty");
         }

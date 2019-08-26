@@ -34,7 +34,7 @@ class ConvertOptions
         bool $askForHelp,
         bool $askForVersion
     ) {
-        if ('' === $outputFile) {
+        if ('' === $outputFile && '' !== $inputFile) {
             $outputFile = (string) preg_replace('/\.xml$/', '', $inputFile) . '.pdf';
         }
 

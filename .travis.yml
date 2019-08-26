@@ -27,6 +27,7 @@ script:
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
       phpenv config-add xdebug.ini
       vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
+      phpenv config-rm xdebug.ini
     else
       vendor/bin/phpunit
     fi

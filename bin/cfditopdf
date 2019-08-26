@@ -39,7 +39,7 @@ exit(call_user_func(function (array $arguments): int {
             $versionFile = __DIR__ . '/version.txt';
             $version = '';
             if (is_readable($versionFile)) {
-                $version = trim((string) file_get_contents($versionFile));
+                $version = trim(strval(file_get_contents($versionFile)));
             }
             if ('' === $version) {
                 $version = 'development';
@@ -72,7 +72,7 @@ exit(call_user_func(function (array $arguments): int {
             return 0;
         }
 
-        $script = new PhpCfdi\CfdiToPdf\Script\ConvertScript();
+        $script = new \PhpCfdi\CfdiToPdf\Script\ConvertScript();
         $script->run($options);
         echo $options->outputFile() . PHP_EOL;
 

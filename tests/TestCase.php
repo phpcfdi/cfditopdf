@@ -16,4 +16,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
         return strval(@file_get_contents(static::filePath($filename))) ?: '';
     }
+
+    public static function fileTemporaryFile(): string
+    {
+        $temporaryFile = tempnam('', '');
+        if (false === $temporaryFile) {
+            throw new \RuntimeException('Unable to create a temporary file');
+        }
+        return $temporaryFile;
+    }
 }
