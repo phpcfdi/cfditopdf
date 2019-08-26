@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\CfdiToPdf;
 
 use CfdiUtils\Nodes\NodeInterface;
+use RuntimeException;
 
 class CfdiData
 {
@@ -30,15 +31,15 @@ class CfdiData
     {
         $emisor = $comprobante->searchNode('cfdi:Emisor');
         if (null === $emisor) {
-            throw new \RuntimeException('El CFDI no contiene nodo emisor');
+            throw new RuntimeException('El CFDI no contiene nodo emisor');
         }
         $receptor = $comprobante->searchNode('cfdi:Receptor');
         if (null === $receptor) {
-            throw new \RuntimeException('El CFDI no contiene nodo receptor');
+            throw new RuntimeException('El CFDI no contiene nodo receptor');
         }
         $timbreFiscalDigital = $comprobante->searchNode('cfdi:Complemento', 'tfd:TimbreFiscalDigital');
         if (null === $timbreFiscalDigital) {
-            throw new \RuntimeException('El CFDI no contiene complemento de timbre fiscal digital');
+            throw new RuntimeException('El CFDI no contiene complemento de timbre fiscal digital');
         }
 
         $this->comprobante = $comprobante;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\CfdiToPdf\Script;
 
+use RuntimeException;
+
 class ConvertOptions
 {
     /** @var string */
@@ -106,7 +108,7 @@ class ConvertOptions
             if (in_array($argument, ['-l', '--resource-location'], true)) {
                 $i = $i + 1;
                 if (! ($i < $count)) {
-                    throw new \RuntimeException('The resource location parameter does not contains an argument');
+                    throw new RuntimeException('The resource location parameter does not contains an argument');
                 }
                 $resolverLocation = $arguments[$i];
                 continue;
@@ -119,7 +121,7 @@ class ConvertOptions
                 $outputFile = $argument;
                 continue;
             }
-            throw new \RuntimeException("Unexpected parameter '$argument'");
+            throw new RuntimeException("Unexpected parameter '$argument'");
         }
 
         return new self($resolverLocation, $cleanInput, $inputFile, $outputFile, $askForHelp, $askForVersion);

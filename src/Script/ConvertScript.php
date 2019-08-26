@@ -10,6 +10,7 @@ use CfdiUtils\XmlResolver\XmlResolver;
 use PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder;
 use PhpCfdi\CfdiToPdf\CfdiDataBuilder;
 use PhpCfdi\CfdiToPdf\Converter;
+use RuntimeException;
 
 class ConvertScript
 {
@@ -29,22 +30,22 @@ class ConvertScript
     public function openSource(string $inputfile, bool $doCleanInput): string
     {
         if ('' === $inputfile) {
-            throw new \RuntimeException('Did not provide an input file');
+            throw new RuntimeException('Did not provide an input file');
         }
         $filename = (string) realpath($inputfile);
         if ('' === $filename) {
-            throw new \RuntimeException("The file $inputfile does not exists");
+            throw new RuntimeException("The file $inputfile does not exists");
         }
         if (! is_file($filename)) {
-            throw new \RuntimeException("The path $inputfile is not a file");
+            throw new RuntimeException("The path $inputfile is not a file");
         }
         if (! is_readable($filename)) {
-            throw new \RuntimeException("The file $inputfile is not readable");
+            throw new RuntimeException("The file $inputfile is not readable");
         }
 
         $source = (string) file_get_contents($filename);
         if ('' === $source) {
-            throw new \RuntimeException("The file $inputfile is empty");
+            throw new RuntimeException("The file $inputfile is empty");
         }
         if ($doCleanInput) {
             $source = $this->cleanSource($source);
