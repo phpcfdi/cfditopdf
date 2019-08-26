@@ -12,6 +12,9 @@ use PhpCfdi\CfdiToPdf\CfdiDataBuilder;
 use PhpCfdi\CfdiToPdf\Converter;
 use PhpCfdi\CfdiToPdf\Tests\PdfToText\PdfToText;
 
+/**
+ * @covers \PhpCfdi\CfdiToPdf\Converter
+ */
 class ConverterTest extends CfdiToPdfTestCase
 {
     public function testConverter()
