@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\CfdiToPdf\Tests;
+namespace PhpCfdi\CfdiToPdf\Tests\Integration;
 
 use CfdiUtils\Cfdi;
 use CfdiUtils\Cleaner\Cleaner;
@@ -11,18 +11,17 @@ use PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder;
 use PhpCfdi\CfdiToPdf\CfdiDataBuilder;
 use PhpCfdi\CfdiToPdf\Converter;
 use PhpCfdi\CfdiToPdf\Tests\PdfToText\PdfToText;
+use PhpCfdi\CfdiToPdf\Tests\TestCase;
 
 /**
  * @covers \PhpCfdi\CfdiToPdf\Converter
  */
-class ConverterTest extends CfdiToPdfTestCase
+class ConverterTest extends TestCase
 {
     public function testConverter()
     {
-        $resourcesFolder = $this->utilAsset('/../../build/resources');
-        $sourcefile = $this->utilAsset('cfdi33-valid.xml');
-
-        $cfdi = Cfdi::newFromString(Cleaner::staticClean(strval(file_get_contents($sourcefile))));
+        $resourcesFolder = $this->filePath('/../../build/resources');
+        $cfdi = Cfdi::newFromString(Cleaner::staticClean($this->fileContents('cfdi33-valid.xml')));
 
         $cfdiData = (new CfdiDataBuilder())
             ->withXmlResolver(new XmlResolver($resourcesFolder))
@@ -32,7 +31,7 @@ class ConverterTest extends CfdiToPdfTestCase
         $builder = new Html2PdfBuilder();
         $converter = new Converter($builder);
 
-        $created = $this->utilAsset('cfdi33-valid.pdf');
+        $created = $this->filePath('cfdi33-valid.pdf');
         $converter->createPdfAs($cfdiData, $created);
         $this->assertFileExists($created);
 
