@@ -74,8 +74,8 @@ class CfdiDataBuilderTest extends TestCase
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
         $builder = new CfdiDataBuilder();
-        $this->assertStringContainsString(
-            '|1.1|9FB6ED1A-5F37-4FEF-980A-7F8C83B51894|',
+        $this->assertStringStartsWith(
+            '||1.1|9FB6ED1A-5F37-4FEF-980A-7F8C83B51894|',
             $builder->createTfdSourceString($comprobante)
         );
     }
@@ -93,8 +93,8 @@ class CfdiDataBuilderTest extends TestCase
         ]);
 
         $builder = new CfdiDataBuilder();
-        $this->assertStringContainsString(
-            '|1.0|9FB6ED1A-5F37-4FEF-980A-7F8C83B51894|',
+        $this->assertStringStartsWith(
+            '||1.0|9FB6ED1A-5F37-4FEF-980A-7F8C83B51894|',
             $builder->createTfdSourceString($comprobante)
         );
     }
