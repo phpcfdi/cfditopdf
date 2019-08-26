@@ -8,5 +8,13 @@ use PhpCfdi\CfdiToPdf\CfdiData;
 
 interface BuilderInterface
 {
-    public function build(CfdiData $node, string $destination);
+    /**
+     * Transform CfdiData contents to a PDF file
+     * and store its contents on $destination
+     *
+     * @param CfdiData $data
+     * @param string $destination
+     * @return void
+     */
+    public function build(CfdiData $data, string $destination);
 }

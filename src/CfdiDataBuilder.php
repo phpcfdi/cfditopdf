@@ -64,7 +64,7 @@ class CfdiDataBuilder
             return '';
         }
         $tfdCadenaOrigen = new TfdCadenaDeOrigen($this->xmlResolver(), $this->xsltBuilder());
-        return $tfdCadenaOrigen->build(XmlNodeUtils::nodeToXmlString($tfd), $tfd['Version'] ?? $tfd['Version'] ?? '0');
+        return $tfdCadenaOrigen->build(XmlNodeUtils::nodeToXmlString($tfd));
     }
 
     public function createQrUrl(NodeInterface $comprobante): string

@@ -1,9 +1,10 @@
 #!/bin/bash -e
 
-cd "$(dirname "$0")"
-
-PHAR_BUILDER_LOCATION="https://github.com/MacFJA/PharBuilder/releases/download/0.2.8/phar-builder.phar"
+PHAR_BUILDER_LOCATION="https://github.com/MacFJA/PharBuilder/releases/latest/download/phar-builder.phar"
 PHAR_BUILDER_BIN="tools/phar-builder"
+
+# this is set in composer.json
+PHAR_DESTINATION="build/cfditopdf.phar"
 
 if [ ! -e "$PHAR_BUILDER_BIN" ]; then
     mkdir -p "$(dirname "$PHAR_BUILDER_BIN")"
@@ -11,6 +12,7 @@ if [ ! -e "$PHAR_BUILDER_BIN" ]; then
 fi
 
 git describe --tags > bin/version.txt
-rm -f build/cfditopdf.phar
+mkdir -p "$(dirname "$PHAR_DESTINATION")"
+rm -f "$PHAR_DESTINATION"
 php -dphar.readonly=0 tools/phar-builder package --no-interaction
 rm bin/version.txt

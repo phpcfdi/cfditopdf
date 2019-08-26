@@ -8,11 +8,9 @@
 - [ ] Catálogos para expresar las claves
 - [ ] Impresión genérica de complementos
 - [ ] Crear nuevos métodos para generar el archivo PDF
-- [ ] Depend on new version of CfdiUtils
-- [ ] Move PdfToText to a different library and require it on development
-
-- [ ] Improve testing
-
+- [X] Depend on new version of CfdiUtils
+- [X] Move PdfToText to a different library and require it only on development
+- [X] Improve testing
 - [X] When macfja/phar-builder reaches phive move it from composer script requiere run remove
       to phive dependence
 

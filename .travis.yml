@@ -25,8 +25,7 @@ script:
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
-      phpenv config-add xdebug.ini
-      vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
+      php -d zend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
     else
       vendor/bin/phpunit
     fi

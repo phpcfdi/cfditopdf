@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
 /** @var \League\Plates\Template\Template $this */
 /** @var \PhpCfdi\CfdiToPdf\CfdiData $cfdiData */
 $comprobante = $cfdiData->comprobante();
@@ -12,6 +13,9 @@ $relacionados = $comprobante->searchNode('cfdi:CfdiRelacionados');
 $impuestos = $comprobante->searchNode('cfdi:Impuestos');
 $totalImpuestosTrasladados = $comprobante->searchAttribute('cfdi:Impuestos', 'TotalImpuestosTrasladados');
 $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'TotalImpuestosRetenidos');
+$conceptos = $comprobante->searchNodes('cfdi:Conceptos', 'cfdi:Concepto');
+$conceptoCounter = 0;
+$conceptoCount = $conceptos->count();
 
 ?>
 <style>
@@ -54,6 +58,7 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
         padding: 1mm 2mm;
     }
 </style>
+<!--suppress HtmlUnknownTag -->
 <page backbottom="10mm">
     <page_footer>
         <p style="text-align: center">
@@ -67,6 +72,7 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
         <table class="tabular">
             <tr>
                 <td rowspan="20" style="padding-right: 4mm;">
+                    <!--suppress CheckEmptyScriptTag, HtmlUnknownTag -->
                     <qrcode style="width: 40mm;" ec="M" value="<?=$this->e($cfdiData->qrUrl())?>"/>
                 </td>
                 <th>Tipo:</th>
@@ -96,16 +102,12 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                 <th>Método de pago:</th>
                 <td><?=$this->e($comprobante['MetodoPago'])?></td>
             </tr>
-            <?php
-            if ('' !== $comprobante['CondicionesDePago']) {
-                ?>
+            <?php if ('' !== $comprobante['CondicionesDePago']) : ?>
                 <tr>
                     <th>Condiciones de pago:</th>
                     <td><?=$this->e($comprobante['CondicionesDePago'])?></td>
                 </tr>
-                <?php
-            }
-            ?>
+            <?php endif; ?>
             <tr>
                 <th>Certificado emisor:</th>
                 <td><?=$this->e($comprobante['NoCertificado'])?></td>
@@ -141,43 +143,31 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                 <?=$this->e($receptor['Nombre'] ? : '(No se especificó el nombre del receptor)')?>
                 <br/>RFC: <?=$this->e($receptor['Rfc'])?>
                 <br/>Uso del CFDI: <?=$this->e($receptor['UsoCFDI'])?>
-                <?php
-                if ('' !== $receptor['ResidenciaFiscal']) {
-                    ?>
+                <?php if ('' !== $receptor['ResidenciaFiscal']) : ?>
                     <br/>Residencia fiscal: <?=$this->e($receptor['ResidenciaFiscal'])?>
-                    <?php
-                }
-                if ('' !== $receptor['NumRegIdTrib']) {
-                    ?>
+                <?php endif; ?>
+                <?php if ('' !== $receptor['NumRegIdTrib']) : ?>
                     <br/>Residencia fiscal: <?=$this->e($receptor['NumRegIdTrib'])?>
-                    <?php
-                }
-                ?>
+                <?php endif; ?>
             </p>
         </div>
     </div>
-    <?php
-    if (null !== $relacionados) {
-        ?>
+    <?php if (null !== $relacionados) : ?>
         <div class="panel">
             <div class="title">CFDI Relacionados (Tipo de relación: <?=$this->e($relacionados['TipoRelacion'])?>)</div>
             <div class="content">
-                <?php
-                foreach ($relacionados->searchNodes('cfdi:CfdiRelacionado') as $relacionado) {
-                    ?>
+                <?php foreach ($relacionados->searchNodes('cfdi:CfdiRelacionado') as $relacionado) : ?>
                     <span>UUID: <?=$relacionado['UUID']?></span>
-                    <?php
-                } ?>
+                <?php endforeach; ?>
             </div>
         </div>
+    <?php endif; ?>
+    <?php foreach ($conceptos as $concepto) : ?>
         <?php
-    }
-
-    $conceptos = $comprobante->searchNodes('cfdi:Conceptos', 'cfdi:Concepto');
-    $conceptoCounter = 0;
-    $conceptoCount = $conceptos->count();
-    foreach ($conceptos as $concepto) {
-        $conceptoCounter = $conceptoCounter + 1; ?>
+        $conceptoCounter = $conceptoCounter + 1;
+        $conceptoTraslados = $concepto->searchNodes('cfdi:Impuestos', 'cfdi:Traslados', 'cfdi:Traslado');
+        $conceptoRetenciones = $concepto->searchNodes('cfdi:Impuestos', 'cfdi:Retenciones', 'cfdi:Retencion');
+        ?>
         <div class="panel">
             <div class="title">Concepto: <?=$this->e($conceptoCounter)?> de <?=$this->e($conceptoCount)?></div>
             <div class="content">
@@ -194,19 +184,13 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                     Descuento: <?=$this->e($concepto['Descuento'] ? : '(ninguno)')?>,
                     <strong>Importe: <?=$this->e($concepto['Importe'])?></strong>
                 </p>
-                <?php
-                foreach ($concepto->searchNodes('cfdi:InformacionAduanera') as $informacionAduanera) {
-                    ?>
+                <?php foreach ($concepto->searchNodes('cfdi:InformacionAduanera') as $informacionAduanera) : ?>
                     <p>Pedimento: <?=$this->e($informacionAduanera['NumeroPedimento'])?></p>
-                    <?php
-                }
-        foreach ($concepto->searchNodes('cfdi:CuentaPedial') as $cuentaPredial) {
-            ?>
+                <?php endforeach; ?>
+                <?php foreach ($concepto->searchNodes('cfdi:CuentaPedial') as $cuentaPredial) : ?>
                     <p>Cuenta predial: <?=$this->e($cuentaPredial['Numero'])?></p>
-                    <?php
-        }
-        foreach ($concepto->searchNodes('cfdi:Parte') as $parte) {
-            ?>
+                <?php endforeach; ?>
+                <?php foreach ($concepto->searchNodes('cfdi:Parte') as $parte) : ?>
                     <p style="padding-left: 5mm">
                         <strong>Parte: <?=$this->e($parte['Descripcion'])?></strong>,
                         <br/>
@@ -216,17 +200,12 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                         <span>Unidad: <?=$this->e($parte['Unidad'] ? : '(ninguna)')?>,</span>
                         <span>Valor unitario: <?=$this->e($parte['ValorUnitario'] ? : '0')?></span>,
                         <span>Importe: <?=$this->e($parte['Importe'] ? : '0')?></span>
-                        <?php
-                        foreach ($parte->searchNodes('cfdi:InformacionAduanera') as $informacionAduanera) {
-                            ?>
+                        <?php foreach ($parte->searchNodes('cfdi:InformacionAduanera') as $informacionAduanera) : ?>
                             <br/>Pedimento: <?=$this->e($informacionAduanera['NumeroPedimento'])?>
-                            <?php
-                        } ?>
+                        <?php endforeach; ?>
                     </p>
-                    <?php
-        }
-        foreach ($concepto->searchNodes('cfdi:Impuestos', 'cfdi:Traslados', 'cfdi:Traslado') as $impuesto) {
-            ?>
+                <?php endforeach; ?>
+                <?php foreach ($conceptoTraslados as $impuesto) : ?>
                     <p>
                         <strong>Traslado</strong>
                         Impuesto: <?=$this->e($impuesto['Impuesto'])?>,
@@ -235,10 +214,8 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                         Tasa o cuota: <?=$this->e($impuesto['TasaOCuota'])?>,
                         <strong>Importe: <?=$this->e($impuesto['Importe'])?></strong>
                     </p>
-                    <?php
-        }
-        foreach ($concepto->searchNodes('cfdi:Impuestos', 'cfdi:Retenciones', 'cfdi:Retencion') as $impuesto) {
-            ?>
+                <?php endforeach; ?>
+                <?php foreach ($conceptoRetenciones as $impuesto) : ?>
                     <p>
                         <strong>Retención</strong>
                         Impuesto: <?=$this->e($impuesto['Impuesto'])?>,
@@ -247,15 +224,15 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                         Tasa o cuota: <?=$this->e($impuesto['TasaOCuota'])?>,
                         <strong>Importe: <?=$this->e($impuesto['Importe'])?></strong>
                     </p>
-                    <?php
-        } ?>
+                <?php endforeach; ?>
             </div>
         </div>
+    <?php endforeach; ?>
+    <?php if (null !== $impuestos) : ?>
         <?php
-    }
-    if (null !== $impuestos) {
         $traslados = $impuestos->searchNodes('cfdi:Traslados', 'cfdi:Traslado');
-        $retenciones = $impuestos->searchNodes('cfdi:Retenciones', 'cfdi:Retencion'); ?>
+        $retenciones = $impuestos->searchNodes('cfdi:Retenciones', 'cfdi:Retencion');
+        ?>
         <div class="panel">
             <div class="title">Impuestos</div>
             <div class="content">
@@ -267,9 +244,7 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                         <th style="width: 20%">Tasa o cuota</th>
                         <th style="width: 20%">Importe</th>
                     </tr>
-                    <?php
-                    foreach ($traslados as $impuesto) {
-                        ?>
+                    <?php foreach ($traslados as $impuesto) : ?>
                         <tr>
                             <th>Traslado</th>
                             <td><?=$this->e($impuesto['Impuesto'])?></td>
@@ -277,10 +252,8 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                             <td><?=$this->e($impuesto['TasaOCuota'])?></td>
                             <td><?=$this->e($impuesto['Importe'])?></td>
                         </tr>
-                        <?php
-                    }
-        foreach ($retenciones as $impuesto) {
-            ?>
+                    <?php endforeach; ?>
+                    <?php foreach ($retenciones as $impuesto) : ?>
                         <tr>
                             <th>Retención</th>
                             <td><?=$this->e($impuesto['Impuesto'])?></td>
@@ -288,14 +261,11 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                             <td><?=$this->e($impuesto['TasaOCuota'])?></td>
                             <td><?=$this->e($impuesto['Importe'])?></td>
                         </tr>
-                        <?php
-        } ?>
+                    <?php endforeach; ?>
                 </table>
             </div>
         </div>
-        <?php
-    }
-    ?>
+    <?php endif ?>
     <div class="panel">
         <div class="title">Totales</div>
         <div class="content">
@@ -340,8 +310,9 @@ $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'Tota
                 <tr>
                     <th>Verificación:</th>
                     <td>
-                        <a href="<?=$this->e($cfdiData->qrUrl())?>"
-                        ><?=$this->e(str_replace('?', "\n?", $cfdiData->qrUrl()))?></a>
+                        <a href="<?=$this->e($cfdiData->qrUrl())?>">
+                            <?=$this->e(str_replace('?', "\n?", $cfdiData->qrUrl()))?>
+                        </a>
                     </td>
                 </tr>
             </table>

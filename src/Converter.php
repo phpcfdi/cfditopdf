@@ -1,9 +1,12 @@
 <?php
 
+/** @noinspection PhpInternalEntityUsedInspection */
+
 declare(strict_types=1);
 
 namespace PhpCfdi\CfdiToPdf;
 
+use CfdiUtils\Internals\TemporaryFile;
 use PhpCfdi\CfdiToPdf\Builders\BuilderInterface;
 
 class Converter
@@ -18,18 +21,14 @@ class Converter
 
     public function createPdfAs(CfdiData $cfdiData, string $destination)
     {
-        $temporary = $this->createPdf($cfdiData);
-        copy($temporary, $destination);
-        unlink($temporary);
+        $this->builder->build($cfdiData, $destination);
     }
 
     public function createPdf(CfdiData $cfdiData): string
     {
-        $temporary = new Utils\TemporaryFilename();
-
-        $this->builder->build($cfdiData, $temporary->filename());
-
-        $temporary->setDeleteOnDestruct(false);
-        return $temporary->filename();
+        $temporary = TemporaryFile::create();
+        $filename = $temporary->getPath();
+        $this->builder->build($cfdiData, $filename);
+        return $filename;
     }
 }
