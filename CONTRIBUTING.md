@@ -81,8 +81,11 @@ If you are running an IDE like PhpStorm mark as excluded the folders `build`, `v
 If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
 
 ```shell
-vendor/bin/php-cs-fixer fix -v
-vendor/bin/phpcbf src/ tests/
+# fix current code style
+composer dev:fix-style
+
+# check current code style
+composer dev:check-style
 ```
 
 ## Running Tests
@@ -92,15 +95,27 @@ If any of these do not pass, it will result in a complete build failure.
 Before you can run these, be sure to `composer install` or `composer update`.
 
 ```shell
-composer build:build
+composer dev:build
 ```
 
 It will run:
 
 ```shell
-vendor/bin/php-cs-fixer fix --verbose
-vendor/bin/phpcbf --colors -sp bin/ src/ tests/
+# composer dev:fix-style
+vendor/bin/php-cs-fixer fix --verbose"
+vendor/bin/phpcbf --colors -sp src/ tests/ bin/ templates/
+
+# composer dev:test
 vendor/bin/phplint
-vendor/bin/phpstan analyse --no-progress --level max bin/ src/ tests/
-vendor/bin/phpunit
+vendor/bin/php-cs-fixer fix --dry-run --verbose
+vendor/bin/phpcs --colors -sp src/ tests/ bin/ templates/
+vendor/bin/phpunit --testdox --verbose --stop-on-failure
+vendor/bin/phpstan analyse --verbose --no-progress --level max src/ tests/ bin/
 ```
+
+## External resources
+
+To make tests run fast and due some external resources from SAT are sometimes unavailable
+I had decide to put those resources on `test/_files/external-resources`. If you want it,
+remove that folder and perform the tests. If external resources are available then the
+path will be created and your tests will take a little more to run the first time.

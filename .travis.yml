@@ -21,7 +21,7 @@ before_script:
 script:
   - mkdir -p build/tests/
   - vendor/bin/phplint
-  - vendor/bin/phpcs -sp bin/ src/ tests/
+  - vendor/bin/phpcs -sp bin/ src/ tests/ bin/ templates/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
@@ -29,7 +29,7 @@ script:
     else
       vendor/bin/phpunit
     fi
-  - vendor/bin/phpstan analyse --level max bin/ src/ tests/
+  - vendor/bin/phpstan analyse --level max src/ tests/ bin/
   # build phar
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then

@@ -36,38 +36,31 @@
     },
     "bin": ["bin/cfditopdf"],
     "scripts": {
-        "build:check-style": [
+        "dev:build": ["@dev:fix-style", "@dev:test"],
+        "dev:check-style": [
             "vendor/bin/php-cs-fixer fix --dry-run --verbose",
-            "vendor/bin/phpcs --colors -sp bin/ src/ tests/"
+            "vendor/bin/phpcs --colors -sp src/ tests/ bin/ templates/"
         ],
-        "build:fix-style": [
+        "dev:fix-style": [
             "vendor/bin/php-cs-fixer fix --verbose",
-            "vendor/bin/phpcbf --colors -sp bin/ src/ tests/"
+            "vendor/bin/phpcbf --colors -sp src/ tests/ bin/ templates/"
         ],
-        "build:build": [
-            "@build:fix-style",
-            "@build:check-style",
-            "@build:qa"
-            ],
-        "build:qa": [
+        "dev:test": [
             "vendor/bin/phplint",
-            "vendor/bin/phpstan analyse --no-progress --level max bin/ src/ tests/",
-            "@build:test"
+            "@dev:check-style",
+            "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
+            "vendor/bin/phpstan analyse --verbose --no-progress --level max src/ tests/ bin/"
         ],
-        "build:test": [
-            "vendor/bin/phpunit"
-        ],
-        "build:coverage": [
+        "dev:coverage": [
             "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
         ]
     },
     "scripts-descriptions": {
-        "build:check-style": "Run php-cs-fixer and phpcs to check code style violations",
-        "build:fix-style": "Run php-cs-fixer and phpcbf to fix code style violations",
-        "build:build": "Fix code style violations, run quality assurance and run test",
-        "build:qa": "Run phplint and phpstan",
-        "build:test": "Run phpunit",
-        "build:coverage": "Run phpunit with code coverage and store the html results in build/coverage/html/"
+        "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
+        "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
+        "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
+        "dev:test": "DEV: run phplint, phpunit and phpstan",
+        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
     },
     "extra": {
         "phar-builder": {
