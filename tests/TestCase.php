@@ -30,7 +30,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     public static function createXmlResolver(): XmlResolver
     {
-        $resourcesFolder = __DIR__ . '/../build/resources';
+        $resourcesFolder = __DIR__ . '/_files/external-resources';
         return new XmlResolver($resourcesFolder);
     }
 }
