@@ -1,3 +1,11 @@
+# Version 0.3.1 2019-08-27
+
+- Fix bug on `CfdiDataBuilder::createTfdSourceString`, the `tfd:TimbreFiscalDigital(Node)` does not contain
+  all the requiered data (it is missing `xmlns:xsi` attribute from `cfdi:Comprobante`), as a result we need
+  to provide the value of `Version | version` attribute.
+- Refactor `TestCase` to add a helper `createXmlResolver` to run tests faster using local storage of external
+  XSLT files.
+
 # Version 0.3.0 2019-08-26
 
 - Fix bug on `CfdiDataBuilder::createTfdSourceString` when *TimbreFiscalDigital* is version 1.0.

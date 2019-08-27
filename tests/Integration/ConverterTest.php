@@ -6,7 +6,6 @@ namespace PhpCfdi\CfdiToPdf\Tests\Integration;
 
 use CfdiUtils\Cfdi;
 use CfdiUtils\Cleaner\Cleaner;
-use CfdiUtils\XmlResolver\XmlResolver;
 use PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder;
 use PhpCfdi\CfdiToPdf\CfdiDataBuilder;
 use PhpCfdi\CfdiToPdf\Converter;
@@ -20,11 +19,10 @@ class ConverterTest extends TestCase
 {
     public function testConverter()
     {
-        $resourcesFolder = $this->filePath('/../../build/resources');
         $cfdi = Cfdi::newFromString(Cleaner::staticClean($this->fileContents('cfdi33-valid.xml')));
 
         $cfdiData = (new CfdiDataBuilder())
-            ->withXmlResolver(new XmlResolver($resourcesFolder))
+            ->withXmlResolver($this->createXmlResolver())
             ->build($cfdi->getNode());
         $uuid = $cfdiData->timbreFiscalDigital()['UUID'];
 

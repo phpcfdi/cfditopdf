@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\CfdiToPdf\Tests;
 
+use CfdiUtils\XmlResolver\XmlResolver;
+
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     public static function filePath(string $filename): string
@@ -24,5 +26,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
             throw new \RuntimeException('Unable to create a temporary file');
         }
         return $temporaryFile;
+    }
+
+    public static function createXmlResolver(): XmlResolver
+    {
+        $resourcesFolder = __DIR__ . '/../build/resources';
+        return new XmlResolver($resourcesFolder);
     }
 }
