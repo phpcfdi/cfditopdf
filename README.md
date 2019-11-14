@@ -75,7 +75,7 @@ and don't forget to take a look in the [TODO][] and [CHANGELOG][] files.
 
 ## Copyright and License
 
-The phpcfdi/cfditopdf library is copyright © [Carlos C Soto](http://eclipxe.com.mx/)
+The phpcfdi/cfditopdf library is copyright © [PHPCFDI](https://www.phpcfdi.com/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 [contributing]: https://github.com/phpcfdi/cfditopdf/blob/master/CONTRIBUTING.md
@@ -90,7 +90,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/cfditopdf/code-structure/master/code-coverage/src
 [downloads]: https://packagist.org/packages/phpcfdi/cfditopdf
 
-[badge-source]: http://img.shields.io/badge/source-phpcfdi/cfditopdf-blue?style=flat-square
+[badge-source]: https://img.shields.io/badge/source-phpcfdi/cfditopdf-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/cfditopdf?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/cfditopdf?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/cfditopdf/master?style=flat-square
