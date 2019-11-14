@@ -16,7 +16,6 @@ before_script:
 
 script:
   - mkdir -p build/tests/
-  - vendor/bin/phplint
   - vendor/bin/phpcs -sp bin/ src/ tests/ bin/ templates/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
   - |

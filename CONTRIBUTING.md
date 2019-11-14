@@ -106,7 +106,6 @@ vendor/bin/php-cs-fixer fix --verbose"
 vendor/bin/phpcbf --colors -sp src/ tests/ bin/ templates/
 
 # composer dev:test
-vendor/bin/phplint
 vendor/bin/php-cs-fixer fix --dry-run --verbose
 vendor/bin/phpcs --colors -sp src/ tests/ bin/ templates/
 vendor/bin/phpunit --testdox --verbose --stop-on-failure
