@@ -14,8 +14,11 @@ $impuestos = $comprobante->searchNode('cfdi:Impuestos');
 $totalImpuestosTrasladados = $comprobante->searchAttribute('cfdi:Impuestos', 'TotalImpuestosTrasladados');
 $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'TotalImpuestosRetenidos');
 $conceptos = $comprobante->searchNodes('cfdi:Conceptos', 'cfdi:Concepto');
+$pagos = $comprobante->searchNodes('cfdi:Complemento', 'pago10:Pagos', 'pago10:Pago');
 $conceptoCounter = 0;
 $conceptoCount = $conceptos->count();
+$pagoCounter = 0;
+$pagoCount = $pagos->count();
 
 ?>
 <style>
@@ -227,6 +230,86 @@ $conceptoCount = $conceptos->count();
                 <?php endforeach; ?>
             </div>
         </div>
+    <?php endforeach; ?>
+    <?php foreach ($pagos as $pago) : ?>
+        <?php
+        $pagoCounter = $pagoCounter + 1;
+        ?>
+      <div class="panel">
+        <div class="title">Pago: <?=$this->e($pagoCounter)?> de <?=$this->e($pagoCount)?></div>
+        <div class="content">
+          <p>
+            <span><strong>Fecha de pago:</strong> <?=$this->e($pago['FechaPago'])?>,</span>
+            <span><strong>Forma de pago:</strong> <?=$this->e($pago['FormaDePagoP'])?>,</span>
+            <span><strong>Moneda:</strong> <?=$this->e($pago['MonedaP'])?>,</span>
+            <span><strong>Monto:</strong> <?=$this->e($pago['Monto'])?></span>
+            <?php if ('' !== $pago['TipoCambioP']) : ?>
+              <span><strong>Tipo Cambio:</strong> <?=$this->e($pago['TipoCambioP'])?></span>
+            <?php endif; ?>
+            <?php if ('' !== $pago['NumOperacion']) : ?>
+              <span><strong>Número operación:</strong> <?=$this->e($pago['NumOperacion'])?></span>
+            <?php endif; ?>
+            <?php if ('' !== $pago['RfcEmisorCtaOrd']) : ?>
+              <span><strong>RFC Emisor Cta Ord:</strong> <?=$this->e($pago['RfcEmisorCtaOrd'])?></span>
+            <?php endif; ?>
+            <?php if ('' !== $pago['NomBancoOrdExt']) : ?>
+              <span><strong>Nombre Banco Ord Extranjero:</strong> <?=$this->e($pago['NomBancoOrdExt'])?></span>
+            <?php endif; ?>
+            <?php if ('' !== $pago['CtaOrdenante']) : ?>
+              <span><strong>Cuenta Ord:</strong> <?=$this->e($pago['CtaOrdenante'])?></span>
+            <?php endif; ?>
+            <?php if ('' !== $pago['RfcEmisorCtaBen']) : ?>
+              <span><strong>RFC Emisor Cta Ben:</strong> <?=$this->e($pago['RfcEmisorCtaBen'])?></span>
+            <?php endif; ?>
+            <?php if ('' !== $pago['CtaBeneficiario']) : ?>
+              <span><strong>Cuenta Ben:</strong> <?=$this->e($pago['CtaBeneficiario'])?></span>
+            <?php endif; ?>
+            <?php if ('' !== $pago['TipoCadPago']) : ?>
+              <span><strong>Tipo cadena de pago:</strong> <?=$this->e($pago['TipoCadPago'])?></span>
+            <?php endif; ?>
+          </p>
+            <?php if ('' !== $pago['CertPago']) : ?>
+              <p>
+                <strong>Certificado de pago:</strong>
+                <span><?=$this->e($pago['CertPago'])?></span>
+              </p>
+            <?php endif; ?>
+            <?php if ('' !== $pago['CadPago']) : ?>
+              <p>
+                <strong>Cadena de pago:</strong>
+                <span><?=$this->e($pago['CadPago'])?></span>
+              </p>
+            <?php endif; ?>
+            <?php if ('' !== $pago['SelloPago']) : ?>
+              <p>
+                <strong>Sello de pago:</strong>
+                <span><?=$this->e($pago['SelloPago'])?></span>
+              </p>
+            <?php endif; ?>
+            <?php
+            $doctoRelacionados = $pago->searchNodes('pago10:DoctoRelacionado');
+            if ($doctoRelacionados->count() > 0) :
+                ?>
+              <p style="margin: 10px 0 10px 0;">
+                <strong>Documentos relacionados</strong>
+              </p>
+                <?php foreach ($doctoRelacionados as $doctoRelacionado) : ?>
+                  <p style="margin-bottom: 10px;">
+                    <strong>Id Documento: </strong><span><?=$this->e($doctoRelacionado['IdDocumento'])?></span>
+                    <strong>Serie: </strong><span><?=$this->e($doctoRelacionado['Serie'])?></span>
+                    <strong>Folio: </strong><span><?=$this->e($doctoRelacionado['Folio'])?></span>
+                    <strong>Moneda DR: </strong><span><?=$this->e($doctoRelacionado['MonedaDR'])?></span>
+                    <strong>Método de pago DR: </strong><span><?=$this->e($doctoRelacionado['MetodoDePagoDR'])?></span>
+                    <strong>Número parcialidad: </strong><span><?=$this->e($doctoRelacionado['NumParcialidad'])?></span>
+                    <strong>Imp pagado: </strong><span><?=$this->e($doctoRelacionado['ImpPagado'])?></span>
+                    <strong>Imp saldo insoluto: </strong>
+                    <span><?=$this->e($doctoRelacionado['ImpSaldoInsoluto'])?></span>
+                    <strong>Imp saldo anterior: </strong><span><?=$this->e($doctoRelacionado['ImpSaldoAnt'])?></span>
+                  </p>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+      </div>
     <?php endforeach; ?>
     <?php if (null !== $impuestos) : ?>
         <?php
