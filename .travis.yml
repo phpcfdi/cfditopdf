@@ -2,10 +2,6 @@ language: php
 
 php: ["7.0", "7.1", "7.2", "7.3"]
 
-# This triggers builds to run on the new TravisCI infrastructure.
-# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
-sudo: false
-
 addons:
   apt:
     packages:
@@ -20,14 +16,13 @@ before_script:
 
 script:
   - mkdir -p build/tests/
-  - vendor/bin/phplint
   - vendor/bin/phpcs -sp bin/ src/ tests/ bin/ templates/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
   - |
     if [[ $TRAVIS_PHP_VERSION == $FULL_BUILD_PHP_VERSION ]]; then
-      php -d zend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
+      php -d zend_extension=xdebug.so vendor/bin/phpunit --testdox --coverage-clover=build/tests/coverage.xml
     else
-      vendor/bin/phpunit
+      vendor/bin/phpunit --testdox
     fi
   - vendor/bin/phpstan analyse --level max src/ tests/ bin/
   # build phar
