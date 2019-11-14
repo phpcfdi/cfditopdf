@@ -1,3 +1,9 @@
+# Version 0.3.2 2019-11-14
+
+- Add *Complemento de pagos* to the generated HTML, thanks @blacktrue
+- Change license owner from *Carlos C Soto* to *PHPCFDI*
+- Cleanup build and development files
+
 # Version 0.3.1 2019-08-27
 
 - Fix bug on `CfdiDataBuilder::createTfdSourceString`, the `tfd:TimbreFiscalDigital(Node)` does not contain
