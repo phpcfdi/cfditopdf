@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 PHAR_BUILDER_LOCATION="https://github.com/MacFJA/PharBuilder/releases/latest/download/phar-builder.phar"
-PHAR_BUILDER_BIN="tools/phar-builder"
+PHAR_BUILDER_BIN="build/phar-builder"
 
 # this is set in composer.json
 PHAR_DESTINATION="build/cfditopdf.phar"
@@ -14,5 +14,5 @@ fi
 git describe --tags > bin/version.txt
 mkdir -p "$(dirname "$PHAR_DESTINATION")"
 rm -f "$PHAR_DESTINATION"
-php -dphar.readonly=0 tools/phar-builder package --no-interaction
+php -d phar.readonly=0 build/phar-builder package --no-interaction
 rm bin/version.txt
