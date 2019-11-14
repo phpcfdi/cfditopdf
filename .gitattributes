@@ -3,18 +3,17 @@
 
 # Do not put this files on a distribution package (by .gitignore)
 /vendor              export-ignore
-/tools               export-ignore
 /build               export-ignore
 /composer.lock       export-ignore
 
 # Do not put this files on a distribution package
-/docs/               export-ignore
 /tests/              export-ignore
 /.gitattributes      export-ignore
 /.gitignore          export-ignore
 /.php_cs.dist        export-ignore
 /.scrutinizer.yml    export-ignore
 /.travis.yml         export-ignore
-/phive.xml           export-ignore
+/build-phar          export-ignore
 /phpcs.xml.dist      export-ignore
+phpstan.neon.dist    export-ignore
 /phpunit.xml.dist    export-ignore
