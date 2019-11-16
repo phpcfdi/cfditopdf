@@ -63,6 +63,23 @@ $converter = new \PhpCfdi\CfdiToPdf\Converter(
 $converter->createPdfAs($cfdiData, 'output.pdf');
 ```
 
+To change the way data is translated from `CfdiData` to HTML you could provide a specialized translator to
+`Html2PdfBuilder` when the object is constructed.
+
+In the following example is using the default HTML translator that uses Plates, only changing the directory
+where templates are located and the template name. The expected result must be compatible with Html2Pdf.
+
+```php
+<?php declare(strict_types=1);
+$htmlTranslator = new \PhpCfdi\CfdiToPdf\Builders\HtmlTranslators\PlatesHtmlTranslator(
+    'directory_where_templates_are_located',
+    'main_template_name'
+);
+$converter = new \PhpCfdi\CfdiToPdf\Converter(
+    new \PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder($htmlTranslator)
+);
+```
+
 ## PHP Support
 
 This library is compatible with PHP versions 7.0 and above.
