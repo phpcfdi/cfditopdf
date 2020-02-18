@@ -3,12 +3,19 @@ filter:
     - 'tests/'
     - 'vendor/'
 
+# see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/
 build:
+  dependencies:
+    override:
+      - composer self-update --no-interaction --no-progress
+      - composer remove squizlabs/php_codesniffer friendsofphp/php-cs-fixer phpstan/phpstan --dev --no-interaction --no-progress --no-update
+      - composer install --no-interaction
   nodes:
     php:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
-
-tools:
-    external_code_coverage: true
+          - command: vendor/bin/phpunit --testdox --verbose --coverage-clover=coverage.clover
+            coverage:
+              file: coverage.clover
+              format: clover
