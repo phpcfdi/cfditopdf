@@ -9,6 +9,7 @@ addons:
 
 env:
   - BUILD_PHAR_PHP_VERSION="7.4"
+  - BUILD_PHAR_OUTPUT = "build/cfditopdf.phar"
 
 before_script:
   - phpenv config-rm xdebug.ini
@@ -22,8 +23,9 @@ script:
   # build phar
   - |
     if [[ $TRAVIS_PHP_VERSION == $BUILD_PHAR_PHP_VERSION ]]; then
-      bash build-phar
-      test -f build/cfditopdf.phar
+      rm -f "${BUILD_PHAR_OUTPUT}"
+      bash development/build-phar "${BUILD_PHAR_OUTPUT}"
+      test -f "${BUILD_PHAR_OUTPUT}"
     fi
 
 deploy:
@@ -31,7 +33,7 @@ deploy:
   api_key:
     secure: V++o2L8UWr9GLicxWDnT3JFf+VnbxAAbkd1py8y14ISar7XzgfJ4A06KvwvQz2CYZpeHNeG3fakl4HyFuVl/cU+UxZtMAgMTpQs7d33pTpaFSKT8eOesNJQzRqhLr8PDUy6zAoDz+gNjMs7laQqh4PhK9+DoM2+EReno86pWqo6uWdSrv+PNYmIHObrWkAKJo4eZcmCV+4BnpVKmcuyKqYvXaTfSF3gPqZMsByGYn7jitiVu/9/t004BIlahXh0oTj8dpvNEUyWg2LTIa88PrlI6MFrS9vBs+4FVBrElxZxNWTtY/vj3FkDuxn84Yjn9s3q+6pinbmM4240O95VVU/qhlrdsx0RDAfgxZ+yH7fx8aD9zcrVG7tD7FuwgIbTUEJxTj0TBlQIB7zkxDoIygxvBqLgpPQ+/8TjCsja0fwqmrbfB6t2MtgJtLFBc5tAFaHeKkky5FvrR2fJaDg8WzsFR70pLbTqQ8BXjkiXIMKLV2NxQaPpbvlBis/Jq9oa39zy9W2OQB6OJs+2xPIL46mw3W5ZANpste4sUPdalx2vTA+gOrokEKYvzkoSf0zJAjGpO8D0PEObtc/AOybpfgFcXFQ15HiA4U65tdgOEZwmrRRzm/kAa8TewP3KaYM3BaEZvz9+3XP2bZuHLfJdjhiWmBoxFkC4opiLVAUoQ3N0=
   skip_cleanup: true
-  file: build/cfditopdf.phar
+  file: "${BUILD_PHAR_OUTPUT}"
   on:
     repo: phpcfdi/cfditopdf
     condition: $TRAVIS_PHP_VERSION == $BUILD_PHAR_PHP_VERSION
