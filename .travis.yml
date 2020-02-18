@@ -8,9 +8,10 @@ addons:
       - poppler-utils
 
 env:
-  - BUILD_COVERAGE_PHP_VERSION="7.4"
-  - BUILD_PHAR_PHP_VERSION="7.4"
-  - BUILD_PHAR_OUTPUT="build/cfditopdf.phar"
+  global:
+    - BUILD_COVERAGE_PHP_VERSION="7.4"
+    - BUILD_PHAR_PHP_VERSION="7.4"
+    - BUILD_PHAR_OUTPUT="build/cfditopdf.phar"
 
 before_script:
   - phpenv config-rm xdebug.ini || true
