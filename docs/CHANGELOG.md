@@ -1,3 +1,9 @@
+# Version UNRELEASED
+
+- Isolate the translation from CFDI to HTML into an interface `HtmlTranslatorInterface`.
+- Implements `PlatesHtmlTranslator` with the current code to translate CFDI to HTML.
+- Can setup the `Html2PdfBuilder` by changing the `HtmlTranslatorInterface` to use other  templates or other engine.
+
 # Version 0.3.2 2019-11-14
 
 - Add *Complemento de pagos* to the generated HTML, thanks @blacktrue
