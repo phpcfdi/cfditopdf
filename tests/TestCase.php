@@ -6,7 +6,7 @@ namespace PhpCfdi\CfdiToPdf\Tests;
 
 use CfdiUtils\XmlResolver\XmlResolver;
 
-class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     public static function filePath(string $filename): string
     {

@@ -14,6 +14,10 @@ use RuntimeException;
 
 class ConvertScript
 {
+    /**
+     * @param ConvertOptions $options
+     * @return void
+     */
     public function run(ConvertOptions $options)
     {
         $source = $this->openSource($options->inputFile(), $options->doCleanInput());

@@ -77,7 +77,7 @@ class ConvertOptions
     }
 
     /**
-     * @param array $arguments
+     * @param string[] $arguments
      *
      * @return self
      */

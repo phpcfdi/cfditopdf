@@ -48,6 +48,10 @@ class CfdiDataBuilder
         return $this->xsltBuilder;
     }
 
+    /**
+     * @param NodeInterface<NodeInterface> $comprobante
+     * @return CfdiData
+     */
     public function build(NodeInterface $comprobante): CfdiData
     {
         return new CfdiData(
@@ -57,6 +61,10 @@ class CfdiDataBuilder
         );
     }
 
+    /**
+     * @param NodeInterface<NodeInterface> $comprobante
+     * @return string
+     */
     public function createTfdSourceString(NodeInterface $comprobante): string
     {
         $tfd = $comprobante->searchNode('cfdi:Complemento', 'tfd:TimbreFiscalDigital');
@@ -67,6 +75,10 @@ class CfdiDataBuilder
         return $tfdCadenaOrigen->build(XmlNodeUtils::nodeToXmlString($tfd), $tfd['Version'] ?: $tfd['version']);
     }
 
+    /**
+     * @param NodeInterface<NodeInterface> $comprobante
+     * @return string
+     */
     public function createQrUrl(NodeInterface $comprobante): string
     {
         $parameters = new RequestParameters(
