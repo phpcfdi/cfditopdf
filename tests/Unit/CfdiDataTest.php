@@ -31,7 +31,7 @@ class CfdiDataTest extends TestCase
     public function testConstructWithoutEmisor()
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
-        /** @var NodeInterface $emisor phpstan recognize null returned by searchNode */
+        /** @var NodeInterface<NodeInterface> $emisor phpstan recognize null returned by searchNode */
         $emisor = $comprobante->searchNode('cfdi:Emisor');
         $comprobante->children()->remove($emisor);
 
@@ -43,7 +43,7 @@ class CfdiDataTest extends TestCase
     public function testConstructWithoutReceptor()
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
-        /** @var NodeInterface $receptor phpstan recognize null returned by searchNode */
+        /** @var NodeInterface<NodeInterface> $receptor phpstan recognize null returned by searchNode */
         $receptor = $comprobante->searchNode('cfdi:Receptor');
         $comprobante->children()->remove($receptor);
 
@@ -55,7 +55,7 @@ class CfdiDataTest extends TestCase
     public function testConstructWithoutComplemento()
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
-        /** @var NodeInterface $complemento phpstan recognize null returned by searchNode */
+        /** @var NodeInterface<NodeInterface> $complemento phpstan recognize null returned by searchNode */
         $complemento = $comprobante->searchNode('cfdi:Complemento');
         $complemento->children()->removeAll();
 

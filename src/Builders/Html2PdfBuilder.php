@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\CfdiToPdf\Builders;
 
-use League\Plates\Engine as PlatesEngine;
+use PhpCfdi\CfdiToPdf\Builders\HtmlTranslators\HtmlTranslatorInterface;
 use PhpCfdi\CfdiToPdf\CfdiData;
 use RuntimeException;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -12,6 +12,25 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 class Html2PdfBuilder implements BuilderInterface
 {
+    /** @var HtmlTranslators\HtmlTranslatorInterface */
+    private $htmlTranslator;
+
+    /**
+     * Html2PdfBuilder constructor.
+     *
+     * @param HtmlTranslatorInterface|null $htmlTranslator If NULL will use a generic translator
+     */
+    public function __construct(HtmlTranslatorInterface $htmlTranslator = null)
+    {
+        if (null === $htmlTranslator) {
+            $htmlTranslator = new HtmlTranslators\PlatesHtmlTranslator(
+                dirname(__DIR__, 2) . '/templates/', // __DIR__ is src/Builders
+                'generic'
+            );
+        }
+        $this->htmlTranslator = $htmlTranslator;
+    }
+
     public function build(CfdiData $data, string $destination)
     {
         file_put_contents($destination, $this->buildPdf($data));
@@ -46,8 +65,6 @@ class Html2PdfBuilder implements BuilderInterface
 
     public function convertNodeToHtml(CfdiData $cfdiData): string
     {
-        // __DIR__ is src/Builders
-        $plates = new PlatesEngine(dirname(__DIR__, 2) . '/templates/');
-        return $plates->render('generic', ['cfdiData' => $cfdiData]);
+        return $this->htmlTranslator->translate($cfdiData);
     }
 }

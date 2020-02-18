@@ -63,6 +63,23 @@ $converter = new \PhpCfdi\CfdiToPdf\Converter(
 $converter->createPdfAs($cfdiData, 'output.pdf');
 ```
 
+To change the way data is translated from `CfdiData` to HTML you could provide a specialized translator to
+`Html2PdfBuilder` when the object is constructed.
+
+In the following example is using the default HTML translator that uses Plates, only changing the directory
+where templates are located and the template name. The expected result must be compatible with Html2Pdf.
+
+```php
+<?php declare(strict_types=1);
+$htmlTranslator = new \PhpCfdi\CfdiToPdf\Builders\HtmlTranslators\PlatesHtmlTranslator(
+    'directory_where_templates_are_located',
+    'main_template_name'
+);
+$converter = new \PhpCfdi\CfdiToPdf\Converter(
+    new \PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder($htmlTranslator)
+);
+```
+
 ## PHP Support
 
 This library is compatible with PHP versions 7.0 and above.
@@ -85,7 +102,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [source]: https://github.com/phpcfdi/cfditopdf
 [release]: https://github.com/phpcfdi/cfditopdf/releases
 [license]: https://github.com/phpcfdi/cfditopdf/blob/master/LICENSE
-[build]: https://travis-ci.org/phpcfdi/cfditopdf?branch=master
+[build]: https://travis-ci.com/phpcfdi/cfditopdf?branch=master
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/cfditopdf/
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/cfditopdf/code-structure/master/code-coverage/src
 [downloads]: https://packagist.org/packages/phpcfdi/cfditopdf
@@ -93,7 +110,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/cfditopdf-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/cfditopdf?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/cfditopdf?style=flat-square
-[badge-build]: https://img.shields.io/travis/phpcfdi/cfditopdf/master?style=flat-square
+[badge-build]: https://img.shields.io/travis/com/phpcfdi/cfditopdf/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/cfditopdf/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/cfditopdf/master?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/cfditopdf?style=flat-square

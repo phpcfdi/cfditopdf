@@ -9,16 +9,16 @@ use RuntimeException;
 
 class CfdiData
 {
-    /** @var NodeInterface */
+    /** @var NodeInterface<NodeInterface> */
     private $comprobante;
 
-    /** @var NodeInterface */
+    /** @var NodeInterface<NodeInterface> */
     private $emisor;
 
-    /** @var NodeInterface */
+    /** @var NodeInterface<NodeInterface> */
     private $receptor;
 
-    /** @var NodeInterface */
+    /** @var NodeInterface<NodeInterface> */
     private $timbreFiscalDigital;
 
     /** @var string */
@@ -27,6 +27,13 @@ class CfdiData
     /** @var string */
     private $tfdSourceString;
 
+    /**
+     * CfdiData constructor.
+     *
+     * @param NodeInterface<NodeInterface> $comprobante
+     * @param string $qrUrl
+     * @param string $tfdSourceString
+     */
     public function __construct(NodeInterface $comprobante, string $qrUrl, string $tfdSourceString)
     {
         $emisor = $comprobante->searchNode('cfdi:Emisor');
@@ -50,21 +57,33 @@ class CfdiData
         $this->tfdSourceString = $tfdSourceString;
     }
 
+    /**
+     * @return NodeInterface<NodeInterface>
+     */
     public function comprobante(): NodeInterface
     {
         return $this->comprobante;
     }
 
+    /**
+     * @return NodeInterface<NodeInterface>
+     */
     public function emisor(): NodeInterface
     {
         return $this->emisor;
     }
 
+    /**
+     * @return NodeInterface<NodeInterface>
+     */
     public function receptor(): NodeInterface
     {
         return $this->receptor;
     }
 
+    /**
+     * @return NodeInterface<NodeInterface>
+     */
     public function timbreFiscalDigital(): NodeInterface
     {
         return $this->timbreFiscalDigital;

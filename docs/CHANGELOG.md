@@ -1,3 +1,13 @@
+# Version 0.3.3 2020-02-18
+
+- Isolate the translation from CFDI to HTML into an interface `HtmlTranslatorInterface`.
+- Implements `PlatesHtmlTranslator` with the current code to translate CFDI to HTML.
+- Can setup the `Html2PdfBuilder` by changing the `HtmlTranslatorInterface` to use other  templates or other engine.
+- Update license year.
+- Update Travis-CI & Scrutinizer CI.
+- Update phpstan (version 0.12, do not use phpstan-shim).
+- Update todo list.
+
 # Version 0.3.2 2019-11-14
 
 - Add *Complemento de pagos* to the generated HTML, thanks @blacktrue

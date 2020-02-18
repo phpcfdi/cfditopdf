@@ -62,7 +62,7 @@ class CfdiDataBuilderTest extends TestCase
     public function testCreateTfdSourceStringWithoutTimbreFiscalDigital()
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
-        /** @var NodeInterface $complemento phpstan recognize null returned by searchNode */
+        /** @var NodeInterface<NodeInterface> $complemento phpstan recognize null returned by searchNode */
         $complemento = $comprobante->searchNode('cfdi:Complemento');
         $complemento->children()->removeAll();
 
@@ -85,9 +85,9 @@ class CfdiDataBuilderTest extends TestCase
     public function testCreateTfdSourceStringWithTfd10()
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
-        /** @var NodeInterface $complemento phpstan recognize null returned by searchNode */
+        /** @var NodeInterface<NodeInterface> $complemento phpstan recognize null returned by searchNode */
         $complemento = $comprobante->searchNode('cfdi:Complemento');
-        /** @var NodeInterface $tfd phpstan recognize null returned by firstNodeWithName */
+        /** @var NodeInterface<NodeInterface> $tfd phpstan recognize null returned by firstNodeWithName */
         $tfd = $complemento->children()->firstNodeWithName('tfd:TimbreFiscalDigital');
         $tfd->addAttributes([
             'Version' => null,
