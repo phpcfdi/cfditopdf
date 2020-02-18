@@ -26,7 +26,10 @@ script:
     else
       vendor/bin/phpunit --testdox
     fi
-  - vendor/bin/phpstan analyse --level max src/ tests/ bin/
+  - | # do not run on phpstan on PHP 7.0 because it fail with array annotations
+    if [[ $TRAVIS_PHP_VERSION != "7.0" ]]; then
+      vendor/bin/phpstan analyse --no-progress --level max src/ tests/ bin/
+    fi
   # build phar
   - |
     if [[ $TRAVIS_PHP_VERSION == $BUILD_PHAR_PHP_VERSION ]]; then
