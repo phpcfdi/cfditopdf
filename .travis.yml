@@ -8,17 +8,23 @@ addons:
       - poppler-utils
 
 env:
+  - BUILD_COVERAGE_PHP_VERSION="7.4"
   - BUILD_PHAR_PHP_VERSION="7.4"
-  - BUILD_PHAR_OUTPUT = "build/cfditopdf.phar"
+  - BUILD_PHAR_OUTPUT="build/cfditopdf.phar"
 
 before_script:
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini || true
   - travis_retry composer install --no-progress --no-interaction --prefer-dist
 
 script:
   - vendor/bin/phpcs -sp bin/ src/ tests/ bin/ templates/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
-  - vendor/bin/phpunit --testdox
+  - |
+    if [[ $TRAVIS_PHP_VERSION == $BUILD_COVERAGE_PHP_VERSION ]]; then
+      php -d zend_extension=xdebug.so vendor/bin/phpunit --testdox --coverage-clover=build/coverage.xml
+    else
+      vendor/bin/phpunit --testdox
+    fi
   - vendor/bin/phpstan analyse --level max src/ tests/ bin/
   # build phar
   - |
@@ -26,6 +32,14 @@ script:
       rm -f "${BUILD_PHAR_OUTPUT}"
       bash development/build-phar "${BUILD_PHAR_OUTPUT}"
       test -f "${BUILD_PHAR_OUTPUT}"
+    fi
+
+after_script:
+  # upload test covegare to scrutinizer
+  - |
+    if [[ $TRAVIS_PHP_VERSION == $BUILD_COVERAGE_PHP_VERSION ]]; then
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover build/coverage.xml
     fi
 
 deploy:
