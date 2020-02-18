@@ -15,7 +15,6 @@ before_script:
   - travis_retry composer install --no-progress --no-interaction --prefer-dist
 
 script:
-  - mkdir -p build/tests/
   - vendor/bin/phpcs -sp bin/ src/ tests/ bin/ templates/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
   - vendor/bin/phpunit --testdox
