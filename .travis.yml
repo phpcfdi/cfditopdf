@@ -2,10 +2,6 @@ language: php
 
 php: ["7.0", "7.1", "7.2", "7.3", "7.4"]
 
-jobs:
-  allow_failures:
-    - php: 7.4 # there is a problem with html2pdf, see https://github.com/spipu/html2pdf/issues/530
-
 addons:
   apt:
     packages:
