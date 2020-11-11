@@ -1,3 +1,8 @@
+# UNRELEASED 2020-10-11
+
+- Testing: move `cadenaoriginal_TFD_1_1.xslt` to its correct location.
+- Travis-CI: Remove allow fail on PHP 7.4.
+
 # Version 0.3.3 2020-02-18
 
 - Isolate the translation from CFDI to HTML into an interface `HtmlTranslatorInterface`.
