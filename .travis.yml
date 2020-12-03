@@ -9,9 +9,10 @@ addons:
 
 env:
   global:
-    - BUILD_COVERAGE_PHP_VERSION="7.3"
-    - BUILD_PHAR_PHP_VERSION="7.3"
+    - BUILD_COVERAGE_PHP_VERSION="7.4"
+    - BUILD_PHAR_PHP_VERSION="7.4"
     - BUILD_PHAR_OUTPUT="build/cfditopdf.phar"
+    - XDEBUG_MODE=coverage
 
 before_script:
   - phpenv config-rm xdebug.ini || true
