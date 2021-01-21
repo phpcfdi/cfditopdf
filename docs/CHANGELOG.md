@@ -1,3 +1,7 @@
+# Version 0.3.4 2021-01-20
+
+- Add missing `Tipo de cambio DR` field to documentos relacionados
+
 # UNRELEASED 2020-10-11
 
 - Testing: move `cadenaoriginal_TFD_1_1.xslt` to its correct location.
