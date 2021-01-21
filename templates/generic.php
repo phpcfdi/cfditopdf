@@ -299,6 +299,7 @@ $pagoCount = $pagos->count();
                     <strong>Serie: </strong><span><?=$this->e($doctoRelacionado['Serie'])?></span>
                     <strong>Folio: </strong><span><?=$this->e($doctoRelacionado['Folio'])?></span>
                     <strong>Moneda DR: </strong><span><?=$this->e($doctoRelacionado['MonedaDR'])?></span>
+                    <strong>Tipo de cambio DR: </strong><span><?=$this->e($doctoRelacionado['TipoCambioDR'])?></span>
                     <strong>Método de pago DR: </strong><span><?=$this->e($doctoRelacionado['MetodoDePagoDR'])?></span>
                     <strong>Número parcialidad: </strong><span><?=$this->e($doctoRelacionado['NumParcialidad'])?></span>
                     <strong>Imp pagado: </strong><span><?=$this->e($doctoRelacionado['ImpPagado'])?></span>

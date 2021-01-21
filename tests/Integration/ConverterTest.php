@@ -77,6 +77,7 @@ class ConverterTest extends TestCase
         $this->assertContains($doctoRelacionado['Serie'], $contents);
         $this->assertContains($doctoRelacionado['Folio'], $contents);
         $this->assertContains($doctoRelacionado['MonedaDR'], $contents);
+        $this->assertContains($doctoRelacionado['TipoCambioDR'], $contents);
         $this->assertContains($doctoRelacionado['MetodoDePagoDR'], $contents);
         $this->assertContains($doctoRelacionado['NumParcialidad'], $contents);
         $this->assertContains($doctoRelacionado['ImpPagado'], $contents);
