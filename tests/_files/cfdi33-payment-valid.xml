@@ -33,7 +33,7 @@ El SelloCFD del complemento TimbreFiscalDigital no tiene datos válidos.
                     FormaDePagoP="03"
                     MonedaP="MXN"
                     Monto="4000.00">
-                <pago10:DoctoRelacionado IdDocumento="1A3CD882-EB73-484A-6971-1C2D29C9F264" Serie="A" Folio="1847" MonedaDR="MXN" MetodoDePagoDR="PPD" NumParcialidad="1" ImpPagado="4000.00" ImpSaldoInsoluto="0.00" ImpSaldoAnt="4000.00" />
+                <pago10:DoctoRelacionado IdDocumento="1A3CD882-EB73-484A-6971-1C2D29C9F264" Serie="A" Folio="1847" MonedaDR="USD" MetodoDePagoDR="PPD" NumParcialidad="1" ImpPagado="4000.00" ImpSaldoInsoluto="0.00" ImpSaldoAnt="4000.00" TipoCambioDR="0.050522"/>
             </pago10:Pago>
         </pago10:Pagos>
         <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="9FB6ED1A-5F37-4FEF-980A-7F8C83B51894" FechaTimbrado="2017-06-05T09:09:37" RfcProvCertif="SFE0807172W7" SelloCFD="W2Fr9AiEuUIFJUVRWMXWMHndDcwvpNCu2g0uTE58wutNkUgjq3J+5f7Kl/ygpAlQggmJB9dKBd2UsYjd94dGTvIso26CFdmW3QY+KBa5d/qpFBsnLxVq+NgP4l2MpAzMMlzD4AsyaTSPnKc6/xmFzIQszCEQ0DsQO+twW0VsxrI=" NoCertificadoSAT="20001000000300022779" SelloSAT="a0U3KSPH6ouIzOnO3A5KUG+wKJ0Kg77SeDLdw8c4a4bLaib5dCxh4nv1Y/GFq7fgm3DQDCmPTzmcJ8BATwO8r9+e36Zcw0kHcVlJ8+VRz/oHYWyCgq4etsTybXtrqcnLeyCy6Oi38Yk/2lvEwnvtqSFSXrNTL/jA5ZEyeZxpwerGmuQ/NmUC4Ta5+DjjON7bZomfMNBMoAsnLj5uTEQa03mZGhbPg+h/RMLZ7GA2VXLFhxj68YXt/uR5tu4kJTjwTn0ZAK83wzYp68V2TJdEaW3JMLw/5EwXpqctV2drek3u2gt63S9Po2FHpmXDKVNM6LTw57iRQ8tnLSCeKP68Nw=="/>
