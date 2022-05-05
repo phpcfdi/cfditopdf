@@ -21,6 +21,32 @@ Use [composer](https://getcomposer.org/), so please run
 composer require phpcfdi/cfditopdf
 ```
 
+## Run with Docker
+
+Running as a Docker container lets you use this CLI anywhere where Docker is installed without worrying about about any dependencies, not even PHP itself.
+
+```shell
+# This will mount the current working directory
+# into a the /data directory inside the container
+docker run --rm \
+  --volume $PWD:/data \
+  --user $(id -u):$(id -g) \
+  ghcr.io/phpcfdi/cfditopdf:latest \
+  /data/my-cfdi.xml \
+  /data/my-cfdi-output.pdf
+```
+
+You can optionally set an alias in your shell to simplify running the container (to make this alias permanent add the alias to your .bashrc fille).
+
+```shell
+alias cfditopdf='docker run --rm --volume $PWD:/data --user $(id -u):$(id -g) ghcr.io/phpcfdi/cfditopdf:latest'
+
+# Then, execute just as `cfditopdf` (see usage in the next section)
+
+cfditopdf --help
+cfditopdf /data/my-cfdi.xml /data/my-cfdi-output.pdf
+```
+
 ## Basic usage from CLI
 
 ```text
