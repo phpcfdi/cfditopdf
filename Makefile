@@ -10,7 +10,7 @@ build: ## Build the container image
 
 run: ## Run container passing `cmd` make argument as the containr command
 	@docker run --rm \
-	  --volume $(shell pwd)/files:/app/files \
+	  --volume $(shell pwd)/data:/data \
 	  --user $(shell id -u ${USER}):$(shell id -g ${USER}) \
 	  $(IMAGE_REPO):$(IMAGE_TAG) \
 	  $(cmd)
