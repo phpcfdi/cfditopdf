@@ -370,10 +370,10 @@ $pagoCount = $pagos->count();
             <div class="content">
                 <table style="width: 94%">
                     <tr>
-                        <th style="width: 20%">Tipo</th>
-                        <th style="width: 20%">Base</th>
-                        <th style="width: 20%">Impuesto</th>
-                        <th style="width: 20%">Tipo factor</th>
+                        <th style="width: 15%">Tipo</th>
+                        <th style="width: 15%">Base</th>
+                        <th style="width: 15%">Impuesto</th>
+                        <th style="width: 15%">Tipo factor</th>
                         <th style="width: 20%">Tasa o cuota</th>
                         <th style="width: 20%">Importe</th>
                     </tr>
