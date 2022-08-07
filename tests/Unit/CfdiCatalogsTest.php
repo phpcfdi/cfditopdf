@@ -22,9 +22,15 @@ class CfdiCatalogsTest extends TestCase
         $cfdiData = new CfdiData($comprobante, 'qr', 'tfd');
         $this->assertSame('I - Ingreso', $catalogs->catTipoComprobante($cfdiData->comprobante()['TipoDeComprobante']));
         $this->assertSame('01 - Efectivo', $catalogs->catFormaPago($cfdiData->comprobante()['FormaPago']));
-        $this->assertSame('PUE - Pago en una sola exhibición', $catalogs->catMetodoPago($cfdiData->comprobante()['MetodoPago']));
+        $this->assertSame(
+            'PUE - Pago en una sola exhibición',
+            $catalogs->catMetodoPago($cfdiData->comprobante()['MetodoPago'])
+        );
         $this->assertSame('', $catalogs->catExportacion($cfdiData->comprobante()['Exportacion']));
-        $this->assertSame('601 - General de Ley Personas Morales', $catalogs->catRegimenFiscal($cfdiData->emisor()['RegimenFiscal']));
+        $this->assertSame(
+            '601 - General de Ley Personas Morales',
+            $catalogs->catRegimenFiscal($cfdiData->emisor()['RegimenFiscal'])
+        );
         $this->assertSame('G01 - Adquisición de mercancías', $catalogs->catUsoCFDI($cfdiData->receptor()['UsoCFDI']));
     }
 }

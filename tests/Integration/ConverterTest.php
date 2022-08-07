@@ -35,7 +35,7 @@ class ConverterTest extends TestCase
 
         $pdfToString = new PdfToText();
         $contents = $pdfToString->extract($created);
-        $this->assertContains($uuid, $contents);
+        $this->assertStringContainsString($uuid, $contents);
 
         unlink($created);
     }
@@ -53,7 +53,6 @@ class ConverterTest extends TestCase
         $pago = $pagos->first();
         if (null === $pago) {
             $this->fail('Specimen does not have a Pago element');
-            return;
         }
 
         $doctosRelacionados = $pago->searchNodes('pago10:DoctoRelacionado');
@@ -61,7 +60,6 @@ class ConverterTest extends TestCase
         $doctoRelacionado = $doctosRelacionados->first();
         if (null === $doctoRelacionado) {
             $this->fail('Specimen does not have a DoctoRelacionado element');
-            return;
         }
 
         $builder = new Html2PdfBuilder();
@@ -73,16 +71,16 @@ class ConverterTest extends TestCase
 
         $pdfToString = new PdfToText();
         $contents = $pdfToString->extract($created);
-        $this->assertContains($doctoRelacionado['IdDocumento'], $contents);
-        $this->assertContains($doctoRelacionado['Serie'], $contents);
-        $this->assertContains($doctoRelacionado['Folio'], $contents);
-        $this->assertContains($doctoRelacionado['MonedaDR'], $contents);
-        $this->assertContains($doctoRelacionado['TipoCambioDR'], $contents);
-        $this->assertContains($doctoRelacionado['MetodoDePagoDR'], $contents);
-        $this->assertContains($doctoRelacionado['NumParcialidad'], $contents);
-        $this->assertContains($doctoRelacionado['ImpPagado'], $contents);
-        $this->assertContains($doctoRelacionado['ImpSaldoInsoluto'], $contents);
-        $this->assertContains($doctoRelacionado['ImpSaldoAnt'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['IdDocumento'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['Serie'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['Folio'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['MonedaDR'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['TipoCambioDR'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['MetodoDePagoDR'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['NumParcialidad'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['ImpPagado'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['ImpSaldoInsoluto'], $contents);
+        $this->assertStringContainsString($doctoRelacionado['ImpSaldoAnt'], $contents);
         unlink($created);
     }
 }

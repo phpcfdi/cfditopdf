@@ -213,7 +213,8 @@ class CfdiCatalogs
         return $this->getValueOfCatalog($catalog, $value);
     }
 
-    private function getValueOfCatalog($catalog, $value): string
+    /** @param string[] $catalog */
+    private function getValueOfCatalog(array $catalog, string $value): string
     {
         if (isset($catalog[$value])) {
             return $value . ' - ' . $catalog[$value];

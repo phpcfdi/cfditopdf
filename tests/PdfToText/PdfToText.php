@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\CfdiToPdf\Tests\PdfToText;
 
+use Symfony\Component\Process\Process;
+
 /**
  * Extract the contents of a pdf file using pdftotext (apt-get install poppler-utils)
  */
@@ -28,11 +30,12 @@ class PdfToText
      */
     public function extract(string $filename): string
     {
-        $shellExec = (new ShellExec($this->buildCommand($filename)))->run();
-        if (0 !== $shellExec->exitStatus()) {
-            throw new \RuntimeException("Running pdftotext exit with error (exit status: {$shellExec->exitStatus()})");
+        $process = new Process($this->buildCommand($filename));
+        $exitStatus = $process->run();
+        if (0 !== $exitStatus) {
+            throw new \RuntimeException("Running pdftotext exit with error (exit status: $exitStatus)");
         }
-        return $shellExec->output();
+        return $process->getOutput();
     }
 
     /**

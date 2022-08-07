@@ -14,13 +14,13 @@ class ConvertScriptTest extends TestCase
     /** @var string */
     private $temporaryFile;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->temporaryFile = $this->fileTemporaryFile();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (file_exists($this->temporaryFile)) {
             unlink($this->temporaryFile);
@@ -43,6 +43,6 @@ class ConvertScriptTest extends TestCase
         $this->assertGreaterThan(0, filesize($outputFile));
 
         $contents = (new PdfToText())->extract($outputFile);
-        $this->assertContains('9FB6ED1A-5F37-4FEF-980A-7F8C83B51894', $contents);
+        $this->assertStringContainsString('9FB6ED1A-5F37-4FEF-980A-7F8C83B51894', $contents);
     }
 }
