@@ -152,6 +152,9 @@ $pagoCount = $pagos->count();
                 <?php if ('' !== $receptor['NumRegIdTrib']) : ?>
                     <br/>Residencia fiscal: <?=$this->e($receptor['NumRegIdTrib'])?>
                 <?php endif; ?>
+                <?php if ('' !== $receptor['RegimenFiscalReceptor']) : ?>
+                    <br/>Régimen Fiscal: <?=$this->e($receptor['RegimenFiscalReceptor'])?>
+                <?php endif; ?>
             </p>
         </div>
     </div>
