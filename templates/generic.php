@@ -21,9 +21,7 @@ $conceptoCounter = 0;
 $conceptoCount = $conceptos->count();
 $pagoCounter = 0;
 $pagoCount = $pagos->count();
-if (! isset($catalogos)) {
-    $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
-}
+$catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
 ?>
 <style>
     * {
@@ -155,7 +153,7 @@ if (! isset($catalogos)) {
         <div class="title">Emisor</div>
         <div class="content">
             <p>
-                <?=$this->e($emisor['Nombre'] ? : 'No se especificó el nombre del emisor')?>
+                <?=$this->e($emisor['Nombre'] ?: 'No se especificó el nombre del emisor')?>
                 <br/>RFC: <?=$this->e($emisor['Rfc'])?>
                 <br/>Régimen fiscal: <?=$catalagos->catRegimenFiscal($emisor['RegimenFiscal'])?>
             </p>
@@ -165,7 +163,7 @@ if (! isset($catalogos)) {
         <div class="title">Receptor</div>
         <div class="content">
             <p>
-                <?=$this->e($receptor['Nombre'] ? : '(No se especificó el nombre del receptor)')?>
+                <?=$this->e($receptor['Nombre'] ?: '(No se especificó el nombre del receptor)')?>
                 <br/>RFC: <?=$this->e($receptor['Rfc'])?>
                 <br/>Uso del CFDI: <?=$catalagos->catUsoCFDI($receptor['UsoCFDI'])?>
                 <?php if ('' !== $receptor['DomicilioFiscalReceptor']) : ?>
@@ -207,18 +205,18 @@ if (! isset($catalogos)) {
             <div class="content">
                 <p><strong>Descripcion: </strong><?=$this->e($concepto['Descripcion'])?></p>
                 <p>
-                    <span>No identificación: <?=$this->e($concepto['NoIdentificacion'] ? : '(ninguno)')?>,</span>
+                    <span>No identificación: <?=$this->e($concepto['NoIdentificacion'] ?: '(ninguno)')?>,</span>
                     <span>Clave SAT: <?=$this->e($concepto['ClaveProdServ'])?>,</span>
                     <?php if ('' !== $this->e($concepto['ObjetoImp'])) : ?>
                         <span>Objeto de impuesto: <?=$catalagos->catObjetoImp($concepto['ObjetoImp'])?>,</span>
                     <?php endif; ?>
                     <span>Clave Unidad: <?=$this->e($concepto['ClaveUnidad'])?>,</span>
-                    <span>Unidad: <?=$this->e($concepto['Unidad'] ? : '(ninguna)')?></span>
+                    <span>Unidad: <?=$this->e($concepto['Unidad'] ?: '(ninguna)')?></span>
                 </p>
                 <p>
                     <strong>Cantidad: </strong><?=$this->e($concepto['Cantidad'])?>,
                     <strong>Valor unitario: </strong><?=$this->e($concepto['ValorUnitario'])?>,
-                    <strong>Descuento: </strong><?=$this->e($concepto['Descuento'] ? : '(ninguno)')?>,
+                    <strong>Descuento: </strong><?=$this->e($concepto['Descuento'] ?: '(ninguno)')?>,
                     <strong>Importe: </strong><?=$this->e($concepto['Importe'])?>
                 </p>
                 <?php if (null !== $cuentaTerceros) : ?>
@@ -250,11 +248,11 @@ if (! isset($catalogos)) {
                         <strong>Parte: </strong><?=$this->e($parte['Descripcion'])?>,
                         <br/>
                         <span>Clave SAT: <?=$this->e($parte['ClaveProdServ'])?>,</span>
-                        <span>No identificación: <?=$this->e($parte['NoIdentificacion'] ? : '(ninguno)')?>,</span>
+                        <span>No identificación: <?=$this->e($parte['NoIdentificacion'] ?: '(ninguno)')?>,</span>
                         <span>Cantidad: <?=$this->e($parte['Cantidad'])?>,</span>
-                        <span>Unidad: <?=$this->e($parte['Unidad'] ? : '(ninguna)')?>,</span>
-                        <span>Valor unitario: <?=$this->e($parte['ValorUnitario'] ? : '0')?></span>,
-                        <span>Importe: <?=$this->e($parte['Importe'] ? : '0')?></span>
+                        <span>Unidad: <?=$this->e($parte['Unidad'] ?: '(ninguna)')?>,</span>
+                        <span>Valor unitario: <?=$this->e($parte['ValorUnitario'] ?: '0')?></span>,
+                        <span>Importe: <?=$this->e($parte['Importe'] ?: '0')?></span>
                         <?php foreach ($parte->searchNodes('cfdi:InformacionAduanera') as $informacionAduanera) : ?>
                             <br/>Pedimento: <?=$this->e($informacionAduanera['NumeroPedimento'])?>
                         <?php endforeach; ?>

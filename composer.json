@@ -8,7 +8,7 @@
         {
             "name": "Carlos C Soto",
             "email": "eclipxe13@gmail.com",
-            "homepage": "http://eclipxe.com.mx/"
+            "homepage": "https://eclipxe.com.mx/"
         }
     ],
     "support": {
@@ -22,10 +22,7 @@
         "spipu/html2pdf": "^5.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "squizlabs/php_codesniffer": "^3.0",
-        "friendsofphp/php-cs-fixer": "^2.4",
-        "phpstan/phpstan": "^0.9|^0.10|^0.11|^0.12"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -41,20 +38,20 @@
     "scripts": {
         "dev:build": ["@dev:fix-style", "@dev:test"],
         "dev:check-style": [
-            "vendor/bin/php-cs-fixer fix --dry-run --verbose",
-            "vendor/bin/phpcs --colors -sp src/ tests/ bin/ templates/"
+            "@php tools/php-cs-fixer fix --dry-run --verbose",
+            "@php tools/phpcs --colors -sp"
         ],
         "dev:fix-style": [
-            "vendor/bin/php-cs-fixer fix --verbose",
-            "vendor/bin/phpcbf --colors -sp src/ tests/ bin/ templates/"
+            "@php tools/php-cs-fixer fix --verbose",
+            "@php tools/phpcbf --colors -sp"
         ],
         "dev:test": [
             "@dev:check-style",
             "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "vendor/bin/phpstan analyse --verbose --no-progress --level max src/ tests/ bin/"
+            "@php tools/phpstan analyse --no-progress"
         ],
         "dev:coverage": [
-            "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --testdox --coverage-html build/coverage/html/"
         ]
     },
     "scripts-descriptions": {

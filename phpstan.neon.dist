@@ -1,5 +1,6 @@
 parameters:
-    inferPrivatePropertyTypeFromConstructor: true
-    ignoreErrors:
-        - '#Method PhpCfdi\\CfdiToPdf\\Tests\\\S+::test\S+ has no return typehint specified\.#'
-
+    level: max
+    paths:
+        - bin
+        - src
+        - tests
