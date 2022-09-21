@@ -14,9 +14,16 @@ class ConvertScriptTest extends TestCase
     /** @var string */
     private $temporaryFile;
 
+    /** @var PdfToText */
+    private $pdfToText;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->pdfToText = new PdfToText();
+        if (! $this->pdfToText->exists()) {
+            $this->markTestSkipped('pdftotext tool is not installed');
+        }
         $this->temporaryFile = $this->fileTemporaryFile();
     }
 
@@ -42,7 +49,7 @@ class ConvertScriptTest extends TestCase
         $this->assertFileExists($outputFile);
         $this->assertGreaterThan(0, filesize($outputFile));
 
-        $contents = (new PdfToText())->extract($outputFile);
+        $contents = $this->pdfToText->extract($outputFile);
         $this->assertStringContainsString('9FB6ED1A-5F37-4FEF-980A-7F8C83B51894', $contents);
     }
 }

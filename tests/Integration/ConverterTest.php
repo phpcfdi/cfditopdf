@@ -17,6 +17,18 @@ use PhpCfdi\CfdiToPdf\Tests\TestCase;
  */
 class ConverterTest extends TestCase
 {
+    /** @var PdfToText */
+    private $pdfToText;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->pdfToText = new PdfToText();
+        if (! $this->pdfToText->exists()) {
+            $this->markTestSkipped('pdftotext tool is not installed');
+        }
+    }
+
     public function testConverter(): void
     {
         $cfdi = Cfdi::newFromString(Cleaner::staticClean($this->fileContents('cfdi33-valid.xml')));
@@ -24,7 +36,7 @@ class ConverterTest extends TestCase
         $cfdiData = (new CfdiDataBuilder())
             ->withXmlResolver($this->createXmlResolver())
             ->build($cfdi->getNode());
-        $uuid = $cfdiData->timbreFiscalDigital()['UUID'];
+        $uuid = strval($cfdiData->timbreFiscalDigital()['UUID']);
 
         $builder = new Html2PdfBuilder();
         $converter = new Converter($builder);
@@ -33,8 +45,7 @@ class ConverterTest extends TestCase
         $converter->createPdfAs($cfdiData, $created);
         $this->assertFileExists($created);
 
-        $pdfToString = new PdfToText();
-        $contents = $pdfToString->extract($created);
+        $contents = $this->pdfToText->extract($created);
         $this->assertStringContainsString($uuid, $contents);
 
         unlink($created);
@@ -69,18 +80,17 @@ class ConverterTest extends TestCase
         $converter->createPdfAs($cfdiData, $created);
         $this->assertFileExists($created);
 
-        $pdfToString = new PdfToText();
-        $contents = $pdfToString->extract($created);
-        $this->assertStringContainsString($doctoRelacionado['IdDocumento'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['Serie'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['Folio'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['MonedaDR'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['TipoCambioDR'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['MetodoDePagoDR'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['NumParcialidad'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['ImpPagado'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['ImpSaldoInsoluto'], $contents);
-        $this->assertStringContainsString($doctoRelacionado['ImpSaldoAnt'], $contents);
+        $contents = $this->pdfToText->extract($created);
+        $this->assertStringContainsString(strval($doctoRelacionado['IdDocumento']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['Serie']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['Folio']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['MonedaDR']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['TipoCambioDR']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['MetodoDePagoDR']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['NumParcialidad']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['ImpPagado']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['ImpSaldoInsoluto']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['ImpSaldoAnt']), $contents);
         unlink($created);
     }
 }
