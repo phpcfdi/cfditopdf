@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\CfdiToPdf;
+namespace PhpCfdi\CfdiToPdf\Catalogs;
 
-class CfdiCatalogs
+final class StaticCatalogs implements CatalogsInterface
 {
     public function catImpuesto(string $value): string
     {

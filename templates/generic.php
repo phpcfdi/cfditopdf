@@ -9,6 +9,7 @@ declare(strict_types=1);
 /**
  * @var \League\Plates\Template\Template $this
  * @var \PhpCfdi\CfdiToPdf\CfdiData $cfdiData
+ * @var \PhpCfdi\CfdiToPdf\Catalogs\CatalogsInterface|null $catalogos
  */
 $comprobante = $cfdiData->comprobante();
 $emisor = $cfdiData->emisor();
@@ -21,7 +22,9 @@ $conceptos = $comprobante->searchNodes('cfdi:Conceptos', 'cfdi:Concepto');
 $informacionGlobal = $comprobante->searchNode('cfdi:InformacionGlobal');
 $conceptoCounter = 0;
 $conceptoCount = $conceptos->count();
-$catalogos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
+if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\CatalogsInterface)) {
+    $catalogos = new \PhpCfdi\CfdiToPdf\Catalogs\StaticCatalogs();
+}
 ?>
 <style>
     * {
