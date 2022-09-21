@@ -15,5 +15,6 @@ build:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
+
 tools:
   external_code_coverage: true

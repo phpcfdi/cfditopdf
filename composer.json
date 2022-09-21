@@ -1,6 +1,6 @@
 {
     "name": "phpcfdi/cfditopdf",
-    "description": "Create a generic PDF file from a CFDI 3.3 (CLI included)",
+    "description": "Create a generic PDF file from a CFDI 3.3 & 4.0 (CLI included)",
     "license": "MIT",
     "keywords": [
         "cfdi",

@@ -8,7 +8,7 @@
 [![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
 
-> Create a generic PDF file from a CFDI 3.3
+> Create a generic PDF file from a CFDI 3.3 & 4.0
 
 In some cases you just simply need a PDF file from a Mexican CFDI (Comprobante Fiscal Digital por Internet).
 This tool help you to create a generic one. You can also use it to build your own and pretty formats.
@@ -33,7 +33,7 @@ bin/cfditopdf [options] <cfdi-file> [<pdf-file>]
                             if none then it will always download xlst resources
   cfdi-file                 Path of the XML file (input file)
   pdf-file                  Path of the PDF file (output file) if none then it will remove
-                            ".xml" extension and sufix ".pdf" extension
+                            ".xml" extension and suffix ".pdf" extension
 ```
 
 ## Basic usage as a PHP library
@@ -92,7 +92,7 @@ and don't forget to take a look in the [TODO][] and [CHANGELOG][] files.
 
 ## Copyright and License
 
-The phpcfdi/cfditopdf library is copyright © [PHPCFDI](https://www.phpcfdi.com/)
+The `phpcfdi/cfditopdf` library is copyright © [PHPCFDI](https://www.phpcfdi.com/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 [contributing]: https://github.com/phpcfdi/cfditopdf/blob/master/CONTRIBUTING.md
