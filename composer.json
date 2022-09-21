@@ -48,7 +48,7 @@
         ],
         "dev:test": [
             "@dev:check-style",
-            "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
+            "@php vendor/bin/phpunit --testdox --verbose --stop-on-failure",
             "@php tools/phpstan analyse --no-progress"
         ],
         "dev:coverage": [
