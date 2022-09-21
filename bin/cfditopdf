@@ -3,12 +3,16 @@
 
 declare(strict_types=1);
 
+use Composer\Autoload\ClassLoader;
+use PhpCfdi\CfdiToPdf\Script\ConvertOptions;
+use PhpCfdi\CfdiToPdf\Script\ConvertScript;
+
 exit(call_user_func(function (array $arguments): int {
     try {
 
         set_error_handler(function (int $errno , string $errstr): bool {
             if (in_array($errno, [E_WARNING, E_USER_ERROR, E_USER_WARNING], true)) {
-                throw new \Exception("[$errno] $errstr", $errno);
+                throw new Exception("[$errno] $errstr", $errno);
             }
             return true; // do not continue with normal error handler
         });
@@ -16,9 +20,8 @@ exit(call_user_func(function (array $arguments): int {
         $loadComposerLoader = function (array $locations) : bool {
             foreach ($locations as $autoload) {
                 if (is_readable($autoload) && is_file($autoload)) {
-                    /** @noinspection PhpIncludeInspection */
                     $classLoader = require $autoload;
-                    if ($classLoader instanceof \Composer\Autoload\ClassLoader) {
+                    if ($classLoader instanceof ClassLoader) {
                         return true;
                     }
                 }
@@ -32,7 +35,7 @@ exit(call_user_func(function (array $arguments): int {
             __DIR__ . '/../autoload.php',           // in vendor/bin/
         ]);
         if (! $autoloadFound) {
-            throw new \RuntimeException('Cannot found autoload.php, did you run composer update?');
+            throw new RuntimeException('Cannot found autoload.php, did you run composer update?');
         }
 
         $versionGetter = function (): string {
@@ -49,7 +52,7 @@ exit(call_user_func(function (array $arguments): int {
 
         $command = basename(__FILE__);
         array_shift($arguments);
-        $options = \PhpCfdi\CfdiToPdf\Script\ConvertOptions::createFromArguments($arguments);
+        $options = ConvertOptions::createFromArguments($arguments);
 
         if ($options->askForVersion()) {
             echo "$command version {$versionGetter()}" . PHP_EOL;
@@ -66,18 +69,18 @@ exit(call_user_func(function (array $arguments): int {
                 '                            if none then it will always download xlst resources',
                 '  cfdi-file                 Path of the XML file (input file)',
                 '  pdf-file                  Path of the PDF file (output file) if none then it will remove',
-                '                            ".xml" extension and sufix ".pdf" extension',
+                '                            ".xml" extension and suffix ".pdf" extension',
                 ''
             ]);
             return 0;
         }
 
-        $script = new \PhpCfdi\CfdiToPdf\Script\ConvertScript();
+        $script = new ConvertScript();
         $script->run($options);
         echo $options->outputFile() . PHP_EOL;
 
         return 0;
-    } catch (\Throwable $exception) {
+    } catch (Throwable $exception) {
         // white/red message reset-color EOL
         $setColor = "\033[1;31m";   // light-red
         $resetColor = "\033[0m";    // default
