@@ -101,10 +101,12 @@ It will run:
 
 ```shell
 # composer dev:fix-style
+tools/composer-normalize normalize
 tools/php-cs-fixer fix --verbose
 tools/phpcbf --colors -sp
 
 # composer dev:test
+tools/composer-normalize normalize --dry-run
 tools/php-cs-fixer fix --dry-run --verbose
 tools/phpcs --colors -sp
 vendor/bin/phpunit --testdox --verbose --stop-on-failure

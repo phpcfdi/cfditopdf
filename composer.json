@@ -1,9 +1,14 @@
 {
     "name": "phpcfdi/cfditopdf",
     "description": "Create a generic PDF file from a CFDI 3.3 (CLI included)",
-    "keywords": ["cfdi", "mexico", "invoice", "pdf", "factura"],
-    "homepage": "https://github.com/phpcfdi/cfditopdf",
     "license": "MIT",
+    "keywords": [
+        "cfdi",
+        "mexico",
+        "invoice",
+        "pdf",
+        "factura"
+    ],
     "authors": [
         {
             "name": "Carlos C Soto",
@@ -11,16 +16,17 @@
             "homepage": "https://eclipxe.com.mx/"
         }
     ],
+    "homepage": "https://github.com/phpcfdi/cfditopdf",
     "support": {
-        "source": "https://github.com/phpcfdi/cfditopdf",
-        "issues": "https://github.com/phpcfdi/cfditopdf/issues"
+        "issues": "https://github.com/phpcfdi/cfditopdf/issues",
+        "source": "https://github.com/phpcfdi/cfditopdf"
     },
     "require": {
         "php": ">=7.3",
         "eclipxe/cfdiutils": "^2.11.0",
         "league/plates": "^3.3",
-        "spipu/html2pdf": "^5.1",
-        "phpcfdi/cfdi-cleaner": "^1.2"
+        "phpcfdi/cfdi-cleaner": "^1.2",
+        "spipu/html2pdf": "^5.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
@@ -35,14 +41,39 @@
             "PhpCfdi\\CfdiToPdf\\Tests\\": "tests/"
         }
     },
-    "bin": ["bin/cfditopdf"],
+    "bin": [
+        "bin/cfditopdf"
+    ],
+    "extra": {
+        "phar-builder": {
+            "compression": "GZip",
+            "entry-point": "bin/cfditopdf",
+            "include": [
+                "bin",
+                "src",
+                "templates"
+            ],
+            "include-dev": false,
+            "name": "cfditopdf.phar",
+            "output-dir": "build/",
+            "skip-shebang": false
+        }
+    },
     "scripts": {
-        "dev:build": ["@dev:fix-style", "@dev:test"],
+        "dev:build": [
+            "@dev:fix-style",
+            "@dev:test"
+        ],
         "dev:check-style": [
+            "@php tools/composer-normalize normalize --dry-run",
             "@php tools/php-cs-fixer fix --dry-run --verbose",
             "@php tools/phpcs --colors -sp"
         ],
+        "dev:coverage": [
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --testdox --coverage-html build/coverage/html/"
+        ],
         "dev:fix-style": [
+            "@php tools/composer-normalize normalize",
             "@php tools/php-cs-fixer fix --verbose",
             "@php tools/phpcbf --colors -sp"
         ],
@@ -50,27 +81,13 @@
             "@dev:check-style",
             "@php vendor/bin/phpunit --testdox --verbose --stop-on-failure",
             "@php tools/phpstan analyse --no-progress"
-        ],
-        "dev:coverage": [
-            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --testdox --coverage-html build/coverage/html/"
         ]
     },
     "scripts-descriptions": {
         "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
-        "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
-        "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
-        "dev:test": "DEV: run phpunit and phpstan",
-        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
-    },
-    "extra": {
-        "phar-builder": {
-            "compression": "GZip",
-            "name": "cfditopdf.phar",
-            "output-dir": "build/",
-            "entry-point": "bin/cfditopdf",
-            "include": ["bin", "src", "templates"],
-            "include-dev": false,
-            "skip-shebang": false
-        }
+        "dev:check-style": "DEV: search for code style errors using composer-normalize, php-cs-fixer and phpcs",
+        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/",
+        "dev:fix-style": "DEV: fix code style errors using composer-normalize, php-cs-fixer and phpcbf",
+        "dev:test": "DEV: run phpunit and phpstan"
     }
 }
