@@ -19,7 +19,8 @@
         "php": ">=7.0",
         "eclipxe/cfdiutils": "^2.11.0",
         "league/plates": "^3.3",
-        "spipu/html2pdf": "^5.1"
+        "spipu/html2pdf": "^5.1",
+        "phpcfdi/cfdi-cleaner": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"

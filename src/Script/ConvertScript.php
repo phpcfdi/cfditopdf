@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\CfdiToPdf\Script;
 
-use CfdiUtils\Cleaner\Cleaner;
 use CfdiUtils\Nodes\XmlNodeUtils;
 use CfdiUtils\XmlResolver\XmlResolver;
+use PhpCfdi\CfdiCleaner\Cleaner;
 use PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder;
 use PhpCfdi\CfdiToPdf\CfdiDataBuilder;
 use PhpCfdi\CfdiToPdf\Converter;
