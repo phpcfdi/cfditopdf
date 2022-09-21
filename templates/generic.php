@@ -1,27 +1,27 @@
 <?php
 
+/**
+ * @noinspection PhpFullyQualifiedNameUsageInspection
+ */
+
 declare(strict_types=1);
 
-/** @noinspection PhpFullyQualifiedNameUsageInspection */
-/** @var \League\Plates\Template\Template $this */
-/** @var \PhpCfdi\CfdiToPdf\CfdiData $cfdiData */
-/** @var \PhpCfdi\CfdiToPdf\CfdiCatalogs|null $catalagos */
+/**
+ * @var \League\Plates\Template\Template $this
+ * @var \PhpCfdi\CfdiToPdf\CfdiData $cfdiData
+ */
 $comprobante = $cfdiData->comprobante();
 $emisor = $cfdiData->emisor();
 $receptor = $cfdiData->receptor();
 $tfd = $cfdiData->timbreFiscalDigital();
 $relacionados = $comprobante->searchNode('cfdi:CfdiRelacionados');
-$impuestos = $comprobante->searchNode('cfdi:Impuestos');
 $totalImpuestosTrasladados = $comprobante->searchAttribute('cfdi:Impuestos', 'TotalImpuestosTrasladados');
 $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'TotalImpuestosRetenidos');
 $conceptos = $comprobante->searchNodes('cfdi:Conceptos', 'cfdi:Concepto');
-$pagos = $comprobante->searchNodes('cfdi:Complemento', 'pago10:Pagos', 'pago10:Pago');
 $informacionGlobal = $comprobante->searchNode('cfdi:InformacionGlobal');
 $conceptoCounter = 0;
 $conceptoCount = $conceptos->count();
-$pagoCounter = 0;
-$pagoCount = $pagos->count();
-$catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
+$catalogos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
 ?>
 <style>
     * {
@@ -81,7 +81,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                     <qrcode style="width: 45mm;" ec="M" value="<?=$this->e($cfdiData->qrUrl())?>"/>
                 </td>
                 <th>Tipo:</th>
-                <td><?=$catalagos->catTipoComprobante($comprobante['TipoDeComprobante'])?></td>
+                <td><?=$catalogos->catTipoComprobante($comprobante['TipoDeComprobante'])?></td>
             </tr>
             <tr>
                 <th class="">Serie:</th>
@@ -101,11 +101,11 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
             </tr>
             <tr>
                 <th>Forma de pago:</th>
-                <td><?=$catalagos->catFormaPago($comprobante['FormaPago'])?></td>
+                <td><?=$catalogos->catFormaPago($comprobante['FormaPago'])?></td>
             </tr>
             <tr>
                 <th>Método de pago:</th>
-                <td><?=$catalagos->catMetodoPago($comprobante['MetodoPago'])?></td>
+                <td><?=$catalogos->catMetodoPago($comprobante['MetodoPago'])?></td>
             </tr>
             <?php if ('' !== $comprobante['CondicionesDePago']) : ?>
                 <tr>
@@ -132,7 +132,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
             <?php if ('' !== $comprobante['Exportacion']) : ?>
                 <tr>
                     <th>Exportación:</th>
-                    <td><?=$catalagos->catExportacion($comprobante['Exportacion'])?></td>
+                    <td><?=$catalogos->catExportacion($comprobante['Exportacion'])?></td>
                 </tr>
             <?php endif; ?>
         </table>
@@ -142,8 +142,8 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
             <div class="title">Información global</div>
             <div class="content">
                 <p>
-                    Periodicidad: <?=$catalagos->catPeriodicidad($informacionGlobal['Periodicidad'])?>
-                    <br/>Meses: <?=$catalagos->catMeses($informacionGlobal['Meses'])?>
+                    Periodicidad: <?=$catalogos->catPeriodicidad($informacionGlobal['Periodicidad'])?>
+                    <br/>Meses: <?=$catalogos->catMeses($informacionGlobal['Meses'])?>
                     <br/>Año: <?=$this->e($informacionGlobal['Año'])?>
                 </p>
             </div>
@@ -155,7 +155,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
             <p>
                 <?=$this->e($emisor['Nombre'] ?: 'No se especificó el nombre del emisor')?>
                 <br/>RFC: <?=$this->e($emisor['Rfc'])?>
-                <br/>Régimen fiscal: <?=$catalagos->catRegimenFiscal($emisor['RegimenFiscal'])?>
+                <br/>Régimen fiscal: <?=$catalogos->catRegimenFiscal($emisor['RegimenFiscal'])?>
             </p>
         </div>
     </div>
@@ -165,12 +165,12 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
             <p>
                 <?=$this->e($receptor['Nombre'] ?: '(No se especificó el nombre del receptor)')?>
                 <br/>RFC: <?=$this->e($receptor['Rfc'])?>
-                <br/>Uso del CFDI: <?=$catalagos->catUsoCFDI($receptor['UsoCFDI'])?>
+                <br/>Uso del CFDI: <?=$catalogos->catUsoCFDI($receptor['UsoCFDI'])?>
                 <?php if ('' !== $receptor['DomicilioFiscalReceptor']) : ?>
                     <br/>Domicilio fiscal receptor: <?=$this->e($receptor['DomicilioFiscalReceptor'])?>
                 <?php endif; ?>
                 <?php if ('' !== $receptor['RegimenFiscalReceptor']) : ?>
-                    <br/>Régimen fiscal receptor: <?=$catalagos->catRegimenFiscal($receptor['RegimenFiscalReceptor'])?>
+                    <br/>Régimen fiscal receptor: <?=$catalogos->catRegimenFiscal($receptor['RegimenFiscalReceptor'])?>
                 <?php endif; ?>
                 <?php if ('' !== $receptor['ResidenciaFiscal']) : ?>
                     <br/>Residencia fiscal: <?=$this->e($receptor['ResidenciaFiscal'])?>
@@ -208,7 +208,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                     <span>No identificación: <?=$this->e($concepto['NoIdentificacion'] ?: '(ninguno)')?>,</span>
                     <span>Clave SAT: <?=$this->e($concepto['ClaveProdServ'])?>,</span>
                     <?php if ('' !== $this->e($concepto['ObjetoImp'])) : ?>
-                        <span>Objeto de impuesto: <?=$catalagos->catObjetoImp($concepto['ObjetoImp'])?>,</span>
+                        <span>Objeto de impuesto: <?=$catalogos->catObjetoImp($concepto['ObjetoImp'])?>,</span>
                     <?php endif; ?>
                     <span>Clave Unidad: <?=$this->e($concepto['ClaveUnidad'])?>,</span>
                     <span>Unidad: <?=$this->e($concepto['Unidad'] ?: '(ninguna)')?></span>
@@ -225,7 +225,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                         Rfc a cuenta terceros: <?=$this->e($cuentaTerceros['RfcACuentaTerceros'])?>,
                         Nombre a cuenta terceros: <?=$this->e($cuentaTerceros['NombreACuentaTerceros'])?>,
                         Regimen fiscal a cuenta terceros:
-                            <?=$catalagos->catRegimenFiscal($cuentaTerceros['RegimenFiscalACuentaTerceros'])?>,
+                            <?=$catalogos->catRegimenFiscal($cuentaTerceros['RegimenFiscalACuentaTerceros'])?>,
                         Domicilio fiscal a cuenta terceros:
                             <?=$this->e($cuentaTerceros['DomicilioFiscalACuentaTerceros'])?>
                     </p>
@@ -261,7 +261,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                 <?php foreach ($conceptoTraslados as $impuesto) : ?>
                     <p>
                         <strong>Traslado</strong>
-                        Impuesto: <?=$catalagos->catImpuesto($impuesto['Impuesto'])?>,
+                        Impuesto: <?=$catalogos->catImpuesto($impuesto['Impuesto'])?>,
                         Base: <?=$this->e($impuesto['Base'])?>,
                         Tipo factor: <?=$this->e($impuesto['TipoFactor'])?>,
                         Tasa o cuota: <?=$this->e($impuesto['TasaOCuota'])?>,
@@ -271,7 +271,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                 <?php foreach ($conceptoRetenciones as $impuesto) : ?>
                     <p>
                         <strong>Retención</strong>
-                        Impuesto: <?=$catalagos->catImpuesto($impuesto['Impuesto'])?>,
+                        Impuesto: <?=$catalogos->catImpuesto($impuesto['Impuesto'])?>,
                         Base: <?=$this->e($impuesto['Base'])?>,
                         Tipo factor: <?=$this->e($impuesto['TipoFactor'])?>,
                         Tasa o cuota: <?=$this->e($impuesto['TasaOCuota'])?>,
@@ -281,112 +281,124 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
             </div>
         </div>
     <?php endforeach; ?>
+
+    <?php
+    $pagos = $comprobante->searchNodes('cfdi:Complemento', 'pago10:Pagos', 'pago10:Pago');
+    $pagoCounter = 0;
+    $pagoCount = $pagos->count();
+    ?>
+
     <?php foreach ($pagos as $pago) : ?>
         <?php
         $pagoCounter = $pagoCounter + 1;
+        $doctoRelacionados = $pago->searchNodes('pago10:DoctoRelacionado');
         ?>
-      <div class="panel">
-        <div class="title">Pago: <?=$this->e($pagoCounter)?> de <?=$this->e($pagoCount)?></div>
-        <div class="content">
-          <p>
-            <span><strong>Fecha de pago:</strong> <?=$this->e($pago['FechaPago'])?>,</span>
-            <span><strong>Forma de pago:</strong> <?=$this->e($pago['FormaDePagoP'])?>,</span>
-            <span><strong>Moneda:</strong> <?=$this->e($pago['MonedaP'])?>,</span>
-            <span><strong>Monto:</strong> <?=$this->e($pago['Monto'])?></span>
-            <?php if ('' !== $pago['TipoCambioP']) : ?>
-              <span><strong>Tipo Cambio:</strong> <?=$this->e($pago['TipoCambioP'])?></span>
-            <?php endif; ?>
-            <?php if ('' !== $pago['NumOperacion']) : ?>
-              <span><strong>Número operación:</strong> <?=$this->e($pago['NumOperacion'])?></span>
-            <?php endif; ?>
-            <?php if ('' !== $pago['RfcEmisorCtaOrd']) : ?>
-              <span><strong>RFC Emisor Cta Ord:</strong> <?=$this->e($pago['RfcEmisorCtaOrd'])?></span>
-            <?php endif; ?>
-            <?php if ('' !== $pago['NomBancoOrdExt']) : ?>
-              <span><strong>Nombre Banco Ord Extranjero:</strong> <?=$this->e($pago['NomBancoOrdExt'])?></span>
-            <?php endif; ?>
-            <?php if ('' !== $pago['CtaOrdenante']) : ?>
-              <span><strong>Cuenta Ord:</strong> <?=$this->e($pago['CtaOrdenante'])?></span>
-            <?php endif; ?>
-            <?php if ('' !== $pago['RfcEmisorCtaBen']) : ?>
-              <span><strong>RFC Emisor Cta Ben:</strong> <?=$this->e($pago['RfcEmisorCtaBen'])?></span>
-            <?php endif; ?>
-            <?php if ('' !== $pago['CtaBeneficiario']) : ?>
-              <span><strong>Cuenta Ben:</strong> <?=$this->e($pago['CtaBeneficiario'])?></span>
-            <?php endif; ?>
-            <?php if ('' !== $pago['TipoCadPago']) : ?>
-              <span><strong>Tipo cadena de pago:</strong> <?=$this->e($pago['TipoCadPago'])?></span>
-            <?php endif; ?>
-          </p>
-            <?php if ('' !== $pago['CertPago']) : ?>
-              <p>
-                <strong>Certificado de pago:</strong>
-                <span><?=$this->e($pago['CertPago'])?></span>
-              </p>
-            <?php endif; ?>
-            <?php if ('' !== $pago['CadPago']) : ?>
-              <p>
-                <strong>Cadena de pago:</strong>
-                <span><?=$this->e($pago['CadPago'])?></span>
-              </p>
-            <?php endif; ?>
-            <?php if ('' !== $pago['SelloPago']) : ?>
-              <p>
-                <strong>Sello de pago:</strong>
-                <span><?=$this->e($pago['SelloPago'])?></span>
-              </p>
-            <?php endif; ?>
-            <?php
-            $doctoRelacionados = $pago->searchNodes('pago10:DoctoRelacionado');
-            if ($doctoRelacionados->count() > 0) :
-                ?>
-              <p style="margin: 10px 0 10px 0;">
-                <strong>Documentos relacionados</strong>
-              </p>
-                <?php foreach ($doctoRelacionados as $doctoRelacionado) : ?>
-                  <p style="margin-bottom: 10px;">
-                    <strong>Id Documento: </strong><span><?=$this->e($doctoRelacionado['IdDocumento'])?></span>
-                    <strong>Serie: </strong><span><?=$this->e($doctoRelacionado['Serie'])?></span>
-                    <strong>Folio: </strong><span><?=$this->e($doctoRelacionado['Folio'])?></span>
-                    <strong>Moneda DR: </strong><span><?=$this->e($doctoRelacionado['MonedaDR'])?></span>
-                    <strong>Tipo de cambio DR: </strong><span><?=$this->e($doctoRelacionado['TipoCambioDR'])?></span>
-                    <strong>Método de pago DR: </strong><span><?=$this->e($doctoRelacionado['MetodoDePagoDR'])?></span>
-                    <strong>Número parcialidad: </strong><span><?=$this->e($doctoRelacionado['NumParcialidad'])?></span>
-                    <strong>Imp pagado: </strong><span><?=$this->e($doctoRelacionado['ImpPagado'])?></span>
-                    <strong>Imp saldo insoluto: </strong>
-                    <span><?=$this->e($doctoRelacionado['ImpSaldoInsoluto'])?></span>
-                    <strong>Imp saldo anterior: </strong><span><?=$this->e($doctoRelacionado['ImpSaldoAnt'])?></span>
+        <div class="panel">
+            <div class="title">Pago: <?=$this->e($pagoCounter)?> de <?=$this->e($pagoCount)?></div>
+            <div class="content">
+                <p>
+                    <span><strong>Fecha de pago:</strong> <?=$this->e($pago['FechaPago'])?>,</span>
+                    <span><strong>Forma de pago:</strong> <?=$this->e($pago['FormaDePagoP'])?>,</span>
+                    <span><strong>Moneda:</strong> <?=$this->e($pago['MonedaP'])?>,</span>
+                    <span><strong>Monto:</strong> <?=$this->e($pago['Monto'])?></span>
+                    <?php if ('' !== $pago['TipoCambioP']) : ?>
+                      <span><strong>Tipo Cambio:</strong> <?=$this->e($pago['TipoCambioP'])?></span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pago['NumOperacion']) : ?>
+                      <span><strong>Número operación:</strong> <?=$this->e($pago['NumOperacion'])?></span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pago['RfcEmisorCtaOrd']) : ?>
+                      <span><strong>RFC Emisor Cta Ord:</strong> <?=$this->e($pago['RfcEmisorCtaOrd'])?></span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pago['NomBancoOrdExt']) : ?>
+                      <span><strong>Nombre Banco Ord Extranjero:</strong> <?=$this->e($pago['NomBancoOrdExt'])?></span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pago['CtaOrdenante']) : ?>
+                      <span><strong>Cuenta Ord:</strong> <?=$this->e($pago['CtaOrdenante'])?></span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pago['RfcEmisorCtaBen']) : ?>
+                      <span><strong>RFC Emisor Cta Ben:</strong> <?=$this->e($pago['RfcEmisorCtaBen'])?></span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pago['CtaBeneficiario']) : ?>
+                      <span><strong>Cuenta Ben:</strong> <?=$this->e($pago['CtaBeneficiario'])?></span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pago['TipoCadPago']) : ?>
+                      <span><strong>Tipo cadena de pago:</strong> <?=$this->e($pago['TipoCadPago'])?></span>
+                    <?php endif; ?>
+                </p>
+                <?php if ('' !== $pago['CertPago']) : ?>
+                  <p>
+                    <strong>Certificado de pago:</strong>
+                    <span><?=$this->e($pago['CertPago'])?></span>
                   </p>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                <?php endif; ?>
+                <?php if ('' !== $pago['CadPago']) : ?>
+                  <p>
+                    <strong>Cadena de pago:</strong>
+                    <span><?=$this->e($pago['CadPago'])?></span>
+                  </p>
+                <?php endif; ?>
+                <?php if ('' !== $pago['SelloPago']) : ?>
+                  <p>
+                    <strong>Sello de pago:</strong>
+                    <span><?=$this->e($pago['SelloPago'])?></span>
+                  </p>
+                <?php endif; ?>
+                <?php if ($doctoRelacionados->count() > 0) : ?>
+                    <p style="margin: 10px 0 10px 0;">
+                      <strong>Documentos relacionados</strong>
+                    </p>
+                    <?php foreach ($doctoRelacionados as $doctoRelacionado) : ?>
+                        <p style="margin-bottom: 10px;">
+                          <strong>Id Documento: </strong><span><?=$this->e($doctoRelacionado['IdDocumento'])?></span>
+                          <strong>Serie: </strong><span><?=$this->e($doctoRelacionado['Serie'])?></span>
+                          <strong>Folio: </strong><span><?=$this->e($doctoRelacionado['Folio'])?></span>
+                          <strong>Moneda DR: </strong><span><?=$this->e($doctoRelacionado['MonedaDR'])?></span>
+                          <strong>Tipo de cambio DR: </strong>
+                            <span><?=$this->e($doctoRelacionado['TipoCambioDR'])?></span>
+                          <strong>Método de pago DR: </strong>
+                            <span><?=$this->e($doctoRelacionado['MetodoDePagoDR'])?></span>
+                          <strong>Número parcialidad: </strong>
+                            <span><?=$this->e($doctoRelacionado['NumParcialidad'])?></span>
+                          <strong>Imp pagado: </strong><span><?=$this->e($doctoRelacionado['ImpPagado'])?></span>
+                          <strong>Imp saldo insoluto: </strong>
+                          <span><?=$this->e($doctoRelacionado['ImpSaldoInsoluto'])?></span>
+                          <strong>Imp saldo anterior: </strong>
+                            <span><?=$this->e($doctoRelacionado['ImpSaldoAnt'])?></span>
+                        </p>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
         </div>
-      </div>
     <?php endforeach; ?>
 
-    <!-- Pago20 -->
     <?php
     $pagos20 = $comprobante->searchNodes('cfdi:Complemento', 'pago20:Pagos', 'pago20:Pago');
     $pago20Count = $pagos20->count();
     $pagoTotales = $comprobante->searchNode('cfdi:Complemento', 'pago20:Pagos', 'pago20:Totales');
-    if (null !== $pagoTotales) :
-        ?>
+    ?>
+
+    <?php if (null !== $pagoTotales) : ?>
         <div class="panel">
-            <div class="title">Pagos</div>
+            <div class="title">Totales del complemento de pago</div>
             <div class="content">
                 <p>
                 <?php if ('' !== $pagoTotales['TotalRetencionesIVA']) : ?>
                     <span>
-                        <strong>Total retenciones IVA:</strong> <?=$this->e($pagoTotales['TotalRetencionesIVA'])?>
+                        <strong>Total retenciones IVA:</strong>
+                        <?=$this->e($pagoTotales['TotalRetencionesIVA'])?>
                     </span>
                 <?php endif; ?>
                 <?php if ('' !== $pagoTotales['TotalRetencionesISR']) : ?>
                     <span>
-                        <strong>Total retenciones ISR:</strong> <?=$this->e($pagoTotales['TotalRetencionesISR'])?>
+                        <strong>Total retenciones ISR:</strong>
+                        <?=$this->e($pagoTotales['TotalRetencionesISR'])?>
                     </span>
                 <?php endif; ?>
                 <?php if ('' !== $pagoTotales['TotalRetencionesIEPS']) : ?>
                     <span>
-                        <strong>Total retenciones IEPS:</strong> <?=$this->e($pagoTotales['TotalRetencionesIEPS'])?>
+                        <strong>Total retenciones IEPS:</strong>
+                        <?=$this->e($pagoTotales['TotalRetencionesIEPS'])?>
                     </span>
                 <?php endif; ?>
                 <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVA16']) : ?>
@@ -431,9 +443,10 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                         <?=$this->e($pagoTotales['TotalTrasladosBaseIVAExento'])?>
                     </span>
                 <?php endif; ?>
-                    <span>
-                        <strong>Monto total pagos:</strong> <?=$this->e($pagoTotales['MontoTotalPagos'])?>
-                    </span>
+                <span>
+                    <strong>Monto total pagos:</strong>
+                    <?=$this->e($pagoTotales['MontoTotalPagos'])?>
+                </span>
                 </p>
             </div>
         </div>
@@ -442,13 +455,14 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
     <?php foreach ($pagos20 as $pago20) : ?>
         <?php
         $pagoCounter = $pagoCounter + 1;
+        $doctoRelacionados = $pago20->searchNodes('pago20:DoctoRelacionado');
         ?>
         <div class="panel">
             <div class="title">Pago: <?=$this->e($pagoCounter)?> de <?=$this->e($pago20Count)?></div>
             <div class="content">
                 <p>
                     <span><strong>Fecha de pago:</strong> <?=$this->e($pago20['FechaPago'])?>,</span>
-                    <span><strong>Forma de pago:</strong> <?=$catalagos->catFormaPago($pago20['FormaDePagoP'])?>,</span>
+                    <span><strong>Forma de pago:</strong> <?=$catalogos->catFormaPago($pago20['FormaDePagoP'])?>,</span>
                     <span><strong>Moneda:</strong> <?=$this->e($pago20['MonedaP'])?>,</span>
                     <span><strong>Monto:</strong> <?=$this->e($pago20['Monto'])?></span>
                     <?php if ('' !== $pago20['TipoCambioP']) : ?>
@@ -495,91 +509,88 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                         <span><?=$this->e($pago20['SelloPago'])?></span>
                     </p>
                 <?php endif; ?>
-                <?php
-                $doctoRelacionados = $pago20->searchNodes('pago20:DoctoRelacionado');
-                if ($doctoRelacionados->count() > 0) :
-                    ?>
+                <?php if ($doctoRelacionados->count() > 0) : ?>
                     <p style="margin: 10px 0 5px 0;">
                         <strong>Documentos relacionados</strong>
                     </p>
                     <?php foreach ($doctoRelacionados as $doctoRelacionado) : ?>
-                    <p style="margin-bottom: 10px;">
-                        <strong>Id Documento: </strong><span><?=$this->e($doctoRelacionado['IdDocumento'])?></span>
-                        <strong>Serie: </strong><span><?=$this->e($doctoRelacionado['Serie'])?></span>
-                        <strong>Folio: </strong><span><?=$this->e($doctoRelacionado['Folio'])?></span>
-                        <strong>Moneda DR: </strong><span><?=$this->e($doctoRelacionado['MonedaDR'])?></span>
-                        <strong>Equivalencia DR: </strong>
-                            <span><?=$this->e($doctoRelacionado['EquivalenciaDR'])?></span>
-                        <strong>Tipo de cambio DR: </strong>
-                            <span><?=$this->e($doctoRelacionado['TipoCambioDR'])?></span>
-                        <strong>Método de pago DR: </strong>
-                            <span><?=$this->e($doctoRelacionado['MetodoDePagoDR'])?></span>
-                        <strong>Número parcialidad: </strong>
-                            <span><?=$this->e($doctoRelacionado['NumParcialidad'])?></span>
-                        <strong>Importe pagado: </strong><span><?=$this->e($doctoRelacionado['ImpPagado'])?></span>
-                        <strong>Importe saldo insoluto: </strong>
-                            <span><?=$this->e($doctoRelacionado['ImpSaldoInsoluto'])?></span>
-                        <strong>Importe saldo anterior: </strong>
-                            <span><?=$this->e($doctoRelacionado['ImpSaldoAnt'])?></span>
-                        <strong>Objeto Imp DR: </strong>
-                            <span><?=$catalagos->catObjetoImp($doctoRelacionado['ObjetoImpDR'])?></span>
-                    </p>
+                        <p style="margin-bottom: 10px;">
+                            <strong>Id Documento: </strong><span><?=$this->e($doctoRelacionado['IdDocumento'])?></span>
+                            <strong>Serie: </strong><span><?=$this->e($doctoRelacionado['Serie'])?></span>
+                            <strong>Folio: </strong><span><?=$this->e($doctoRelacionado['Folio'])?></span>
+                            <strong>Moneda DR: </strong><span><?=$this->e($doctoRelacionado['MonedaDR'])?></span>
+                            <?php if ('' !== $doctoRelacionado['EquivalenciaDR']) : ?>
+                                <strong>Equivalencia DR: </strong>
+                                <span><?=$this->e($doctoRelacionado['EquivalenciaDR'])?></span>
+                            <?php endif; ?>
+                            <strong>Método de pago DR: </strong>
+                                <span><?=$this->e($doctoRelacionado['MetodoDePagoDR'])?></span>
+                            <strong>Número parcialidad: </strong>
+                                <span><?=$this->e($doctoRelacionado['NumParcialidad'])?></span>
+                            <strong>Importe pagado: </strong><span><?=$this->e($doctoRelacionado['ImpPagado'])?></span>
+                            <strong>Importe saldo insoluto: </strong>
+                                <span><?=$this->e($doctoRelacionado['ImpSaldoInsoluto'])?></span>
+                            <strong>Importe saldo anterior: </strong>
+                                <span><?=$this->e($doctoRelacionado['ImpSaldoAnt'])?></span>
+                            <strong>Objeto Imp DR: </strong>
+                                <span><?=$catalogos->catObjetoImp($doctoRelacionado['ObjetoImpDR'])?></span>
+                        </p>
                         <?php
                         $impuestos = $doctoRelacionado->searchNode('pago20:ImpuestosDR');
-                        if (null !== $impuestos) : ?>
-                        <p style="margin: 0px 10px 5px 0;">
-                            <strong>Impuestos Docto Relacionado</strong>
-                        </p>
+                        ?>
+                        <?php if (null !== $impuestos) : ?>
                             <?php
-                            $traslados = $impuestos->searchNodes('pago20:RetencionesDR', 'pago20:RetencionDR');
-                            $retenciones = $impuestos->searchNodes('pago20:TrasladosDR', 'pago20:TrasladoDR');
+                            $retenciones = $impuestos->searchNodes('pago20:RetencionesDR', 'pago20:RetencionDR');
+                            $traslados = $impuestos->searchNodes('pago20:TrasladosDR', 'pago20:TrasladoDR');
                             ?>
-                        <p>
-                        <table style="width: 94%">
-                            <tr>
-                                <th style="width: 15%">Tipo</th>
-                                <th style="width: 15%">Base</th>
-                                <th style="width: 15%">Impuesto</th>
-                                <th style="width: 15%">Tipo factor</th>
-                                <th style="width: 20%">Tasa o cuota</th>
-                                <th style="width: 20%">Importe</th>
-                            </tr>
-                            <?php foreach ($traslados as $impuesto) : ?>
+                            <p style="margin: 0 10px 5px 0;">
+                                <strong>Impuestos Docto Relacionado</strong>
+                            </p>
+                            <table style="width: 94%">
                                 <tr>
-                                    <td>Traslado</td>
-                                    <td><?=$this->e($impuesto['BaseDR'])?></td>
-                                    <td><?=$catalagos->catImpuesto($impuesto['ImpuestoDR'])?></td>
-                                    <td><?=$this->e($impuesto['TipoFactorDR'])?></td>
-                                    <td><?=$this->e($impuesto['TasaOCuotaDR'])?></td>
-                                    <td>$<?=$this->e($impuesto['ImporteDR'])?></td>
+                                    <th style="width: 15%">Tipo</th>
+                                    <th style="width: 15%">Base</th>
+                                    <th style="width: 15%">Impuesto</th>
+                                    <th style="width: 15%">Tipo factor</th>
+                                    <th style="width: 20%">Tasa o cuota</th>
+                                    <th style="width: 20%">Importe</th>
                                 </tr>
-                            <?php endforeach; ?>
-                            <?php foreach ($retenciones as $impuesto) : ?>
-                                <tr>
-                                    <td>Retención</td>
-                                    <td><?=$this->e($impuesto['BaseDR'])?></td>
-                                    <td><?=$catalagos->catImpuesto($impuesto['ImpuestoDR'])?></td>
-                                    <td><?=$this->e($impuesto['TipoFactorDR'])?></td>
-                                    <td><?=$this->e($impuesto['TasaOCuotaDR'])?></td>
-                                    <td>$<?=$this->e($impuesto['ImporteDR'])?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </table>
-                        </p>
+                                <?php foreach ($traslados as $impuesto) : ?>
+                                    <tr>
+                                        <td>Traslado</td>
+                                        <td><?=$this->e($impuesto['BaseDR'])?></td>
+                                        <td><?=$catalogos->catImpuesto($impuesto['ImpuestoDR'])?></td>
+                                        <td><?=$this->e($impuesto['TipoFactorDR'])?></td>
+                                        <td><?=$this->e($impuesto['TasaOCuotaDR'])?></td>
+                                        <td>$<?=$this->e($impuesto['ImporteDR'])?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php foreach ($retenciones as $impuesto) : ?>
+                                    <tr>
+                                        <td>Retención</td>
+                                        <td><?=$this->e($impuesto['BaseDR'])?></td>
+                                        <td><?=$catalogos->catImpuesto($impuesto['ImpuestoDR'])?></td>
+                                        <td><?=$this->e($impuesto['TipoFactorDR'])?></td>
+                                        <td><?=$this->e($impuesto['TasaOCuotaDR'])?></td>
+                                        <td>$<?=$this->e($impuesto['ImporteDR'])?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </table>
                         <?php endif ?>
                     <br>
                     <?php endforeach; ?>
                 <?php endif; ?>
-                <?php $impuestos = $pago20->searchNode('pago20:ImpuestosP');
-                if (null !== $impuestos) : ?>
-                    <p style="margin: 10px 0px 5px 0;">
+                <?php
+                $impuestos = $pago20->searchNode('pago20:ImpuestosP');
+                ?>
+                <?php if (null !== $impuestos) : ?>
+                    <?php
+                    $retenciones = $impuestos->searchNodes('pago20:RetencionesP', 'pago20:RetencionP');
+                    $traslados = $impuestos->searchNodes('pago20:TrasladosP', 'pago20:TrasladoP');
+                    ?>
+                    <p style="margin: 10px 0 5px 0;">
                         <strong>Impuestos Pago</strong>
                     </p>
-                    <?php
-                    $traslados = $impuestos->searchNodes('pago20:RetencionesP', 'pago20:RetencionP');
-                    $retenciones = $impuestos->searchNodes('pago20:TrasladosP', 'pago20:TrasladoP');
-                    ?>
-                    <p>
                     <table style="width: 94%">
                         <tr>
                             <th style="width: 15%">Tipo</th>
@@ -593,7 +604,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                             <tr>
                                 <td>Traslado</td>
                                 <td><?=$this->e($impuesto['BaseP'])?></td>
-                                <td><?=$catalagos->catImpuesto($impuesto['ImpuestoP'])?></td>
+                                <td><?=$catalogos->catImpuesto($impuesto['ImpuestoP'])?></td>
                                 <td><?=$this->e($impuesto['TipoFactorP'])?></td>
                                 <td><?=$this->e($impuesto['TasaOCuotaP'])?></td>
                                 <td>$<?=$this->e($impuesto['ImporteP'])?></td>
@@ -603,19 +614,21 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                             <tr>
                                 <td>Retención</td>
                                 <td><?=$this->e($impuesto['BaseP'])?></td>
-                                <td><?=$catalagos->catImpuesto($impuesto['ImpuestoP'])?></td>
+                                <td><?=$catalogos->catImpuesto($impuesto['ImpuestoP'])?></td>
                                 <td><?=$this->e($impuesto['TipoFactorP'])?></td>
                                 <td><?=$this->e($impuesto['TasaOCuotaP'])?></td>
                                 <td>$<?=$this->e($impuesto['ImporteP'])?></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
-                    </p>
                 <?php endif; ?>
             </div>
         </div>
     <?php endforeach; ?>
 
+    <?php
+    $impuestos = $comprobante->searchNode('cfdi:Impuestos');
+    ?>
     <?php if (null !== $impuestos) : ?>
         <?php
         $traslados = $impuestos->searchNodes('cfdi:Traslados', 'cfdi:Traslado');
@@ -637,7 +650,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                         <tr>
                             <th>Traslado</th>
                             <td><?=$this->e($impuesto['Base'])?></td>
-                            <td><?=$catalagos->catImpuesto($impuesto['Impuesto'])?></td>
+                            <td><?=$catalogos->catImpuesto($impuesto['Impuesto'])?></td>
                             <td><?=$this->e($impuesto['TipoFactor'])?></td>
                             <td><?=$this->e($impuesto['TasaOCuota'])?></td>
                             <td><?=$this->e($impuesto['Importe'])?></td>
@@ -647,7 +660,7 @@ $catalagos = new \PhpCfdi\CfdiToPdf\CfdiCatalogs();
                         <tr>
                             <th>Retención</th>
                             <td><?=$this->e($impuesto['Base'])?></td>
-                            <td><?=$catalagos->catImpuesto($impuesto['Impuesto'])?></td>
+                            <td><?=$catalogos->catImpuesto($impuesto['Impuesto'])?></td>
                             <td><?=$this->e($impuesto['TipoFactor'])?></td>
                             <td><?=$this->e($impuesto['TasaOCuota'])?></td>
                             <td><?=$this->e($impuesto['Importe'])?></td>
