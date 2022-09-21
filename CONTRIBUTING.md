@@ -119,3 +119,13 @@ To make tests run fast and due to some external resources from SAT are sometimes
 I had decide to put those resources on `test/_files/external-resources`. If you want it,
 remove that folder and perform the tests. If external resources are available then the
 path will be created and your tests will take a little more to run the first time.
+
+## Running GitHub Actions locally
+
+You can use [`act`](https://github.com/nektos/act) to run your GitHub Actions locally.
+As documented in [`actions/setup-php-action`](https://github.com/marketplace/actions/setup-php-action#local-testing-setup)
+you will need to execute the command as:
+
+```shell
+act -P ubuntu-latest=shivammathur/node:latest -W .github/workflows/build.yml
+```
