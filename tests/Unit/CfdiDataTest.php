@@ -15,7 +15,7 @@ use RuntimeException;
  */
 class CfdiDataTest extends TestCase
 {
-    public function testConstructUsingValidContent()
+    public function testConstructUsingValidContent(): void
     {
         $cfdi = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'));
         $comprobante = $cfdi->getNode();
@@ -28,7 +28,7 @@ class CfdiDataTest extends TestCase
         $this->assertSame('9FB6ED1A-5F37-4FEF-980A-7F8C83B51894', $cfdiData->timbreFiscalDigital()['UUID']);
     }
 
-    public function testConstructWithoutEmisor()
+    public function testConstructWithoutEmisor(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
         /** @var NodeInterface<NodeInterface> $emisor phpstan recognize null returned by searchNode */
@@ -40,7 +40,7 @@ class CfdiDataTest extends TestCase
         new CfdiData($comprobante, 'qr', 'tfd');
     }
 
-    public function testConstructWithoutReceptor()
+    public function testConstructWithoutReceptor(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
         /** @var NodeInterface<NodeInterface> $receptor phpstan recognize null returned by searchNode */
@@ -52,7 +52,7 @@ class CfdiDataTest extends TestCase
         new CfdiData($comprobante, 'qr', 'tfd');
     }
 
-    public function testConstructWithoutComplemento()
+    public function testConstructWithoutComplemento(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
         /** @var NodeInterface<NodeInterface> $complemento phpstan recognize null returned by searchNode */

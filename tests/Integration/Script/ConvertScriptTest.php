@@ -14,7 +14,7 @@ class ConvertScriptTest extends TestCase
     /** @var string */
     private $temporaryFile;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->temporaryFile = $this->fileTemporaryFile();
@@ -28,7 +28,7 @@ class ConvertScriptTest extends TestCase
         parent::tearDown();
     }
 
-    public function testRun()
+    public function testRun(): void
     {
         $outputFile = $this->temporaryFile;
         $options = ConvertOptions::createFromArguments([

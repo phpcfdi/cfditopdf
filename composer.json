@@ -16,7 +16,7 @@
         "issues": "https://github.com/phpcfdi/cfditopdf/issues"
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.3",
         "eclipxe/cfdiutils": "^2.11.0",
         "league/plates": "^3.3",
         "spipu/html2pdf": "^5.1",

@@ -219,6 +219,7 @@ class CfdiCatalogs
         if (isset($catalog[$value])) {
             return $value . ' - ' . $catalog[$value];
         }
+
         return $value;
     }
 }

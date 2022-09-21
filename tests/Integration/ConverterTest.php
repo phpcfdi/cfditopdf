@@ -17,7 +17,7 @@ use PhpCfdi\CfdiToPdf\Tests\TestCase;
  */
 class ConverterTest extends TestCase
 {
-    public function testConverter()
+    public function testConverter(): void
     {
         $cfdi = Cfdi::newFromString(Cleaner::staticClean($this->fileContents('cfdi33-valid.xml')));
 
@@ -40,7 +40,7 @@ class ConverterTest extends TestCase
         unlink($created);
     }
 
-    public function testConverterWithPaymentData()
+    public function testConverterWithPaymentData(): void
     {
         $cfdi = Cfdi::newFromString(Cleaner::staticClean($this->fileContents('cfdi33-payment-valid.xml')));
 

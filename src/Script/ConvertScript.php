@@ -18,7 +18,7 @@ class ConvertScript
      * @param ConvertOptions $options
      * @return void
      */
-    public function run(ConvertOptions $options)
+    public function run(ConvertOptions $options): void
     {
         $source = $this->openSource($options->inputFile(), $options->doCleanInput());
 

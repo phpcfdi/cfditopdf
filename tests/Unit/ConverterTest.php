@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ConverterTest extends TestCase
 {
-    public function testCreatePdfToTemporary()
+    public function testCreatePdfToTemporary(): void
     {
         /** @var CfdiData&MockObject $fakeCfdiData */
         $fakeCfdiData = $this->createMock(CfdiData::class);
@@ -31,7 +31,7 @@ class ConverterTest extends TestCase
         $this->assertTrue($spy->hasBeenInvoked());
     }
 
-    public function testCreatePdfToFile()
+    public function testCreatePdfToFile(): void
     {
         /** @var CfdiData&MockObject $fakeCfdiData */
         $fakeCfdiData = $this->createMock(CfdiData::class);

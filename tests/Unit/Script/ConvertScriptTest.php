@@ -11,7 +11,7 @@ use RuntimeException;
 
 class ConvertScriptTest extends TestCase
 {
-    public function testOpenFileWithEmptyPath()
+    public function testOpenFileWithEmptyPath(): void
     {
         $script = new ConvertScript();
         $this->expectException(RuntimeException::class);
@@ -19,7 +19,7 @@ class ConvertScriptTest extends TestCase
         $script->openSource('', false);
     }
 
-    public function testOpenFileWithNonExistent()
+    public function testOpenFileWithNonExistent(): void
     {
         $inputfile = __DIR__ . '/non-existent';
         $script = new ConvertScript();
@@ -28,7 +28,7 @@ class ConvertScriptTest extends TestCase
         $script->openSource($inputfile, false);
     }
 
-    public function testOpenFileWithDirectory()
+    public function testOpenFileWithDirectory(): void
     {
         $inputfile = __DIR__;
         $script = new ConvertScript();
@@ -37,7 +37,7 @@ class ConvertScriptTest extends TestCase
         $script->openSource($inputfile, false);
     }
 
-    public function testOpenFileWithEmptyContent()
+    public function testOpenFileWithEmptyContent(): void
     {
         $inputfile = $this->filePath('empty-file');
         $script = new ConvertScript();
@@ -46,11 +46,11 @@ class ConvertScriptTest extends TestCase
         $script->openSource($inputfile, false);
     }
 
-    public function testOpenFileWithClean()
+    public function testOpenFileWithClean(): void
     {
         /** @var ConvertScript&MockObject $script */
         $script = $this->getMockBuilder(ConvertScript::class)
-            ->setMethods(['cleanSource'])
+            ->onlyMethods(['cleanSource'])
             ->getMock();
         $script->expects($this->once())
             ->method('cleanSource')->willReturn($this->fileContents('cfdi33-valid.xml'));

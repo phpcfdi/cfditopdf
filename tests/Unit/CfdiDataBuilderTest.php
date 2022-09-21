@@ -17,7 +17,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class CfdiDataBuilderTest extends TestCase
 {
-    public function testWithXmlResolver()
+    public function testWithXmlResolver(): void
     {
         $firstBuilder = new CfdiDataBuilder();
         $defaultResolver = $firstBuilder->xmlResolver();
@@ -29,7 +29,7 @@ class CfdiDataBuilderTest extends TestCase
         $this->assertNotSame($defaultResolver, $secondResolver);
     }
 
-    public function testWithXsltBuilder()
+    public function testWithXsltBuilder(): void
     {
         $firstBuilder = new CfdiDataBuilder();
         $defaultXsltBuilder = $firstBuilder->xsltBuilder();
@@ -41,7 +41,7 @@ class CfdiDataBuilderTest extends TestCase
         $this->assertNotSame($defaultXsltBuilder, $secondXsltBuilder);
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
         /** @var CfdiDataBuilder&MockObject $builder */
@@ -59,7 +59,7 @@ class CfdiDataBuilderTest extends TestCase
         $this->assertSame('tfd', $cfdiData->tfdSourceString());
     }
 
-    public function testCreateTfdSourceStringWithoutTimbreFiscalDigital()
+    public function testCreateTfdSourceStringWithoutTimbreFiscalDigital(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
         /** @var NodeInterface<NodeInterface> $complemento phpstan recognize null returned by searchNode */
@@ -71,18 +71,18 @@ class CfdiDataBuilderTest extends TestCase
         $this->assertSame('', $builder->createTfdSourceString($comprobante));
     }
 
-    public function testCreateTfdSourceStringWithTfd11()
+    public function testCreateTfdSourceStringWithTfd11(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
         $builder = new CfdiDataBuilder();
         $builder = $builder->withXmlResolver($this->createXmlResolver());
         $this->assertStringStartsWith(
             '||1.1|9FB6ED1A-5F37-4FEF-980A-7F8C83B51894|',
-            $builder->createTfdSourceString($comprobante)
+            $builder->createTfdSourceString($comprobante),
         );
     }
 
-    public function testCreateTfdSourceStringWithTfd10()
+    public function testCreateTfdSourceStringWithTfd10(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
         /** @var NodeInterface<NodeInterface> $complemento phpstan recognize null returned by searchNode */
@@ -98,11 +98,11 @@ class CfdiDataBuilderTest extends TestCase
         $builder = $builder->withXmlResolver($this->createXmlResolver());
         $this->assertStringStartsWith(
             '||1.0|9FB6ED1A-5F37-4FEF-980A-7F8C83B51894|',
-            $builder->createTfdSourceString($comprobante)
+            $builder->createTfdSourceString($comprobante),
         );
     }
 
-    public function testCreateQrUrl()
+    public function testCreateQrUrl(): void
     {
         // this method is only an utility for CfdiUtils\ConsultaCfdiSat\RequestParameters::expression()
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
