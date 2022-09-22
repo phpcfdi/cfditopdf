@@ -290,7 +290,6 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
     $pagoCounter = 0;
     $pagoCount = $pagos->count();
     ?>
-
     <?php foreach ($pagos as $pago) : ?>
         <?php
         $pagoCounter = $pagoCounter + 1;
@@ -378,83 +377,7 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
     <?php
     $pagos20 = $comprobante->searchNodes('cfdi:Complemento', 'pago20:Pagos', 'pago20:Pago');
     $pago20Count = $pagos20->count();
-    $pagoTotales = $comprobante->searchNode('cfdi:Complemento', 'pago20:Pagos', 'pago20:Totales');
     ?>
-
-    <?php if (null !== $pagoTotales) : ?>
-        <div class="panel">
-            <div class="title">Totales del complemento de pago</div>
-            <div class="content">
-                <p>
-                <?php if ('' !== $pagoTotales['TotalRetencionesIVA']) : ?>
-                    <span>
-                        <strong>Total retenciones IVA:</strong>
-                        <?=$this->e($pagoTotales['TotalRetencionesIVA'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalRetencionesISR']) : ?>
-                    <span>
-                        <strong>Total retenciones ISR:</strong>
-                        <?=$this->e($pagoTotales['TotalRetencionesISR'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalRetencionesIEPS']) : ?>
-                    <span>
-                        <strong>Total retenciones IEPS:</strong>
-                        <?=$this->e($pagoTotales['TotalRetencionesIEPS'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVA16']) : ?>
-                    <span>
-                        <strong>Total traslados base IVA 16:</strong>
-                        <?=$this->e($pagoTotales['TotalTrasladosBaseIVA16'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalTrasladosImpuestoIVA16']) : ?>
-                    <span>
-                        <strong>Total traslados impuesto IVA 16:</strong>
-                        <?=$this->e($pagoTotales['TotalTrasladosImpuestoIVA16'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVA8']) : ?>
-                    <span>
-                        <strong>Total traslados base IVA 8:</strong>
-                        <?=$this->e($pagoTotales['TotalTrasladosBaseIVA8'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalTrasladosImpuestoIVA8']) : ?>
-                    <span>
-                        <strong>Total traslados impuesto IVA 8:</strong>
-                        <?=$this->e($pagoTotales['TotalTrasladosImpuestoIVA8'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVA0']) : ?>
-                    <span>
-                        <strong>Total traslados base IVA 0:</strong>
-                        <?=$this->e($pagoTotales['TotalTrasladosBaseIVA0'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalTrasladosImpuestoIVA0']) : ?>
-                    <span>
-                        <strong>Total traslados impuesto IVA 0:</strong>
-                        <?=$this->e($pagoTotales['TotalTrasladosImpuestoIVA0'])?>
-                    </span>
-                <?php endif; ?>
-                <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVAExento']) : ?>
-                    <span>
-                        <strong>Total traslados base IVA exento:</strong>
-                        <?=$this->e($pagoTotales['TotalTrasladosBaseIVAExento'])?>
-                    </span>
-                <?php endif; ?>
-                <span>
-                    <strong>Monto total pagos:</strong>
-                    <?=$this->e($pagoTotales['MontoTotalPagos'])?>
-                </span>
-                </p>
-            </div>
-        </div>
-    <?php endif; ?>
-
     <?php foreach ($pagos20 as $pago20) : ?>
         <?php
         $pagoCounter = $pagoCounter + 1;
@@ -526,8 +449,6 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
                                 <strong>Equivalencia DR: </strong>
                                 <span><?=$this->e($doctoRelacionado['EquivalenciaDR'])?></span>
                             <?php endif; ?>
-                            <strong>Método de pago DR: </strong>
-                                <span><?=$this->e($doctoRelacionado['MetodoDePagoDR'])?></span>
                             <strong>Número parcialidad: </strong>
                                 <span><?=$this->e($doctoRelacionado['NumParcialidad'])?></span>
                             <strong>Importe pagado: </strong><span><?=$this->e($doctoRelacionado['ImpPagado'])?></span>
@@ -628,6 +549,82 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
             </div>
         </div>
     <?php endforeach; ?>
+    <?php
+    $pagoTotales = $comprobante->searchNode('cfdi:Complemento', 'pago20:Pagos', 'pago20:Totales');
+    ?>
+    <?php if (null !== $pagoTotales) : ?>
+        <div class="panel">
+            <div class="title">Totales del complemento de pago</div>
+            <div class="content">
+                <p>
+                    <?php if ('' !== $pagoTotales['TotalRetencionesIVA']) : ?>
+                        <span>
+                            <strong>Total retenciones IVA:</strong>
+                            <?=$this->e($pagoTotales['TotalRetencionesIVA'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalRetencionesISR']) : ?>
+                        <span>
+                            <strong>Total retenciones ISR:</strong>
+                            <?=$this->e($pagoTotales['TotalRetencionesISR'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalRetencionesIEPS']) : ?>
+                        <span>
+                            <strong>Total retenciones IEPS:</strong>
+                            <?=$this->e($pagoTotales['TotalRetencionesIEPS'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVA16']) : ?>
+                        <span>
+                            <strong>Total traslados base IVA 16:</strong>
+                            <?=$this->e($pagoTotales['TotalTrasladosBaseIVA16'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalTrasladosImpuestoIVA16']) : ?>
+                        <span>
+                            <strong>Total traslados impuesto IVA 16:</strong>
+                            <?=$this->e($pagoTotales['TotalTrasladosImpuestoIVA16'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVA8']) : ?>
+                        <span>
+                            <strong>Total traslados base IVA 8:</strong>
+                            <?=$this->e($pagoTotales['TotalTrasladosBaseIVA8'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalTrasladosImpuestoIVA8']) : ?>
+                        <span>
+                            <strong>Total traslados impuesto IVA 8:</strong>
+                            <?=$this->e($pagoTotales['TotalTrasladosImpuestoIVA8'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVA0']) : ?>
+                        <span>
+                            <strong>Total traslados base IVA 0:</strong>
+                            <?=$this->e($pagoTotales['TotalTrasladosBaseIVA0'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalTrasladosImpuestoIVA0']) : ?>
+                        <span>
+                            <strong>Total traslados impuesto IVA 0:</strong>
+                            <?=$this->e($pagoTotales['TotalTrasladosImpuestoIVA0'])?>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ('' !== $pagoTotales['TotalTrasladosBaseIVAExento']) : ?>
+                        <span>
+                            <strong>Total traslados base IVA exento:</strong>
+                            <?=$this->e($pagoTotales['TotalTrasladosBaseIVAExento'])?>
+                        </span>
+                    <?php endif; ?>
+                    <span>
+                        <strong>Monto total pagos:</strong>
+                        <?=$this->e($pagoTotales['MontoTotalPagos'])?>
+                    </span>
+                </p>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <?php
     $impuestos = $comprobante->searchNode('cfdi:Impuestos');
