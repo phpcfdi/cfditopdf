@@ -13,6 +13,7 @@ class ConvertOptionsTest extends TestCase
     public function testConstructor(): void
     {
         $resolverLocation = 'resolver-location';
+        $fontsDirectory = 'fonts-dir';
         $inputFile = 'input-file';
         $outputFile = 'output-file';
         $doCleanInput = true;
@@ -20,6 +21,7 @@ class ConvertOptionsTest extends TestCase
         $askForVersion = false;
         $options = new ConvertOptions(
             $resolverLocation,
+            $fontsDirectory,
             $doCleanInput,
             $inputFile,
             $outputFile,
@@ -38,6 +40,7 @@ class ConvertOptionsTest extends TestCase
     {
         $options = ConvertOptions::createFromArguments([]);
         $this->assertSame('', $options->resolverLocation());
+        $this->assertSame('', $options->fontsDirectory());
         $this->assertSame('', $options->inputFile());
         $this->assertSame('', $options->outputFile());
         $this->assertSame(true, $options->doCleanInput());
@@ -56,6 +59,19 @@ class ConvertOptionsTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('The resource location parameter does not contains an argument');
         ConvertOptions::createFromArguments(['-l']);
+    }
+
+    public function testCreateFromArgumentsFontsDirectory(): void
+    {
+        $options = ConvertOptions::createFromArguments(['-f', 'foo']);
+        $this->assertSame('foo', $options->fontsDirectory());
+    }
+
+    public function testCreateFromArgumentsFontsDirectoryWithoutDirectory(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The fonts directory parameter does not contains an argument');
+        ConvertOptions::createFromArguments(['-f']);
     }
 
     public function testCreateFromArgumentsInputOutput(): void

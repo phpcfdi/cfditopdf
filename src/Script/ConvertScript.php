@@ -6,11 +6,15 @@ namespace PhpCfdi\CfdiToPdf\Script;
 
 use CfdiUtils\Nodes\XmlNodeUtils;
 use CfdiUtils\XmlResolver\XmlResolver;
+use DirectoryIterator;
+use Generator;
+use LogicException;
 use PhpCfdi\CfdiCleaner\Cleaner;
 use PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder;
 use PhpCfdi\CfdiToPdf\CfdiDataBuilder;
 use PhpCfdi\CfdiToPdf\Converter;
 use RuntimeException;
+use SplFileInfo;
 
 class ConvertScript
 {
@@ -28,7 +32,25 @@ class ConvertScript
             ->build($comprobante);
 
         $converter = $this->defaultConverter();
+
+        $fontsDirectory = $options->fontsDirectory();
+        $removeFontsDirectory = false;
+        if ($this->executionIsFromPhar() && '' === $fontsDirectory) {
+            $fontsDirectory = $this->extractFontsToTemporaryFolder();
+            $removeFontsDirectory = true;
+        }
+        if ('' !== $fontsDirectory) {
+            $fontsDirectory = rtrim($fontsDirectory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            if (! define('K_PATH_FONTS', $fontsDirectory)) {
+                throw new LogicException("Unable to define K_PATH_FONTS as $fontsDirectory");
+            }
+        }
+
         $converter->createPdfAs($cfdiData, $options->outputFile());
+
+        if ($removeFontsDirectory) {
+            $this->recursiveRemove($fontsDirectory);
+        }
     }
 
     public function openSource(string $inputfile, bool $doCleanInput): string
@@ -74,5 +96,67 @@ class ConvertScript
     public function defaultConverter(): Converter
     {
         return new Converter(new Html2PdfBuilder());
+    }
+
+    private function executionIsFromPhar(): bool
+    {
+        return 'phar://' === substr(__FILE__, 0, 7);
+    }
+
+    private function extractFontsToTemporaryFolder(): string
+    {
+        $source = __DIR__ . '/../../vendor/tecnickcom/tcpdf/fonts';
+        $temporaryFolder = tempnam('', '');
+        if (false === $temporaryFolder) {
+            throw new RuntimeException('Unable to create a temporary name');
+        }
+        unlink($temporaryFolder);
+        $this->recursiveCopy($source, $temporaryFolder);
+        return $temporaryFolder;
+    }
+
+    private function recursiveCopy(string $sourceDirectory, string $destinationDirectory): void
+    {
+        mkdir($destinationDirectory);
+        /** @var SplFileInfo $origin */
+        foreach ($this->readDirectory($sourceDirectory) as $origin) {
+            $destination = $destinationDirectory . DIRECTORY_SEPARATOR . $origin->getBasename();
+            if ($origin->isFile()) {
+                copy($origin->getPathname(), $destination);
+            }
+            if ($origin->isDir()) {
+                $this->recursiveCopy($origin->getPathname(), $destination);
+            }
+        }
+    }
+
+    private function recursiveRemove(string $directory): void
+    {
+        /** @var SplFileInfo $current */
+        foreach ($this->readDirectory($directory) as $current) {
+            if ($current->isFile()) {
+                unlink($current->getPathname());
+            }
+            if ($current->isDir()) {
+                $this->recursiveRemove($current->getPathname());
+            }
+        }
+        rmdir($directory);
+    }
+
+    /**
+     * @param string $directory
+     * @return Generator
+     */
+    private function readDirectory(string $directory): Generator
+    {
+        $directoryIterator = new DirectoryIterator($directory);
+        foreach ($directoryIterator as $splFileInfo) {
+            if ($splFileInfo->isDot()) {
+                continue;
+            }
+
+            yield $splFileInfo;
+        }
     }
 }

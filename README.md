@@ -24,11 +24,11 @@ composer require phpcfdi/cfditopdf
 ## Basic usage from CLI
 
 ```text
-$ bin/cfditopdf --help
-bin/cfditopdf [options] <cfdi-file> [<pdf-file>]
+$ bin/cfditopdf [options] <cfdi-file> [<pdf-file>]
   -h, --help                Show this help
-  -v, --version             Show command version
+  -V, --version             Show command version
   -d, --dirty               Do not try to clean up the cfdi file
+  -f, --fonts-dir           Path where TCPDF fonts are located
   -l, --resource-location   Use this path to store the xml resources locally,
                             if none then it will always download xlst resources
   cfdi-file                 Path of the XML file (input file)
@@ -45,7 +45,7 @@ $cfdifile = 'datafiles/cfdi.xml';
 $xml = file_get_contents($cfdifile);
 
 // clean cfdi
-$xml = \CfdiUtils\Cleaner\Cleaner::staticClean($xml);
+$xml = \PhpCfdi\CfdiCleaner\Cleaner::staticClean($xml);
 
 // create the main node structure
 $comprobante = \CfdiUtils\Nodes\XmlNodeUtils::nodeFromXmlString($xml);

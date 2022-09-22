@@ -65,6 +65,7 @@ exit(call_user_func(function (array $arguments): int {
                 '  -h, --help                Show this help',
                 '  -V, --version             Show command version',
                 '  -d, --dirty               Do not try to clean up the cfdi file',
+                '  -f, --fonts-dir           Path where TCPDF fonts are located',
                 '  -l, --resource-location   Use this path to store the xml resources locally,',
                 '                            if none then it will always download xlst resources',
                 '  cfdi-file                 Path of the XML file (input file)',
