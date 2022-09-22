@@ -1,0 +1,60 @@
+name: "Create and publish Phar"
+
+on:
+  release:
+    branches: [ "master" ]
+    tags: [ "v*" ]
+
+# Actions
+# shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
+# svenstaro/upload-release-action@v2 https://github.com/marketplace/actions/upload-files-to-a-github-release
+
+jobs:
+
+  publish:
+    name: "Build PHAR file"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+      - name: "Setup PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.3' # use minimal version
+          coverage: none
+          tools: composer:v2
+          extensions: soap
+        env:
+          fail-fast: true
+      - name: "Get composer cache directory"
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: "Cache dependencies"
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: "Install project dependencies"
+        run: composer upgrade --no-interaction --no-progress --prefer-dist --no-dev
+      - name: Install humbug/box
+        run: |
+          mkdir -p build/box
+          composer -d build/box require humbug/box
+      - name: "Set version file"
+        run: git describe --tags | tee bin/version.txt
+      - name: "Validate configuration for humbug/box"
+        run: php build/box/vendor/bin/box validate
+      - name: "Build build/cfditopdf.phar"
+        run: php -d phar.readonly=0 build/box/vendor/bin/box compile
+      - name: "Show build/cfditopdf.phar information"
+        run: php build/box/vendor/bin/box info build/cfditopdf.phar
+      - name: Upload binary to release
+        if: ${{ !env.ACT }} # do not run if using nektos/act
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/cfditopdf.phar
+          asset_name: cfditopdf.phar
+          tag: ${{ github.ref }}
+          overwrite: true

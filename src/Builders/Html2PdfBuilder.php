@@ -25,13 +25,13 @@ class Html2PdfBuilder implements BuilderInterface
         if (null === $htmlTranslator) {
             $htmlTranslator = new HtmlTranslators\PlatesHtmlTranslator(
                 dirname(__DIR__, 2) . '/templates/', // __DIR__ is src/Builders
-                'generic'
+                'generic',
             );
         }
         $this->htmlTranslator = $htmlTranslator;
     }
 
-    public function build(CfdiData $data, string $destination)
+    public function build(CfdiData $data, string $destination): void
     {
         file_put_contents($destination, $this->buildPdf($data));
     }

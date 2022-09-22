@@ -16,5 +16,5 @@ interface BuilderInterface
      * @param string $destination
      * @return void
      */
-    public function build(CfdiData $data, string $destination);
+    public function build(CfdiData $data, string $destination): void;
 }

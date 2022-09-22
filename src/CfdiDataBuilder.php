@@ -57,7 +57,7 @@ class CfdiDataBuilder
         return new CfdiData(
             $comprobante,
             $this->createQrUrl($comprobante),
-            $this->createTfdSourceString($comprobante)
+            $this->createTfdSourceString($comprobante),
         );
     }
 
@@ -72,7 +72,7 @@ class CfdiDataBuilder
             return '';
         }
         $tfdCadenaOrigen = new TfdCadenaDeOrigen($this->xmlResolver(), $this->xsltBuilder());
-        return $tfdCadenaOrigen->build(XmlNodeUtils::nodeToXmlString($tfd), $tfd['Version'] ?: $tfd['version']);
+        return $tfdCadenaOrigen->build(XmlNodeUtils::nodeToXmlString($tfd), strval($tfd['Version'] ?: $tfd['version']));
     }
 
     /**
@@ -82,12 +82,12 @@ class CfdiDataBuilder
     public function createQrUrl(NodeInterface $comprobante): string
     {
         $parameters = new RequestParameters(
-            $comprobante['Version'],
+            strval($comprobante['Version']),
             $comprobante->searchAttribute('cfdi:Emisor', 'Rfc'),
             $comprobante->searchAttribute('cfdi:Receptor', 'Rfc'),
-            $comprobante['Total'],
+            strval($comprobante['Total']),
             $comprobante->searchAttribute('cfdi:Complemento', 'tfd:TimbreFiscalDigital', 'UUID'),
-            $comprobante['Sello']
+            strval($comprobante['Sello']),
         );
         return $parameters->expression();
     }

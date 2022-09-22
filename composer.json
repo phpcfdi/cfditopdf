@@ -1,31 +1,35 @@
 {
     "name": "phpcfdi/cfditopdf",
-    "description": "Create a generic PDF file from a CFDI 3.3 (CLI included)",
-    "keywords": ["cfdi", "mexico", "invoice", "pdf", "factura"],
-    "homepage": "https://github.com/phpcfdi/cfditopdf",
+    "description": "Create a generic PDF file from a CFDI 3.3 & 4.0 (CLI included)",
     "license": "MIT",
+    "keywords": [
+        "cfdi",
+        "mexico",
+        "invoice",
+        "pdf",
+        "factura"
+    ],
     "authors": [
         {
             "name": "Carlos C Soto",
             "email": "eclipxe13@gmail.com",
-            "homepage": "http://eclipxe.com.mx/"
+            "homepage": "https://eclipxe.com.mx/"
         }
     ],
+    "homepage": "https://github.com/phpcfdi/cfditopdf",
     "support": {
-        "source": "https://github.com/phpcfdi/cfditopdf",
-        "issues": "https://github.com/phpcfdi/cfditopdf/issues"
+        "issues": "https://github.com/phpcfdi/cfditopdf/issues",
+        "source": "https://github.com/phpcfdi/cfditopdf"
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.3",
         "eclipxe/cfdiutils": "^2.11.0",
         "league/plates": "^3.3",
+        "phpcfdi/cfdi-cleaner": "^1.2",
         "spipu/html2pdf": "^5.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5|^7.0",
-        "squizlabs/php_codesniffer": "^3.0",
-        "friendsofphp/php-cs-fixer": "^2.4",
-        "phpstan/phpstan": "^0.9|^0.10|^0.11|^0.12"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -37,42 +41,53 @@
             "PhpCfdi\\CfdiToPdf\\Tests\\": "tests/"
         }
     },
-    "bin": ["bin/cfditopdf"],
+    "bin": [
+        "bin/cfditopdf"
+    ],
+    "extra": {
+        "phar-builder": {
+            "compression": "GZip",
+            "entry-point": "bin/cfditopdf",
+            "include": [
+                "bin",
+                "src",
+                "templates"
+            ],
+            "include-dev": false,
+            "name": "cfditopdf.phar",
+            "output-dir": "build/",
+            "skip-shebang": false
+        }
+    },
     "scripts": {
-        "dev:build": ["@dev:fix-style", "@dev:test"],
+        "dev:build": [
+            "@dev:fix-style",
+            "@dev:test"
+        ],
         "dev:check-style": [
-            "vendor/bin/php-cs-fixer fix --dry-run --verbose",
-            "vendor/bin/phpcs --colors -sp src/ tests/ bin/ templates/"
+            "@php tools/composer-normalize normalize --dry-run",
+            "@php tools/php-cs-fixer fix --dry-run --verbose",
+            "@php tools/phpcs --colors -sp"
+        ],
+        "dev:coverage": [
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --testdox --coverage-html build/coverage/html/"
         ],
         "dev:fix-style": [
-            "vendor/bin/php-cs-fixer fix --verbose",
-            "vendor/bin/phpcbf --colors -sp src/ tests/ bin/ templates/"
+            "@php tools/composer-normalize normalize",
+            "@php tools/php-cs-fixer fix --verbose",
+            "@php tools/phpcbf --colors -sp"
         ],
         "dev:test": [
             "@dev:check-style",
-            "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "vendor/bin/phpstan analyse --verbose --no-progress --level max src/ tests/ bin/"
-        ],
-        "dev:coverage": [
-            "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
+            "@php vendor/bin/phpunit --testdox --verbose --stop-on-failure",
+            "@php tools/phpstan analyse --no-progress"
         ]
     },
     "scripts-descriptions": {
         "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
-        "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
-        "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
-        "dev:test": "DEV: run phpunit and phpstan",
-        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
-    },
-    "extra": {
-        "phar-builder": {
-            "compression": "GZip",
-            "name": "cfditopdf.phar",
-            "output-dir": "build/",
-            "entry-point": "bin/cfditopdf",
-            "include": ["bin", "src", "templates"],
-            "include-dev": false,
-            "skip-shebang": false
-        }
+        "dev:check-style": "DEV: search for code style errors using composer-normalize, php-cs-fixer and phpcs",
+        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/",
+        "dev:fix-style": "DEV: fix code style errors using composer-normalize, php-cs-fixer and phpcbf",
+        "dev:test": "DEV: run phpunit and phpstan"
     }
 }

@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ConverterTest extends TestCase
 {
-    public function testCreatePdfToTemporary()
+    public function testCreatePdfToTemporary(): void
     {
         /** @var CfdiData&MockObject $fakeCfdiData */
         $fakeCfdiData = $this->createMock(CfdiData::class);
@@ -29,27 +29,19 @@ class ConverterTest extends TestCase
         unlink($temporaryFile);
 
         $this->assertTrue($spy->hasBeenInvoked());
-        $this->assertSame(
-            [$fakeCfdiData, $temporaryFile],
-            $spy->getInvocations()[0]->getParameters()
-        );
     }
 
-    public function testCreatePdfToFile()
+    public function testCreatePdfToFile(): void
     {
         /** @var CfdiData&MockObject $fakeCfdiData */
         $fakeCfdiData = $this->createMock(CfdiData::class);
         /** @var BuilderInterface&MockObject $fakeBuilder */
         $fakeBuilder = $this->createMock(BuilderInterface::class);
-        $fakeBuilder->expects($spy = $this->once())->method('build');
+        $temporaryFile = 'foo-bar';
+        $fakeBuilder->expects($spy = $this->once())->method('build')->with($fakeCfdiData, $temporaryFile);
 
         $converter = new Converter($fakeBuilder);
-        $temporaryFile = 'foo-bar';
         $converter->createPdfAs($fakeCfdiData, $temporaryFile);
         $this->assertTrue($spy->hasBeenInvoked());
-        $this->assertSame(
-            [$fakeCfdiData, $temporaryFile],
-            $spy->getInvocations()[0]->getParameters()
-        );
     }
 }

@@ -17,14 +17,26 @@ use PhpCfdi\CfdiToPdf\Tests\TestCase;
  */
 class ConverterTest extends TestCase
 {
-    public function testConverter()
+    /** @var PdfToText */
+    private $pdfToText;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->pdfToText = new PdfToText();
+        if (! $this->pdfToText->exists()) {
+            $this->markTestSkipped('pdftotext tool is not installed');
+        }
+    }
+
+    public function testConverter(): void
     {
         $cfdi = Cfdi::newFromString(Cleaner::staticClean($this->fileContents('cfdi33-valid.xml')));
 
         $cfdiData = (new CfdiDataBuilder())
             ->withXmlResolver($this->createXmlResolver())
             ->build($cfdi->getNode());
-        $uuid = $cfdiData->timbreFiscalDigital()['UUID'];
+        $uuid = strval($cfdiData->timbreFiscalDigital()['UUID']);
 
         $builder = new Html2PdfBuilder();
         $converter = new Converter($builder);
@@ -33,14 +45,13 @@ class ConverterTest extends TestCase
         $converter->createPdfAs($cfdiData, $created);
         $this->assertFileExists($created);
 
-        $pdfToString = new PdfToText();
-        $contents = $pdfToString->extract($created);
-        $this->assertContains($uuid, $contents);
+        $contents = $this->pdfToText->extract($created);
+        $this->assertStringContainsString($uuid, $contents);
 
         unlink($created);
     }
 
-    public function testConverterWithPaymentData()
+    public function testConverterWithPaymentData(): void
     {
         $cfdi = Cfdi::newFromString(Cleaner::staticClean($this->fileContents('cfdi33-payment-valid.xml')));
 
@@ -53,7 +64,6 @@ class ConverterTest extends TestCase
         $pago = $pagos->first();
         if (null === $pago) {
             $this->fail('Specimen does not have a Pago element');
-            return;
         }
 
         $doctosRelacionados = $pago->searchNodes('pago10:DoctoRelacionado');
@@ -61,7 +71,6 @@ class ConverterTest extends TestCase
         $doctoRelacionado = $doctosRelacionados->first();
         if (null === $doctoRelacionado) {
             $this->fail('Specimen does not have a DoctoRelacionado element');
-            return;
         }
 
         $builder = new Html2PdfBuilder();
@@ -71,18 +80,17 @@ class ConverterTest extends TestCase
         $converter->createPdfAs($cfdiData, $created);
         $this->assertFileExists($created);
 
-        $pdfToString = new PdfToText();
-        $contents = $pdfToString->extract($created);
-        $this->assertContains($doctoRelacionado['IdDocumento'], $contents);
-        $this->assertContains($doctoRelacionado['Serie'], $contents);
-        $this->assertContains($doctoRelacionado['Folio'], $contents);
-        $this->assertContains($doctoRelacionado['MonedaDR'], $contents);
-        $this->assertContains($doctoRelacionado['TipoCambioDR'], $contents);
-        $this->assertContains($doctoRelacionado['MetodoDePagoDR'], $contents);
-        $this->assertContains($doctoRelacionado['NumParcialidad'], $contents);
-        $this->assertContains($doctoRelacionado['ImpPagado'], $contents);
-        $this->assertContains($doctoRelacionado['ImpSaldoInsoluto'], $contents);
-        $this->assertContains($doctoRelacionado['ImpSaldoAnt'], $contents);
+        $contents = $this->pdfToText->extract($created);
+        $this->assertStringContainsString(strval($doctoRelacionado['IdDocumento']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['Serie']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['Folio']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['MonedaDR']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['TipoCambioDR']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['MetodoDePagoDR']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['NumParcialidad']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['ImpPagado']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['ImpSaldoInsoluto']), $contents);
+        $this->assertStringContainsString(strval($doctoRelacionado['ImpSaldoAnt']), $contents);
         unlink($created);
     }
 }

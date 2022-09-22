@@ -1,0 +1,148 @@
+name: build
+on:
+  pull_request:
+    branches: [ "master" ]
+  push:
+    branches: [ "master" ]
+  schedule:
+    - cron: '0 16 * * 0' # sunday 16:00
+
+# Actions
+# shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
+# sudo-bot/action-scrutinizer@latest https://github.com/marketplace/actions/action-scrutinizer
+
+jobs:
+
+  composer-normalize:
+    name: Composer normalization
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: composer-normalize
+        env:
+          fail-fast: true
+      - name: Composer normalize
+        run: composer-normalize
+
+  phpcs:
+    name: Code style (phpcs)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: cs2pr, phpcs
+        env:
+          fail-fast: true
+      - name: Code style (phpcs)
+        run: phpcs -q --report=checkstyle | cs2pr
+
+  php-cs-fixer:
+    name: Code style (php-cs-fixer)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: cs2pr, php-cs-fixer
+        env:
+          fail-fast: true
+      - name: Code style (php-cs-fixer)
+        run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+
+  phpstan:
+    name: Code analysis (phpstan)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: composer:v2, phpstan
+          extensions: soap
+        env:
+          fail-fast: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: PHPStan
+        run: phpstan analyse --no-progress --verbose
+
+  tests:
+    name: Tests on PHP ${{ matrix.php-versions }}
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        php-versions: ['7.3', '7.4', '8.0', '8.1']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # required for sudo-bot/action-scrutinizer
+      - name: Install poppler-utils
+        run: |
+          sudo apt-get update -y -qq
+          sudo apt-get install -y -qq poppler-utils
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: xdebug
+          tools: composer:v2
+          extensions: soap
+        env:
+          fail-fast: true
+      - name: Install SAT XML resources
+        shell: bash
+        run: |
+          if [ ! -d tests/_files/external-resources ]; then
+            rm -r -f tests/_files/external-resources
+            git clone --depth 1 https://github.com/phpcfdi/resources-sat-xml resources-sat-xml-cloned
+            mv resources-sat-xml-cloned/resources tests/_files/external-resources
+            rm -r -f resources-sat-xml-cloned
+          else
+            echo tests/_files/external-resources already exists          
+          fi
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Tests (phpunit)
+        run: vendor/bin/phpunit --testdox --verbose --coverage-clover=build/coverage-clover.xml
+      - name: Upload code coverage to scrutinizer
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: "--format=php-clover build/coverage-clover.xml"
+        continue-on-error: true

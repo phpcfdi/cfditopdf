@@ -9,7 +9,7 @@ By participating in this project and its community, you are expected to uphold t
 ## Team members
 
 * [Carlos C Soto](https://github.com/eclipxe13) - original author and main maintainer
-* [GitHub constributors](https://github.com/phpcfdi/cfditopdf/graphs/contributors)
+* [GitHub contributors](https://github.com/phpcfdi/cfditopdf/graphs/contributors)
 
 ## Communication Channels
 
@@ -61,15 +61,14 @@ When you do begin working on your feature, here are some guidelines to consider:
 
 ## Prepare environment for development
 
-This package is using composer and phive to get dependences.
-`composer` is used to get library dependences or command line dependences when not available
-`phive` via `composer phive:run` is used to get command line dependences when available
+This package is using [Composer](https://getcomposer.org/) and [Phive](https://github.com/phar-io/phive) to get dependencies.
+`composer` is used to get library (code) dependencies `phive` is used to get PHP tools when available.
 
 ```shell
 git clone phpcfdi/cfditopdf
 cd cfditopdf
 composer install
-composer phive:run install --trust-gpg-keys 31C7E470E2138192,8E730BA25823D8B5,6FD34E2566B7B0B2 
+phive install 
 ```
 
 If you are running an IDE like PhpStorm mark as excluded the folders `build`, `vendor` and `tools`.
@@ -78,7 +77,7 @@ If you are running an IDE like PhpStorm mark as excluded the folders `build`, `v
 
 ## Check the code style
 
-If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
+If you are having issues with coding standards use `php-cs-fixer` and `phpcbf`
 
 ```shell
 # fix current code style
@@ -102,19 +101,31 @@ It will run:
 
 ```shell
 # composer dev:fix-style
-vendor/bin/php-cs-fixer fix --verbose"
-vendor/bin/phpcbf --colors -sp src/ tests/ bin/ templates/
+tools/composer-normalize normalize
+tools/php-cs-fixer fix --verbose
+tools/phpcbf --colors -sp
 
 # composer dev:test
-vendor/bin/php-cs-fixer fix --dry-run --verbose
-vendor/bin/phpcs --colors -sp src/ tests/ bin/ templates/
+tools/composer-normalize normalize --dry-run
+tools/php-cs-fixer fix --dry-run --verbose
+tools/phpcs --colors -sp
 vendor/bin/phpunit --testdox --verbose --stop-on-failure
-vendor/bin/phpstan analyse --verbose --no-progress --level max src/ tests/ bin/
+tools/phpstan analyse --no-progress
 ```
 
 ## External resources
 
-To make tests run fast and due some external resources from SAT are sometimes unavailable
+To make tests run fast and due to some external resources from SAT are sometimes unavailable
 I had decide to put those resources on `test/_files/external-resources`. If you want it,
 remove that folder and perform the tests. If external resources are available then the
 path will be created and your tests will take a little more to run the first time.
+
+## Running GitHub Actions locally
+
+You can use [`act`](https://github.com/nektos/act) to run your GitHub Actions locally.
+As documented in [`actions/setup-php-action`](https://github.com/marketplace/actions/setup-php-action#local-testing-setup)
+you will need to execute the command as:
+
+```shell
+act -P ubuntu-latest=shivammathur/node:latest -W .github/workflows/build.yml
+```

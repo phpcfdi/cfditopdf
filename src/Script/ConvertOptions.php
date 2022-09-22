@@ -11,6 +11,9 @@ class ConvertOptions
     /** @var string */
     private $resolverLocation;
 
+    /** @var string */
+    private $fontsDirectory;
+
     /** @var bool */
     private $doCleanInput;
 
@@ -28,6 +31,7 @@ class ConvertOptions
 
     public function __construct(
         string $resolverLocation,
+        string $fontsDirectory,
         bool $doCleanInput,
         string $inputFile,
         string $outputFile,
@@ -39,6 +43,7 @@ class ConvertOptions
         }
 
         $this->resolverLocation = $resolverLocation;
+        $this->fontsDirectory = $fontsDirectory;
         $this->doCleanInput = $doCleanInput;
         $this->inputFile = $inputFile;
         $this->outputFile = $outputFile;
@@ -76,6 +81,11 @@ class ConvertOptions
         return $this->resolverLocation;
     }
 
+    public function fontsDirectory(): string
+    {
+        return $this->fontsDirectory;
+    }
+
     /**
      * @param string[] $arguments
      *
@@ -86,6 +96,7 @@ class ConvertOptions
         $askForHelp = false;
         $askForVersion = false;
         $resolverLocation = '';
+        $fontsDirectory = '';
         $cleanInput = true;
         $inputFile = '';
         $outputFile = '';
@@ -97,7 +108,7 @@ class ConvertOptions
                 $askForHelp = true;
                 break;
             }
-            if (in_array($argument, ['-v', '--version'], true)) {
+            if (in_array($argument, ['-V', '--version'], true)) {
                 $askForVersion = true;
                 break;
             }
@@ -113,6 +124,14 @@ class ConvertOptions
                 $resolverLocation = $arguments[$i];
                 continue;
             }
+            if (in_array($argument, ['-f', '--fonts-dir'], true)) {
+                $i = $i + 1;
+                if (! ($i < $count)) {
+                    throw new RuntimeException('The fonts directory parameter does not contains an argument');
+                }
+                $fontsDirectory = $arguments[$i];
+                continue;
+            }
             if ('' === $inputFile) {
                 $inputFile = $argument;
                 continue;
@@ -124,6 +143,14 @@ class ConvertOptions
             throw new RuntimeException("Unexpected parameter '$argument'");
         }
 
-        return new self($resolverLocation, $cleanInput, $inputFile, $outputFile, $askForHelp, $askForVersion);
+        return new self(
+            $resolverLocation,
+            $fontsDirectory,
+            $cleanInput,
+            $inputFile,
+            $outputFile,
+            $askForHelp,
+            $askForVersion,
+        );
     }
 }

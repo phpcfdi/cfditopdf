@@ -13,13 +13,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 /** @covers \PhpCfdi\CfdiToPdf\Builders\Html2PdfBuilder */
 class Html2PdfBuilderTest extends TestCase
 {
-    public function testImplementsBuilderInterface()
+    public function testImplementsBuilderInterface(): void
     {
         $builder = new Html2PdfBuilder();
         $this->assertInstanceOf(BuilderInterface::class, $builder);
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         // it will only test that it store contents received from buildPdf
 
@@ -38,7 +38,7 @@ class Html2PdfBuilderTest extends TestCase
         unlink($temporaryFile);
     }
 
-    public function testBuildPdf()
+    public function testBuildPdf(): void
     {
         // it will only test that it will convert html to pdf calling convertNodeToHtml
         /** @var CfdiData&MockObject $fakeCfdiData */
