@@ -82,8 +82,14 @@ $converter = new \PhpCfdi\CfdiToPdf\Converter(
 
 ## PHP Support
 
-This library is compatible with PHP versions 7.0 and above.
-Please, try to use the full potential of the language.
+This library is compatible with at least the oldest [PHP Supported Version](https://php.net/supported-versions.php)
+with **active** support. Please, try to use PHP full potential.
+
+We adhere to [Semantic Versioning](https://semver.org/).
+We will not introduce any compatibility backwards change on major versions.
+
+Internal classes (using `@internal` annotation) are not part of this agreement
+as they must only exist inside this project. Do not use them in your project.
 
 ## Contributing
 
