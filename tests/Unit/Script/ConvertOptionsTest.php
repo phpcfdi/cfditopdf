@@ -89,7 +89,7 @@ class ConvertOptionsTest extends TestCase
     public function testCreateFromArgumentsAskForVersion(): void
     {
         $this->assertFalse(ConvertOptions::createFromArguments([])->askForVersion());
-        $this->assertTrue(ConvertOptions::createFromArguments(['-v'])->askForVersion());
+        $this->assertTrue(ConvertOptions::createFromArguments(['-V'])->askForVersion());
         $this->assertTrue(ConvertOptions::createFromArguments(['--version'])->askForVersion());
     }
 

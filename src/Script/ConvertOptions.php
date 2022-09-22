@@ -97,7 +97,7 @@ class ConvertOptions
                 $askForHelp = true;
                 break;
             }
-            if (in_array($argument, ['-v', '--version'], true)) {
+            if (in_array($argument, ['-V', '--version'], true)) {
                 $askForVersion = true;
                 break;
             }
