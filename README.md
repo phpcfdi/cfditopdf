@@ -1,6 +1,7 @@
 # phpcfdi/cfditopdf
 
 [![Source Code][badge-source]][source]
+[![Packagist PHP Version Support][badge-php-version]][php-version]
 [![Latest Version][badge-release]][release]
 [![Software License][badge-license]][license]
 [![Build Status][badge-build]][build]
@@ -106,6 +107,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [todo]: https://github.com/phpcfdi/cfditopdf/blob/master/docs/TODO.md
 
 [source]: https://github.com/phpcfdi/cfditopdf
+[php-version]: https://packagist.org/packages/phpcfdi/cfditopdf
 [release]: https://github.com/phpcfdi/cfditopdf/releases
 [license]: https://github.com/phpcfdi/cfditopdf/blob/master/LICENSE
 [build]: https://github.com/phpcfdi/cfditopdf/actions/workflows/build.yml?query=branch:master
@@ -114,6 +116,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [downloads]: https://packagist.org/packages/phpcfdi/cfditopdf
 
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/cfditopdf-blue?style=flat-square
+[badge-php-version]: https://img.shields.io/packagist/php-v/phpcfdi/cfditopdf?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/cfditopdf?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/cfditopdf?style=flat-square
 [badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/cfditopdf/build/master?style=flat-square
