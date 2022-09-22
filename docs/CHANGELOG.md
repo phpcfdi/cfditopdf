@@ -1,5 +1,20 @@
 # `phpcfdi/cfditopdf` Changelog
 
+## Version 0.4.0 2022-09-22 - Viva México
+
+- Bump PHP Version to 7.3.
+- Add support for CFDI 4.0 and Pagos 2.0.
+- Depends on `phpcfdi/cfdi-cleaner`.
+- Allow to export TCPDF Font files to a temporary directory when running as Phar.
+- Introduce CFDI catalogs.
+
+Some development changes:
+
+- Move development tools to Phive.
+- Use `build/box` to build Phar file.
+- Migrate from Travis CI to GitHub Workflows. Thanks, Travis CI.
+- Remove `PhpCfdi\CfdiToPdf\Tests\PdfToText\ShellExec`.
+
 ## Version 0.3.4 2021-01-20
 
 - Add missing `Tipo de cambio DR` field to documentos relacionados
