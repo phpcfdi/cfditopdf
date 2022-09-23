@@ -3,6 +3,7 @@ name: "Create and publish Phar"
 on:
   release:
     branches: [ "master" ]
+    types: [ "published" ]
     tags: [ "v*" ]
 
 # Actions
