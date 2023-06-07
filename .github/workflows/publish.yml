@@ -24,7 +24,7 @@ jobs:
           php-version: '7.3' # use minimal version
           coverage: none
           tools: composer:v2
-          extensions: soap
+          extensions: soap, gd
         env:
           fail-fast: true
       - name: "Get composer cache directory"

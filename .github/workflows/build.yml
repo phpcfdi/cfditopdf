@@ -76,7 +76,7 @@ jobs:
           php-version: '8.1'
           coverage: none
           tools: composer:v2, phpstan
-          extensions: soap
+          extensions: soap, gd
         env:
           fail-fast: true
       - name: Get composer cache directory
@@ -114,7 +114,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           coverage: xdebug
           tools: composer:v2
-          extensions: soap
+          extensions: soap, gd
         env:
           fail-fast: true
       - name: Install SAT XML resources
