@@ -1,5 +1,22 @@
 # `phpcfdi/cfditopdf` Changelog
 
+## Version 0.4.1 2023-06-07
+
+This update fixes the continuous integration process and ensures compatibility with PHP 8.2.
+
+- Introduce `CastToStringTrait#strval()` to avoid PHPStan issues.
+- Update `php-cs-fixer` configuration file.
+- Update license year.
+- Fix build badge.
+- On GitHub workflows:
+  - Replace GitHub directive `::set-output` to `$GITHUB_OUTPUT`.
+  - Require extension `gd`.
+  - Add PHP 8.2 to test matrix.
+  - Run jobs using PHP 8.2.
+  - Allow run `build.yml` on demand.
+  - Remove obsolete commands on Scrutinizer-CI.
+- Update development tools.
+
 ## Version 0.4.0 2022-09-22 - Viva México
 
 - Bump PHP Version to 7.3.

@@ -11,9 +11,12 @@ use CfdiUtils\Nodes\NodeInterface;
 use CfdiUtils\Nodes\XmlNodeUtils;
 use CfdiUtils\TimbreFiscalDigital\TfdCadenaDeOrigen;
 use CfdiUtils\XmlResolver\XmlResolver;
+use PhpCfdi\CfdiToPdf\Internal\CastToStringTrait;
 
 class CfdiDataBuilder
 {
+    use CastToStringTrait;
+
     /** @var XmlResolver */
     private $xmlResolver;
 
@@ -72,7 +75,10 @@ class CfdiDataBuilder
             return '';
         }
         $tfdCadenaOrigen = new TfdCadenaDeOrigen($this->xmlResolver(), $this->xsltBuilder());
-        return $tfdCadenaOrigen->build(XmlNodeUtils::nodeToXmlString($tfd), strval($tfd['Version'] ?: $tfd['version']));
+        return $tfdCadenaOrigen->build(
+            XmlNodeUtils::nodeToXmlString($tfd),
+            $this->strval($tfd['Version'] ?: $tfd['version']),
+        );
     }
 
     /**
@@ -82,12 +88,12 @@ class CfdiDataBuilder
     public function createQrUrl(NodeInterface $comprobante): string
     {
         $parameters = new RequestParameters(
-            strval($comprobante['Version']),
+            $this->strval($comprobante['Version']),
             $comprobante->searchAttribute('cfdi:Emisor', 'Rfc'),
             $comprobante->searchAttribute('cfdi:Receptor', 'Rfc'),
-            strval($comprobante['Total']),
+            $this->strval($comprobante['Total']),
             $comprobante->searchAttribute('cfdi:Complemento', 'tfd:TimbreFiscalDigital', 'UUID'),
-            strval($comprobante['Sello']),
+            $this->strval($comprobante['Sello']),
         );
         return $parameters->expression();
     }

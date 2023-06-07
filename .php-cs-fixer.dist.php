@@ -18,7 +18,7 @@ return (new PhpCsFixer\Config())
         '@PHP71Migration:risky' => true,
         '@PHP73Migration' => true,
         // basic
-        'braces' => false, // do not let php-cs-fixer fix this, causes problem with php close tag
+        'statement_indentation' => false, // invalid indentation
         // symfony
         'class_attributes_separation' => true,
         'whitespace_after_comma_in_array' => true,
@@ -26,12 +26,15 @@ return (new PhpCsFixer\Config())
         'no_extra_blank_lines' => true,
         'function_typehint_space' => true,
         'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => ['arrays', 'arguments']],
+        'new_with_braces' => true,
+        'no_blank_lines_after_class_opening' => true,
         'no_blank_lines_after_phpdoc' => true,
         'object_operator_without_whitespace' => true,
         'binary_operator_spaces' => true,
         'phpdoc_scalar' => true,
         'no_trailing_comma_in_singleline' => true,
         'single_quote' => true,
+        'single_blank_line_before_namespace' => true,
         'no_singleline_whitespace_before_semicolons' => true,
         'no_unused_imports' => true,
         'yoda_style' => ['equal' => true, 'identical' => true, 'less_and_greater' => null],
