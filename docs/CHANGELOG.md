@@ -11,6 +11,7 @@ This update fixes the continuous integration process and ensures compatibility w
 - On GitHub workflows:
   - Replace GitHub directive `::set-output` to `$GITHUB_OUTPUT`.
   - Require extension `gd`.
+  - Add PHP 8.2 to test matrix.
 - Update development tools.
 
 ## Version 0.4.0 2022-09-22 - Viva México
