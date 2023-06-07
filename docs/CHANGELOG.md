@@ -8,6 +8,8 @@ This update fixes the continuous integration process and ensures compatibility w
 - Update `php-cs-fixer` configuration file.
 - Update license year.
 - Fix build badge.
+- On GitHub workflows:
+  - Replace GitHub directive `::set-output` to `$GITHUB_OUTPUT`.
 - Update development tools.
 
 ## Version 0.4.0 2022-09-22 - Viva México
