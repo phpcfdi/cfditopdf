@@ -7,9 +7,7 @@ filter:
 build:
   dependencies:
     override:
-      - composer self-update --no-interaction --no-progress
-      - composer remove squizlabs/php_codesniffer friendsofphp/php-cs-fixer phpstan/phpstan phpunit/phpunit --dev --no-interaction --no-progress --no-update
-      - composer install --no-interaction
+      - composer update --no-interaction
   nodes:
     php:
       tests:

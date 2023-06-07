@@ -13,6 +13,7 @@ This update fixes the continuous integration process and ensures compatibility w
   - Require extension `gd`.
   - Add PHP 8.2 to test matrix.
   - Run jobs using PHP 8.2.
+  - Remove obsolete commands on Scrutinizer-CI.
 - Update development tools.
 
 ## Version 0.4.0 2022-09-22 - Viva México
