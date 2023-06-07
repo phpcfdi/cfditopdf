@@ -13,6 +13,7 @@ This update fixes the continuous integration process and ensures compatibility w
   - Require extension `gd`.
   - Add PHP 8.2 to test matrix.
   - Run jobs using PHP 8.2.
+  - Allow run `build.yml` on demand.
   - Remove obsolete commands on Scrutinizer-CI.
 - Update development tools.
 
