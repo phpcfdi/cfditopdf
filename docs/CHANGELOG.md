@@ -1,5 +1,11 @@
 # `phpcfdi/cfditopdf` Changelog
 
+## Version 0.4.1 2023-06-07
+
+This update fixes the continuous integration process and ensures compatibility with PHP 8.2.
+
+- Introduce `CastToStringTrait#strval()` to avoid PHPStan issues.
+
 ## Version 0.4.0 2022-09-22 - Viva México
 
 - Bump PHP Version to 7.3.
