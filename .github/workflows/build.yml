@@ -22,7 +22,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           coverage: none
           tools: composer-normalize
         env:
@@ -39,7 +39,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           coverage: none
           tools: cs2pr, phpcs
         env:
@@ -56,7 +56,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           coverage: none
           tools: cs2pr, php-cs-fixer
         env:
@@ -73,7 +73,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           coverage: none
           tools: composer:v2, phpstan
           extensions: soap, gd
@@ -142,6 +142,7 @@ jobs:
       - name: Tests (phpunit)
         run: vendor/bin/phpunit --testdox --verbose --coverage-clover=build/coverage-clover.xml
       - name: Upload code coverage to scrutinizer
+        if: ${{ !env.ACT }} # do not run if using nektos/act
         uses: sudo-bot/action-scrutinizer@latest
         with:
           cli-args: "--format=php-clover build/coverage-clover.xml"
