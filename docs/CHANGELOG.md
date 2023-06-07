@@ -5,6 +5,7 @@
 This update fixes the continuous integration process and ensures compatibility with PHP 8.2.
 
 - Introduce `CastToStringTrait#strval()` to avoid PHPStan issues.
+- Update `php-cs-fixer` configuration file.
 
 ## Version 0.4.0 2022-09-22 - Viva México
 
