@@ -6,6 +6,7 @@ This update fixes the continuous integration process and ensures compatibility w
 
 - Introduce `CastToStringTrait#strval()` to avoid PHPStan issues.
 - Update `php-cs-fixer` configuration file.
+- Update license year.
 
 ## Version 0.4.0 2022-09-22 - Viva México
 
