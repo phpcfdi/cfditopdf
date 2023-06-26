@@ -3,6 +3,7 @@
 ## Maintenance 2023-06-26
 
 - Fix configuration file `.php-cs-fixer.dist.php`.
+- Update development tools.
 
 ## Version 0.4.1 2023-06-07
 
