@@ -34,7 +34,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_scalar' => true,
         'no_trailing_comma_in_singleline' => true,
         'single_quote' => true,
-        'single_blank_line_before_namespace' => true,
+        'blank_lines_before_namespace' => true,
         'no_singleline_whitespace_before_semicolons' => true,
         'no_unused_imports' => true,
         'yoda_style' => ['equal' => true, 'identical' => true, 'less_and_greater' => null],
