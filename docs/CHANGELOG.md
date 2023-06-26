@@ -1,5 +1,9 @@
 # `phpcfdi/cfditopdf` Changelog
 
+## Maintenance 2023-06-26
+
+- Fix configuration file `.php-cs-fixer.dist.php`.
+
 ## Version 0.4.1 2023-06-07
 
 This update fixes the continuous integration process and ensures compatibility with PHP 8.2.
