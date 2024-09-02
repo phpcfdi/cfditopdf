@@ -15,7 +15,7 @@ $comprobante = $cfdiData->comprobante();
 $emisor = $cfdiData->emisor();
 $receptor = $cfdiData->receptor();
 $tfd = $cfdiData->timbreFiscalDigital();
-$relacionados = $comprobante->searchNode('cfdi:CfdiRelacionados');
+$relacionados = $comprobante->searchNodes('cfdi:CfdiRelacionados');
 $totalImpuestosTrasladados = $comprobante->searchAttribute('cfdi:Impuestos', 'TotalImpuestosTrasladados');
 $totalImpuestosRetenidos = $comprobante->searchAttribute('cfdi:Impuestos', 'TotalImpuestosRetenidos');
 $conceptos = $comprobante->searchNodes('cfdi:Conceptos', 'cfdi:Concepto');
@@ -184,16 +184,16 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
             </p>
         </div>
     </div>
-    <?php if (null !== $relacionados) : ?>
+    <?php foreach ($relacionados as $relacionado) : ?>
         <div class="panel">
-            <div class="title">CFDI Relacionados (Tipo de relación: <?=$this->e($relacionados['TipoRelacion'])?>)</div>
+            <div class="title">CFDI Relacionados (Tipo de relación: <?=$this->e($relacionado['TipoRelacion'])?>)</div>
             <div class="content">
-                <?php foreach ($relacionados->searchNodes('cfdi:CfdiRelacionado') as $relacionado) : ?>
-                    <span>UUID: <?=$relacionado['UUID']?></span>
+                <?php foreach ($relacionado->searchNodes('cfdi:CfdiRelacionado') as $cfdiRelacionado) : ?>
+                    <span>UUID: <?=$cfdiRelacionado['UUID']?></span>
                 <?php endforeach; ?>
             </div>
         </div>
-    <?php endif; ?>
+    <?php endforeach; ?>
     <?php foreach ($conceptos as $concepto) : ?>
         <?php
         $conceptoCounter = $conceptoCounter + 1;
