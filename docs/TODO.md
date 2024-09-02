@@ -1,8 +1,8 @@
 # phpcfdi/cfditopdf To Do List
 
-Intro: Al completar una tarea pasarla de *Planeada* a *Finalizada*. Escribir fecha o versión del cambio.   
+Intro: Al completar una tarea pasarla de *Planeada* a *Finalizada*. Escribir fecha o versión del cambio.
 
-# Planeadas
+## Planeadas
 
 - Revisar que <https://github.com/spipu/html2pdf/issues/530> esté solucionado para desactivar "permitir fallos"
   en PHP 7.4 porque `spipu/html2pdf` tiene un bug.
@@ -15,8 +15,8 @@ Intro: Al completar una tarea pasarla de *Planeada* a *Finalizada*. Escribir fec
 
 ## Finalizadas
 
-### En versión 0.3.2 o anteriores:
- 
+### En versión 0.3.2 o anteriores
+
 - Otros nodos de los conceptos.
 - Cadena de origen del TFD.
 - Liga del código QR.

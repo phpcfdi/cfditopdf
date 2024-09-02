@@ -1,5 +1,19 @@
 # `phpcfdi/cfditopdf` Changelog
 
+## Version 0.4.2 2024-09-02
+
+- Fix issue on CFDI 4.0 generate only the first block of information for `cfdi:CfdiRelacionados`.
+  Now it creates a block for every occurence.
+- Update license year to 2024.
+- Maintenance changes:
+  - Use GitHub Actions version 4.
+  - Add PHP 8.3 to test matrix.
+  - Run jobs using PHP 8.3.
+  - Use `matrix.php-version` in singular instead of plural.
+  - Update `php-cs-fixer` configuration files deprecated rules.
+  - Update direct dependencies.
+  - Update development tools.
+
 ## Maintenance 2023-06-26
 
 - Fix configuration file `.php-cs-fixer.dist.php`.
