@@ -1,7 +1,6 @@
-name: "Create and publish Phar"
+name: publish
 
 on:
-  workflow_dispatch:
   release:
     branches: [ "master" ]
     types: [ "published" ]
