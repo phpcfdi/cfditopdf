@@ -6,6 +6,11 @@ filter:
 # see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/
 build:
   dependencies:
+    before:
+      - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      - php composer-setup.php --install-dir=$HOME/bin --filename=composer
+      - php -r "unlink('composer-setup.php');"
+      - $HOME/bin/composer --version
     override:
       - composer update --no-interaction
   nodes:

@@ -22,9 +22,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.3' # use minimal version
+          extensions: soap, gd
           coverage: none
           tools: composer:v2
-          extensions: soap, gd
         env:
           fail-fast: true
       - name: "Get composer cache directory"

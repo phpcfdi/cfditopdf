@@ -23,13 +23,13 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           coverage: none
           tools: composer-normalize
         env:
           fail-fast: true
       - name: Composer normalize
-        run: composer-normalize
+        run: composer-normalize --dry-run
 
   phpcs:
     name: Code style (phpcs)
@@ -40,7 +40,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           coverage: none
           tools: cs2pr, phpcs
         env:
@@ -57,7 +57,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           coverage: none
           tools: cs2pr, php-cs-fixer
         env:
@@ -74,10 +74,10 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
+          extensions: soap, gd
           coverage: none
           tools: composer:v2, phpstan
-          extensions: soap, gd
         env:
           fail-fast: true
       - name: Get composer cache directory
@@ -99,7 +99,7 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        php-version: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
+        php-version: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -113,9 +113,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+          extensions: soap, gd
           coverage: xdebug
           tools: composer:v2
-          extensions: soap, gd
         env:
           fail-fast: true
       - name: Install SAT XML resources

@@ -15,8 +15,8 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR12' => true,
         '@PSR12:risky' => true,
-        '@PHP71Migration:risky' => true,
-        '@PHP73Migration' => true,
+        '@PHP7x1Migration:risky' => true,
+        '@PHP7x3Migration' => true,
         // basic
         'statement_indentation' => false, // invalid indentation
         // symfony
