@@ -20,7 +20,7 @@ class Html2PdfBuilder implements BuilderInterface
      *
      * @param HtmlTranslatorInterface|null $htmlTranslator If NULL will use a generic translator
      */
-    public function __construct(HtmlTranslatorInterface $htmlTranslator = null)
+    public function __construct(?HtmlTranslatorInterface $htmlTranslator = null)
     {
         if (null === $htmlTranslator) {
             $htmlTranslator = new HtmlTranslators\PlatesHtmlTranslator(
