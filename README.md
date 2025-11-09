@@ -37,6 +37,14 @@ $ bin/cfditopdf [options] <cfdi-file> [<pdf-file>]
                             ".xml" extension and suffix ".pdf" extension
 ```
 
+## Basic usage from docker
+
+```shell
+docker run -it --rm --user="$(id -u):$(id -g)" cfditopdf --help
+```
+
+See more information on the [Docker README](Docker.README.md) file.
+
 ## Basic usage as a PHP library
 
 ```php
