@@ -1,5 +1,19 @@
 # `phpcfdi/cfditopdf` Changelog
 
+## Version 0.4.3 2024-11-08
+
+- Fix compatibility with PHP 8.4.
+- Allow dependence of `eclipxe/cfdiutils` to match versions `^2.31` and `^3.0`.
+- Update license year to 2025.
+
+These changes apply to the development environment:
+
+- Update code standards for `phpcs` and `php-cs-fixer`.
+- Add PHP 8.4 to test matrix.
+- Run workflows jobs using PHP 8.4.
+- Fix workflow job `composer-normalize`. It didn't fail on `composer.json` errors.
+- Update development tools.
+
 ## Version 0.4.2 2024-09-02
 
 - Fix issue on CFDI 4.0 generate only the first block of information for `cfdi:CfdiRelacionados`.
