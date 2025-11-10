@@ -1,5 +1,20 @@
 # `phpcfdi/cfditopdf` Changelog
 
+## Version 0.5.0 2025-11-10
+
+This version remove the compatibility with PHP 7.3, PHP 7.4 and PHP 8.0.
+PHP minimal version is 8.1.
+PHPUnit now runs using version 10.5.
+
+In the generic template, the variables `$pagos` & `$pago` has been renamed to `$pagos10` & `$pago10`.
+
+Other changes:
+
+- Code cleaning: Thanks to *PHPStan*, *rector/rector* and *PHPStorm*.
+- Removed Scrutinizer-CI integration. Thanks for everything.
+- Add SonarQube Cloud integration.
+- Use common PhpCfdi badges and code standards.
+
 ## Version 0.4.4 2025-11-08
 
 - Add Docker Hub public image. Thanks to `@dreglad` for the inspiration.
