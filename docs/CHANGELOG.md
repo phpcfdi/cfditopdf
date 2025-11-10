@@ -1,10 +1,10 @@
 # `phpcfdi/cfditopdf` Changelog
 
-## Version 0.4.4 2024-11-08
+## Version 0.4.4 2025-11-08
 
 - Add Docker Hub public image. Thanks to `@dreglad` for the inspiration.
 
-## Version 0.4.3 2024-11-08
+## Version 0.4.3 2025-11-08
 
 - Fix compatibility with PHP 8.4.
 - Allow dependence of `eclipxe/cfdiutils` to match versions `^2.31` and `^3.0`.
