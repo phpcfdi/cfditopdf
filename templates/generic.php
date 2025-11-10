@@ -235,7 +235,7 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
                 <?php endif; ?>
                 <?php if (null !== $informacionAduaneras) : ?>
                     <p>
-                        <strong>Informacion aduanera</strong>
+                        <strong>Información aduanera</strong>
                         <?php foreach ($concepto->searchNodes('cfdi:InformacionAduanera') as $informacionAduanera) : ?>
                             Pedimento: <?=$this->e($informacionAduanera['NumeroPedimento'])?>
                         <?php endforeach; ?>
