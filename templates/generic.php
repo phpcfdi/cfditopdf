@@ -313,7 +313,10 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
                       <span><strong>RFC Emisor Cta Ord:</strong> <?=$this->e($pago10['RfcEmisorCtaOrd'])?></span>
                     <?php endif; ?>
                     <?php if ('' !== $pago10['NomBancoOrdExt']) : ?>
-                      <span><strong>Nombre Banco Ord Extranjero:</strong> <?=$this->e($pago10['NomBancoOrdExt'])?></span>
+                      <span>
+                          <strong>Nombre Banco Ord Extranjero:</strong>
+                          <?=$this->e($pago10['NomBancoOrdExt'])?>
+                      </span>
                     <?php endif; ?>
                     <?php if ('' !== $pago10['CtaOrdenante']) : ?>
                       <span><strong>Cuenta Ord:</strong> <?=$this->e($pago10['CtaOrdenante'])?></span>
