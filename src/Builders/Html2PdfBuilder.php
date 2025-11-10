@@ -38,15 +38,11 @@ class Html2PdfBuilder implements BuilderInterface
 
     /**
      * Transforms CfdiData to Pdf string
-     *
-     * @param CfdiData $data
-     * @return string
      */
     public function buildPdf(CfdiData $data): string
     {
         $html = $this->convertNodeToHtml($data);
-        $output = $this->convertHtmlToPdf($html);
-        return $output;
+        return $this->convertHtmlToPdf($html);
     }
 
     public function convertHtmlToPdf(string $html): string
@@ -55,8 +51,7 @@ class Html2PdfBuilder implements BuilderInterface
         try {
             $html2Pdf = new Html2Pdf('P', 'Letter', 'es', true, 'UTF-8', [10, 10, 10, 10]);
             $html2Pdf->writeHTML($html);
-            $output = $html2Pdf->output('', 'S');
-            return $output;
+            return $html2Pdf->output('', 'S');
         } catch (Html2PdfException $exception) {
             /** @codeCoverageIgnore don't know how to invoke this exception on Html2Pdf */
             throw new RuntimeException('Unable to convert CFDI', 0, $exception);

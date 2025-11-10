@@ -31,8 +31,6 @@ class CfdiData
      * CfdiData constructor.
      *
      * @param NodeInterface<NodeInterface> $comprobante
-     * @param string $qrUrl
-     * @param string $tfdSourceString
      */
     public function __construct(NodeInterface $comprobante, string $qrUrl, string $tfdSourceString)
     {

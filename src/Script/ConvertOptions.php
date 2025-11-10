@@ -39,7 +39,7 @@ class ConvertOptions
         bool $askForVersion
     ) {
         if ('' === $outputFile && '' !== $inputFile) {
-            $outputFile = (string) preg_replace('/\.xml$/', '', $inputFile) . '.pdf';
+            $outputFile = preg_replace('/\.xml$/', '', $inputFile) . '.pdf';
         }
 
         $this->resolverLocation = $resolverLocation;
@@ -88,8 +88,6 @@ class ConvertOptions
 
     /**
      * @param string[] $arguments
-     *
-     * @return self
      */
     public static function createFromArguments(array $arguments): self
     {
@@ -118,7 +116,7 @@ class ConvertOptions
             }
             if (in_array($argument, ['-l', '--resource-location'], true)) {
                 $i = $i + 1;
-                if (! ($i < $count)) {
+                if ($i >= $count) {
                     throw new RuntimeException('The resource location parameter does not contains an argument');
                 }
                 $resolverLocation = $arguments[$i];
@@ -126,7 +124,7 @@ class ConvertOptions
             }
             if (in_array($argument, ['-f', '--fonts-dir'], true)) {
                 $i = $i + 1;
-                if (! ($i < $count)) {
+                if ($i >= $count) {
                     throw new RuntimeException('The fonts directory parameter does not contains an argument');
                 }
                 $fontsDirectory = $arguments[$i];

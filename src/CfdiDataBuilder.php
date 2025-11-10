@@ -53,7 +53,6 @@ class CfdiDataBuilder
 
     /**
      * @param NodeInterface<NodeInterface> $comprobante
-     * @return CfdiData
      */
     public function build(NodeInterface $comprobante): CfdiData
     {
@@ -66,7 +65,6 @@ class CfdiDataBuilder
 
     /**
      * @param NodeInterface<NodeInterface> $comprobante
-     * @return string
      */
     public function createTfdSourceString(NodeInterface $comprobante): string
     {
@@ -83,7 +81,6 @@ class CfdiDataBuilder
 
     /**
      * @param NodeInterface<NodeInterface> $comprobante
-     * @return string
      */
     public function createQrUrl(NodeInterface $comprobante): string
     {

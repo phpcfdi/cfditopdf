@@ -19,11 +19,6 @@ class Converter
         $this->builder = $builder;
     }
 
-    /**
-     * @param CfdiData $cfdiData
-     * @param string $destination
-     * @return void
-     */
     public function createPdfAs(CfdiData $cfdiData, string $destination): void
     {
         $this->builder->build($cfdiData, $destination);

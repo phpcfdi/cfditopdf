@@ -27,11 +27,10 @@ class PdfToText
             return false;
         }
 
-        return ('pdftotext ' === substr(trim($process->getErrorOutput()), 0, 10));
+        return 'pdftotext ' === substr(trim($process->getErrorOutput()), 0, 10);
     }
 
     /**
-     * @param string $filename
      * @return string file contents
      */
     public function extract(string $filename): string

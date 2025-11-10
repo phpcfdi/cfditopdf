@@ -17,9 +17,6 @@ class PlatesHtmlTranslator implements HtmlTranslatorInterface
 
     /**
      * PlatesHtmlTranslator constructor.
-     *
-     * @param string $directory
-     * @param string $template
      */
     public function __construct(string $directory, string $template)
     {

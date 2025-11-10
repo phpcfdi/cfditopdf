@@ -18,10 +18,6 @@ use SplFileInfo;
 
 class ConvertScript
 {
-    /**
-     * @param ConvertOptions $options
-     * @return void
-     */
     public function run(ConvertOptions $options): void
     {
         $source = $this->openSource($options->inputFile(), $options->doCleanInput());
@@ -144,10 +140,6 @@ class ConvertScript
         rmdir($directory);
     }
 
-    /**
-     * @param string $directory
-     * @return Generator
-     */
     private function readDirectory(string $directory): Generator
     {
         $directoryIterator = new DirectoryIterator($directory);
