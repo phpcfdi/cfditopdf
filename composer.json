@@ -29,7 +29,7 @@
         "spipu/html2pdf": "^5.2.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^10.5"
     },
     "autoload": {
         "psr-4": {
@@ -79,7 +79,7 @@
         ],
         "dev:test": [
             "@dev:check-style",
-            "@php vendor/bin/phpunit --testdox --verbose --stop-on-failure",
+            "@php vendor/bin/phpunit --testdox --stop-on-failure",
             "@php tools/phpstan analyse --no-progress"
         ]
     },

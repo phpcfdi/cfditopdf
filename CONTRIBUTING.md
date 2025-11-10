@@ -109,7 +109,7 @@ tools/phpcbf --colors -sp
 tools/composer-normalize normalize --dry-run
 tools/php-cs-fixer fix --dry-run --verbose
 tools/phpcs --colors -sp
-vendor/bin/phpunit --testdox --verbose --stop-on-failure
+vendor/bin/phpunit --testdox --stop-on-failure
 tools/phpstan analyse --no-progress
 ```
 
