@@ -2,10 +2,16 @@
 
 [![Source Code][badge-source]][source]
 [![Packagist PHP Version Support][badge-php-version]][php-version]
+[![Discord][badge-discord]][discord]
 [![Latest Version][badge-release]][release]
 [![Software License][badge-license]][license]
 [![Build Status][badge-build]][build]
+[![Reliability][badge-reliability]][reliability]
+[![Maintainability][badge-maintainability]][maintainability]
+[![Code Coverage][badge-coverage]][coverage]
+[![Violations][badge-violations]][violations]
 [![Total Downloads][badge-downloads]][downloads]
+[![Docker Downloads][badge-docker]][docker]
 
 > Create a generic PDF file from a CFDI 3.3 & 4.0
 
@@ -114,14 +120,26 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 
 [source]: https://github.com/phpcfdi/cfditopdf
 [php-version]: https://packagist.org/packages/phpcfdi/cfditopdf
+[discord]: https://discord.gg/aFGYXvX
 [release]: https://github.com/phpcfdi/cfditopdf/releases
 [license]: https://github.com/phpcfdi/cfditopdf/blob/master/LICENSE
 [build]: https://github.com/phpcfdi/cfditopdf/actions/workflows/build.yml?query=branch:master
+[reliability]:https://sonarcloud.io/component_measures?id=phpcfdi_cfditopdf&metric=Reliability
+[maintainability]: https://sonarcloud.io/component_measures?id=phpcfdi_cfditopdf&metric=Maintainability
+[coverage]: https://sonarcloud.io/component_measures?id=phpcfdi_cfditopdf&metric=Coverage
+[violations]: https://sonarcloud.io/project/issues?id=phpcfdi_cfditopdf&resolved=false
 [downloads]: https://packagist.org/packages/phpcfdi/cfditopdf
+[docker]: https://hub.docker.com/r/phpcfdi/cfditopdf
 
-[badge-source]: https://img.shields.io/badge/source-phpcfdi/cfditopdf-blue?style=flat-square
-[badge-php-version]: https://img.shields.io/packagist/php-v/phpcfdi/cfditopdf?style=flat-square
-[badge-release]: https://img.shields.io/github/release/phpcfdi/cfditopdf?style=flat-square
-[badge-license]: https://img.shields.io/github/license/phpcfdi/cfditopdf?style=flat-square
-[badge-build]: https://img.shields.io/github/actions/workflow/status/phpcfdi/cfditopdf/build.yml?branch=master&style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/cfditopdf?style=flat-square
+[badge-source]: https://img.shields.io/badge/source-phpcfdi/cfditopdf-blue?logo=github
+[badge-discord]: https://img.shields.io/discord/459860554090283019?logo=discord
+[badge-php-version]: https://img.shields.io/packagist/php-v/phpcfdi/cfditopdf?logo=php
+[badge-release]: https://img.shields.io/github/release/phpcfdi/cfditopdf?logo=git
+[badge-license]: https://img.shields.io/github/license/phpcfdi/cfditopdf?logo=open-source-initiative
+[badge-build]: https://img.shields.io/github/actions/workflow/status/phpcfdi/cfditopdf/build.yml?branch=master&logo=github-actions
+[badge-reliability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_cfditopdf&metric=reliability_rating
+[badge-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_cfditopdf&metric=sqale_rating
+[badge-coverage]: https://img.shields.io/sonar/coverage/phpcfdi_cfditopdf/master?logo=sonarqubecloud&server=https%3A%2F%2Fsonarcloud.io
+[badge-violations]: https://img.shields.io/sonar/violations/phpcfdi_cfditopdf/master?format=long&logo=sonarqubecloud&server=https%3A%2F%2Fsonarcloud.io
+[badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/cfditopdf?logo=packagist
+[badge-docker]: https://img.shields.io/docker/pulls/phpcfdi/cfditopdf?logo=docker
