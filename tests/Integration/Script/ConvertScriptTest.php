@@ -11,11 +11,9 @@ use PhpCfdi\CfdiToPdf\Tests\TestCase;
 
 class ConvertScriptTest extends TestCase
 {
-    /** @var string */
-    private $temporaryFile;
+    private string $temporaryFile;
 
-    /** @var PdfToText */
-    private $pdfToText;
+    private PdfToText $pdfToText;
 
     protected function setUp(): void
     {

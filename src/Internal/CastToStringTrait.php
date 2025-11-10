@@ -11,8 +11,7 @@ use Stringable;
  */
 trait CastToStringTrait
 {
-    /** @param mixed $value */
-    private function strval($value): string
+    private function strval(mixed $value): string
     {
         if (is_string($value)) {
             return $value;

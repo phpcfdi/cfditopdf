@@ -10,9 +10,6 @@ interface HtmlTranslatorInterface
 {
     /**
      * Transform CfdiData contents to HTML content
-     *
-     * @param CfdiData $cfdiData
-     * @return string
      */
     public function translate(CfdiData $cfdiData): string;
 }

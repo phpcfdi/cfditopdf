@@ -18,10 +18,6 @@ use SplFileInfo;
 
 class ConvertScript
 {
-    /**
-     * @param ConvertOptions $options
-     * @return void
-     */
     public function run(ConvertOptions $options): void
     {
         $source = $this->openSource($options->inputFile(), $options->doCleanInput());
@@ -100,7 +96,7 @@ class ConvertScript
 
     private function executionIsFromPhar(): bool
     {
-        return 'phar://' === substr(__FILE__, 0, 7);
+        return str_starts_with(__FILE__, 'phar://');
     }
 
     private function extractFontsToTemporaryFolder(): string
@@ -144,10 +140,6 @@ class ConvertScript
         rmdir($directory);
     }
 
-    /**
-     * @param string $directory
-     * @return Generator
-     */
     private function readDirectory(string $directory): Generator
     {
         $directoryIterator = new DirectoryIterator($directory);

@@ -47,7 +47,7 @@ class CfdiDataBuilderTest extends TestCase
         /** @var CfdiDataBuilder&MockObject $builder */
         $builder = $this->getMockBuilder(CfdiDataBuilder::class)
             ->enableOriginalConstructor()
-            ->setMethodsExcept(['build'])
+            ->onlyMethods(['createQrUrl', 'createTfdSourceString'])
             ->getMock();
         $builder->method('createQrUrl')->willReturn('qr');
         $builder->method('createTfdSourceString')->willReturn('tfd');
@@ -62,7 +62,7 @@ class CfdiDataBuilderTest extends TestCase
     public function testCreateTfdSourceStringWithoutTimbreFiscalDigital(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
-        /** @var NodeInterface<NodeInterface> $complemento phpstan recognize null returned by searchNode */
+        /** @phpstan-var NodeInterface $complemento */
         $complemento = $comprobante->searchNode('cfdi:Complemento');
         $complemento->children()->removeAll();
 
@@ -85,9 +85,9 @@ class CfdiDataBuilderTest extends TestCase
     public function testCreateTfdSourceStringWithTfd10(): void
     {
         $comprobante = Cfdi::newFromString($this->fileContents('cfdi33-valid.xml'))->getNode();
-        /** @var NodeInterface<NodeInterface> $complemento phpstan recognize null returned by searchNode */
+        /** @phpstan-var NodeInterface $complemento */
         $complemento = $comprobante->searchNode('cfdi:Complemento');
-        /** @var NodeInterface<NodeInterface> $tfd phpstan recognize null returned by firstNodeWithName */
+        /** @phpstan-var NodeInterface $tfd */
         $tfd = $complemento->children()->firstNodeWithName('tfd:TimbreFiscalDigital');
         $tfd->addAttributes([
             'Version' => null,

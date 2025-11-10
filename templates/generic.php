@@ -1,15 +1,11 @@
 <?php
 
-/**
- * @noinspection PhpFullyQualifiedNameUsageInspection
- */
-
 declare(strict_types=1);
 
 /**
- * @var \League\Plates\Template\Template $this
- * @var \PhpCfdi\CfdiToPdf\CfdiData $cfdiData
- * @var \PhpCfdi\CfdiToPdf\Catalogs\CatalogsInterface|null $catalogos
+ * @var League\Plates\Template\Template $this
+ * @var PhpCfdi\CfdiToPdf\CfdiData $cfdiData
+ * @var PhpCfdi\CfdiToPdf\Catalogs\CatalogsInterface|null $catalogos
  */
 $comprobante = $cfdiData->comprobante();
 $emisor = $cfdiData->emisor();
@@ -22,8 +18,8 @@ $conceptos = $comprobante->searchNodes('cfdi:Conceptos', 'cfdi:Concepto');
 $informacionGlobal = $comprobante->searchNode('cfdi:InformacionGlobal');
 $conceptoCounter = 0;
 $conceptoCount = $conceptos->count();
-if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\CatalogsInterface)) {
-    $catalogos = new \PhpCfdi\CfdiToPdf\Catalogs\StaticCatalogs();
+if (! isset($catalogos) || ! ($catalogos instanceof PhpCfdi\CfdiToPdf\Catalogs\CatalogsInterface)) {
+    $catalogos = new PhpCfdi\CfdiToPdf\Catalogs\StaticCatalogs();
 }
 ?>
 <style>
@@ -235,7 +231,7 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
                 <?php endif; ?>
                 <?php if (null !== $informacionAduaneras) : ?>
                     <p>
-                        <strong>Informacion aduanera</strong>
+                        <strong>Información aduanera</strong>
                         <?php foreach ($concepto->searchNodes('cfdi:InformacionAduanera') as $informacionAduanera) : ?>
                             Pedimento: <?=$this->e($informacionAduanera['NumeroPedimento'])?>
                         <?php endforeach; ?>
@@ -286,64 +282,67 @@ if (! isset($catalogos) || ! ($catalogos instanceof \PhpCfdi\CfdiToPdf\Catalogs\
     <?php endforeach; ?>
 
     <?php
-    $pagos = $comprobante->searchNodes('cfdi:Complemento', 'pago10:Pagos', 'pago10:Pago');
+    $pagos10 = $comprobante->searchNodes('cfdi:Complemento', 'pago10:Pagos', 'pago10:Pago');
     $pagoCounter = 0;
-    $pagoCount = $pagos->count();
+    $pagoCount = $pagos10->count();
     ?>
-    <?php foreach ($pagos as $pago) : ?>
+    <?php foreach ($pagos10 as $pago10) : ?>
         <?php
         $pagoCounter = $pagoCounter + 1;
-        $doctoRelacionados = $pago->searchNodes('pago10:DoctoRelacionado');
+        $doctoRelacionados = $pago10->searchNodes('pago10:DoctoRelacionado');
         ?>
         <div class="panel">
             <div class="title">Pago: <?=$this->e($pagoCounter)?> de <?=$this->e($pagoCount)?></div>
             <div class="content">
                 <p>
-                    <span><strong>Fecha de pago:</strong> <?=$this->e($pago['FechaPago'])?>,</span>
-                    <span><strong>Forma de pago:</strong> <?=$this->e($pago['FormaDePagoP'])?>,</span>
-                    <span><strong>Moneda:</strong> <?=$this->e($pago['MonedaP'])?>,</span>
-                    <span><strong>Monto:</strong> <?=$this->e($pago['Monto'])?></span>
-                    <?php if ('' !== $pago['TipoCambioP']) : ?>
-                      <span><strong>Tipo Cambio:</strong> <?=$this->e($pago['TipoCambioP'])?></span>
+                    <span><strong>Fecha de pago:</strong> <?=$this->e($pago10['FechaPago'])?>,</span>
+                    <span><strong>Forma de pago:</strong> <?=$this->e($pago10['FormaDePagoP'])?>,</span>
+                    <span><strong>Moneda:</strong> <?=$this->e($pago10['MonedaP'])?>,</span>
+                    <span><strong>Monto:</strong> <?=$this->e($pago10['Monto'])?></span>
+                    <?php if ('' !== $pago10['TipoCambioP']) : ?>
+                      <span><strong>Tipo Cambio:</strong> <?=$this->e($pago10['TipoCambioP'])?></span>
                     <?php endif; ?>
-                    <?php if ('' !== $pago['NumOperacion']) : ?>
-                      <span><strong>Número operación:</strong> <?=$this->e($pago['NumOperacion'])?></span>
+                    <?php if ('' !== $pago10['NumOperacion']) : ?>
+                      <span><strong>Número operación:</strong> <?=$this->e($pago10['NumOperacion'])?></span>
                     <?php endif; ?>
-                    <?php if ('' !== $pago['RfcEmisorCtaOrd']) : ?>
-                      <span><strong>RFC Emisor Cta Ord:</strong> <?=$this->e($pago['RfcEmisorCtaOrd'])?></span>
+                    <?php if ('' !== $pago10['RfcEmisorCtaOrd']) : ?>
+                      <span><strong>RFC Emisor Cta Ord:</strong> <?=$this->e($pago10['RfcEmisorCtaOrd'])?></span>
                     <?php endif; ?>
-                    <?php if ('' !== $pago['NomBancoOrdExt']) : ?>
-                      <span><strong>Nombre Banco Ord Extranjero:</strong> <?=$this->e($pago['NomBancoOrdExt'])?></span>
+                    <?php if ('' !== $pago10['NomBancoOrdExt']) : ?>
+                      <span>
+                          <strong>Nombre Banco Ord Extranjero:</strong>
+                          <?=$this->e($pago10['NomBancoOrdExt'])?>
+                      </span>
                     <?php endif; ?>
-                    <?php if ('' !== $pago['CtaOrdenante']) : ?>
-                      <span><strong>Cuenta Ord:</strong> <?=$this->e($pago['CtaOrdenante'])?></span>
+                    <?php if ('' !== $pago10['CtaOrdenante']) : ?>
+                      <span><strong>Cuenta Ord:</strong> <?=$this->e($pago10['CtaOrdenante'])?></span>
                     <?php endif; ?>
-                    <?php if ('' !== $pago['RfcEmisorCtaBen']) : ?>
-                      <span><strong>RFC Emisor Cta Ben:</strong> <?=$this->e($pago['RfcEmisorCtaBen'])?></span>
+                    <?php if ('' !== $pago10['RfcEmisorCtaBen']) : ?>
+                      <span><strong>RFC Emisor Cta Ben:</strong> <?=$this->e($pago10['RfcEmisorCtaBen'])?></span>
                     <?php endif; ?>
-                    <?php if ('' !== $pago['CtaBeneficiario']) : ?>
-                      <span><strong>Cuenta Ben:</strong> <?=$this->e($pago['CtaBeneficiario'])?></span>
+                    <?php if ('' !== $pago10['CtaBeneficiario']) : ?>
+                      <span><strong>Cuenta Ben:</strong> <?=$this->e($pago10['CtaBeneficiario'])?></span>
                     <?php endif; ?>
-                    <?php if ('' !== $pago['TipoCadPago']) : ?>
-                      <span><strong>Tipo cadena de pago:</strong> <?=$this->e($pago['TipoCadPago'])?></span>
+                    <?php if ('' !== $pago10['TipoCadPago']) : ?>
+                      <span><strong>Tipo cadena de pago:</strong> <?=$this->e($pago10['TipoCadPago'])?></span>
                     <?php endif; ?>
                 </p>
-                <?php if ('' !== $pago['CertPago']) : ?>
+                <?php if ('' !== $pago10['CertPago']) : ?>
                   <p>
                     <strong>Certificado de pago:</strong>
-                    <span><?=$this->e($pago['CertPago'])?></span>
+                    <span><?=$this->e($pago10['CertPago'])?></span>
                   </p>
                 <?php endif; ?>
-                <?php if ('' !== $pago['CadPago']) : ?>
+                <?php if ('' !== $pago10['CadPago']) : ?>
                   <p>
                     <strong>Cadena de pago:</strong>
-                    <span><?=$this->e($pago['CadPago'])?></span>
+                    <span><?=$this->e($pago10['CadPago'])?></span>
                   </p>
                 <?php endif; ?>
-                <?php if ('' !== $pago['SelloPago']) : ?>
+                <?php if ('' !== $pago10['SelloPago']) : ?>
                   <p>
                     <strong>Sello de pago:</strong>
-                    <span><?=$this->e($pago['SelloPago'])?></span>
+                    <span><?=$this->e($pago10['SelloPago'])?></span>
                   </p>
                 <?php endif; ?>
                 <?php if ($doctoRelacionados->count() > 0) : ?>

@@ -8,47 +8,21 @@ use RuntimeException;
 
 class ConvertOptions
 {
-    /** @var string */
-    private $resolverLocation;
-
-    /** @var string */
-    private $fontsDirectory;
-
-    /** @var bool */
-    private $doCleanInput;
-
-    /** @var string */
-    private $inputFile;
-
-    /** @var string */
-    private $outputFile;
-
-    /** @var bool */
-    private $askForHelp;
-
-    /** @var bool */
-    private $askForVersion;
+    private readonly string $outputFile;
 
     public function __construct(
-        string $resolverLocation,
-        string $fontsDirectory,
-        bool $doCleanInput,
-        string $inputFile,
+        private readonly string $resolverLocation,
+        private readonly string $fontsDirectory,
+        private readonly bool $doCleanInput,
+        private readonly string $inputFile,
         string $outputFile,
-        bool $askForHelp,
-        bool $askForVersion
+        private readonly bool $askForHelp,
+        private readonly bool $askForVersion,
     ) {
-        if ('' === $outputFile && '' !== $inputFile) {
-            $outputFile = (string) preg_replace('/\.xml$/', '', $inputFile) . '.pdf';
+        if ('' === $outputFile && '' !== $this->inputFile) {
+            $outputFile = preg_replace('/\.xml$/', '', $this->inputFile) . '.pdf';
         }
-
-        $this->resolverLocation = $resolverLocation;
-        $this->fontsDirectory = $fontsDirectory;
-        $this->doCleanInput = $doCleanInput;
-        $this->inputFile = $inputFile;
         $this->outputFile = $outputFile;
-        $this->askForHelp = $askForHelp;
-        $this->askForVersion = $askForVersion;
     }
 
     public function askForHelp(): bool
@@ -88,8 +62,6 @@ class ConvertOptions
 
     /**
      * @param string[] $arguments
-     *
-     * @return self
      */
     public static function createFromArguments(array $arguments): self
     {
@@ -118,7 +90,7 @@ class ConvertOptions
             }
             if (in_array($argument, ['-l', '--resource-location'], true)) {
                 $i = $i + 1;
-                if (! ($i < $count)) {
+                if ($i >= $count) {
                     throw new RuntimeException('The resource location parameter does not contains an argument');
                 }
                 $resolverLocation = $arguments[$i];
@@ -126,7 +98,7 @@ class ConvertOptions
             }
             if (in_array($argument, ['-f', '--fonts-dir'], true)) {
                 $i = $i + 1;
-                if (! ($i < $count)) {
+                if ($i >= $count) {
                     throw new RuntimeException('The fonts directory parameter does not contains an argument');
                 }
                 $fontsDirectory = $arguments[$i];

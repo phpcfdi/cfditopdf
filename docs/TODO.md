@@ -4,16 +4,18 @@ Intro: Al completar una tarea pasarla de *Planeada* a *Finalizada*. Escribir fec
 
 ## Planeadas
 
-- Revisar que <https://github.com/spipu/html2pdf/issues/530> esté solucionado para desactivar "permitir fallos"
-  en PHP 7.4 porque `spipu/html2pdf` tiene un bug.
-- Cambiar a PHP 7.2 o mayor.
-- Al cambiar de versión de PHP, actualizar los métodos que retornan void a que explícitamente lo hangan.
-- Modificar `NodeInterface<NodeInterface>` para cuando `eclipxe/cfdiutils` ya lo incluya por sí mismo.
 - Catálogos para expresar las claves.
 - Impresión genérica de complementos.
 - Crear nuevos métodos para generar el archivo PDF.
 
 ## Finalizadas
+
+### En versión 0.5.0
+
+- Se elimina la compatibilidad con PHP 7.3, PHP 7.4 y PHP 8.0.
+- Al cambiar de versión de PHP, actualizar los métodos que retornan void a que explícitamente lo hangan.
+- El fallo que se presentaba en [`spipu/html2pdf`](https://github.com/spipu/html2pdf/issues/530) ya no existe. 
+- Modificar `NodeInterface<NodeInterface>` para cuando `eclipxe/cfdiutils` ya lo incluya por sí mismo.
 
 ### En versión 0.3.2 o anteriores
 

@@ -11,10 +11,6 @@ interface BuilderInterface
     /**
      * Transform CfdiData contents to a PDF file
      * and store its contents on $destination
-     *
-     * @param CfdiData $data
-     * @param string $destination
-     * @return void
      */
     public function build(CfdiData $data, string $destination): void;
 }

@@ -10,7 +10,6 @@ on:
 
 # Actions
 # shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
-# sudo-bot/action-scrutinizer@latest https://github.com/marketplace/actions/action-scrutinizer
 
 jobs:
 
@@ -99,25 +98,14 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        php-version: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+        php-version: ['8.1', '8.2', '8.3', '8.4']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # required for sudo-bot/action-scrutinizer
       - name: Install poppler-utils
         run: |
           sudo apt-get update -y -qq
           sudo apt-get install -y -qq poppler-utils
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: soap, gd
-          coverage: xdebug
-          tools: composer:v2
-        env:
-          fail-fast: true
       - name: Install SAT XML resources
         shell: bash
         run: |
@@ -129,6 +117,15 @@ jobs:
           else
             echo tests/_files/external-resources already exists          
           fi
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: soap, gd
+          coverage: none
+          tools: composer:v2
+        env:
+          fail-fast: true
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -141,10 +138,4 @@ jobs:
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: Tests (phpunit)
-        run: vendor/bin/phpunit --testdox --verbose --coverage-clover=build/coverage-clover.xml
-      - name: Upload code coverage to scrutinizer
-        if: ${{ !env.ACT }} # do not run if using nektos/act
-        uses: sudo-bot/action-scrutinizer@latest
-        with:
-          cli-args: "--format=php-clover build/coverage-clover.xml"
-        continue-on-error: true
+        run: vendor/bin/phpunit --testdox

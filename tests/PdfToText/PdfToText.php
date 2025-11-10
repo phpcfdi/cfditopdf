@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\CfdiToPdf\Tests\PdfToText;
 
+use RuntimeException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -11,8 +12,7 @@ use Symfony\Component\Process\Process;
  */
 class PdfToText
 {
-    /** @var string */
-    private $pdftotext;
+    private string $pdftotext;
 
     public function __construct(string $pathPdfToText = '')
     {
@@ -27,11 +27,10 @@ class PdfToText
             return false;
         }
 
-        return ('pdftotext ' === substr(trim($process->getErrorOutput()), 0, 10));
+        return str_starts_with(trim($process->getErrorOutput()), 'pdftotext ');
     }
 
     /**
-     * @param string $filename
      * @return string file contents
      */
     public function extract(string $filename): string
@@ -39,7 +38,7 @@ class PdfToText
         $process = new Process([$this->pdftotext, '-eol', 'unix', '-raw', '-q', $filename, '-']);
         $exitStatus = $process->run();
         if (0 !== $exitStatus) {
-            throw new \RuntimeException("Running pdftotext exit with error (exit status: $exitStatus)");
+            throw new RuntimeException("Running pdftotext exit with error (exit status: $exitStatus)");
         }
         return $process->getOutput();
     }
