@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\CfdiToPdf\Tests;
 
 use CfdiUtils\XmlResolver\XmlResolver;
+use RuntimeException;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -23,7 +24,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         $temporaryFile = tempnam('', '');
         if (false === $temporaryFile) {
-            throw new \RuntimeException('Unable to create a temporary file');
+            throw new RuntimeException('Unable to create a temporary file');
         }
         return $temporaryFile;
     }

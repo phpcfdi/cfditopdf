@@ -20,8 +20,7 @@ class ConverterTest extends TestCase
 {
     use CastToStringTrait;
 
-    /** @var PdfToText */
-    private $pdfToText;
+    private PdfToText $pdfToText;
 
     protected function setUp(): void
     {

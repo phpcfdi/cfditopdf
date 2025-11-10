@@ -12,8 +12,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 class Html2PdfBuilder implements BuilderInterface
 {
-    /** @var HtmlTranslators\HtmlTranslatorInterface */
-    private $htmlTranslator;
+    private HtmlTranslatorInterface $htmlTranslator;
 
     /**
      * Html2PdfBuilder constructor.

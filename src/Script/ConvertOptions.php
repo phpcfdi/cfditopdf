@@ -8,26 +8,19 @@ use RuntimeException;
 
 class ConvertOptions
 {
-    /** @var string */
-    private $resolverLocation;
+    private string $resolverLocation;
 
-    /** @var string */
-    private $fontsDirectory;
+    private string $fontsDirectory;
 
-    /** @var bool */
-    private $doCleanInput;
+    private bool $doCleanInput;
 
-    /** @var string */
-    private $inputFile;
+    private string $inputFile;
 
-    /** @var string */
-    private $outputFile;
+    private string $outputFile;
 
-    /** @var bool */
-    private $askForHelp;
+    private bool $askForHelp;
 
-    /** @var bool */
-    private $askForVersion;
+    private bool $askForVersion;
 
     public function __construct(
         string $resolverLocation,

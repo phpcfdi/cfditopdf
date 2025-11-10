@@ -17,11 +17,9 @@ class CfdiDataBuilder
 {
     use CastToStringTrait;
 
-    /** @var XmlResolver */
-    private $xmlResolver;
+    private XmlResolver $xmlResolver;
 
-    /** @var XsltBuilderInterface */
-    private $xsltBuilder;
+    private XsltBuilderInterface $xsltBuilder;
 
     public function __construct()
     {

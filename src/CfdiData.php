@@ -10,22 +10,20 @@ use RuntimeException;
 class CfdiData
 {
     /** @var NodeInterface<NodeInterface> */
-    private $comprobante;
+    private NodeInterface $comprobante;
 
     /** @var NodeInterface<NodeInterface> */
-    private $emisor;
+    private NodeInterface $emisor;
 
     /** @var NodeInterface<NodeInterface> */
-    private $receptor;
+    private NodeInterface $receptor;
 
     /** @var NodeInterface<NodeInterface> */
-    private $timbreFiscalDigital;
+    private NodeInterface $timbreFiscalDigital;
 
-    /** @var string */
-    private $qrUrl;
+    private string $qrUrl;
 
-    /** @var string */
-    private $tfdSourceString;
+    private string $tfdSourceString;
 
     /**
      * CfdiData constructor.
