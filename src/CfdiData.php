@@ -9,18 +9,12 @@ use RuntimeException;
 
 class CfdiData
 {
-    /** @var NodeInterface<NodeInterface> */
     private NodeInterface $emisor;
 
-    /** @var NodeInterface<NodeInterface> */
     private NodeInterface $receptor;
 
-    /** @var NodeInterface<NodeInterface> */
     private NodeInterface $timbreFiscalDigital;
 
-    /**
-     * @param NodeInterface<NodeInterface> $comprobante
-     */
     public function __construct(
         private readonly NodeInterface $comprobante,
         private readonly string $qrUrl,
@@ -44,33 +38,21 @@ class CfdiData
         $this->timbreFiscalDigital = $timbreFiscalDigital;
     }
 
-    /**
-     * @return NodeInterface<NodeInterface>
-     */
     public function comprobante(): NodeInterface
     {
         return $this->comprobante;
     }
 
-    /**
-     * @return NodeInterface<NodeInterface>
-     */
     public function emisor(): NodeInterface
     {
         return $this->emisor;
     }
 
-    /**
-     * @return NodeInterface<NodeInterface>
-     */
     public function receptor(): NodeInterface
     {
         return $this->receptor;
     }
 
-    /**
-     * @return NodeInterface<NodeInterface>
-     */
     public function timbreFiscalDigital(): NodeInterface
     {
         return $this->timbreFiscalDigital;
