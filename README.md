@@ -5,8 +5,6 @@
 [![Latest Version][badge-release]][release]
 [![Software License][badge-license]][license]
 [![Build Status][badge-build]][build]
-[![Scrutinizer][badge-quality]][quality]
-[![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
 
 > Create a generic PDF file from a CFDI 3.3 & 4.0
@@ -119,8 +117,6 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [release]: https://github.com/phpcfdi/cfditopdf/releases
 [license]: https://github.com/phpcfdi/cfditopdf/blob/master/LICENSE
 [build]: https://github.com/phpcfdi/cfditopdf/actions/workflows/build.yml?query=branch:master
-[quality]: https://scrutinizer-ci.com/g/phpcfdi/cfditopdf/
-[coverage]: https://scrutinizer-ci.com/g/phpcfdi/cfditopdf/code-structure/master/code-coverage/src
 [downloads]: https://packagist.org/packages/phpcfdi/cfditopdf
 
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/cfditopdf-blue?style=flat-square
@@ -128,6 +124,4 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-release]: https://img.shields.io/github/release/phpcfdi/cfditopdf?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/cfditopdf?style=flat-square
 [badge-build]: https://img.shields.io/github/actions/workflow/status/phpcfdi/cfditopdf/build.yml?branch=master&style=flat-square
-[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/cfditopdf/master?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/cfditopdf/master?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/cfditopdf?style=flat-square

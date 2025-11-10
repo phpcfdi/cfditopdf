@@ -10,7 +10,6 @@ on:
 
 # Actions
 # shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
-# sudo-bot/action-scrutinizer@latest https://github.com/marketplace/actions/action-scrutinizer
 
 jobs:
 
@@ -103,8 +102,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # required for sudo-bot/action-scrutinizer
       - name: Install poppler-utils
         run: |
           sudo apt-get update -y -qq
@@ -114,7 +111,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: soap, gd
-          coverage: xdebug
+          coverage: none
           tools: composer:v2
         env:
           fail-fast: true
@@ -141,10 +138,4 @@ jobs:
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: Tests (phpunit)
-        run: vendor/bin/phpunit --testdox --verbose --coverage-clover=build/coverage-clover.xml
-      - name: Upload code coverage to scrutinizer
-        if: ${{ !env.ACT }} # do not run if using nektos/act
-        uses: sudo-bot/action-scrutinizer@latest
-        with:
-          cli-args: "--format=php-clover build/coverage-clover.xml"
-        continue-on-error: true
+        run: vendor/bin/phpunit --testdox --verbose
