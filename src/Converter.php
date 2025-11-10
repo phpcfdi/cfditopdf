@@ -11,7 +11,7 @@ use PhpCfdi\CfdiToPdf\Builders\BuilderInterface;
 
 class Converter
 {
-    public function __construct(private BuilderInterface $builder)
+    public function __construct(private readonly BuilderInterface $builder)
     {
     }
 

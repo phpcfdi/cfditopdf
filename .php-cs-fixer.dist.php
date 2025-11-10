@@ -15,8 +15,8 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR12' => true,
         '@PSR12:risky' => true,
-        '@PHP7x4Migration' => true,
-        '@PHP7x4Migration:risky' => true,
+        '@PHP8x1Migration' => true,
+        '@PHP8x0Migration:risky' => true,
         // basic
         'statement_indentation' => false, // invalid indentation
         // symfony
@@ -26,7 +26,7 @@ return (new PhpCsFixer\Config())
         'no_empty_statement' => true,
         'no_extra_blank_lines' => true,
         'type_declaration_spaces' => true,
-        'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => ['arrays', 'arguments']],
+        'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => ['array_destructuring', 'arrays', 'match', 'arguments', 'parameters']],
         'no_blank_lines_after_phpdoc' => true,
         'object_operator_without_whitespace' => true,
         'binary_operator_spaces' => true,

@@ -19,14 +19,12 @@ class CfdiData
     private NodeInterface $timbreFiscalDigital;
 
     /**
-     * CfdiData constructor.
-     *
      * @param NodeInterface<NodeInterface> $comprobante
      */
     public function __construct(
-        private NodeInterface $comprobante,
-        private string $qrUrl,
-        private string $tfdSourceString,
+        private readonly NodeInterface $comprobante,
+        private readonly string $qrUrl,
+        private readonly string $tfdSourceString,
     ) {
         $emisor = $this->comprobante->searchNode('cfdi:Emisor');
         if (null === $emisor) {

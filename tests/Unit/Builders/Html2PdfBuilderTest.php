@@ -28,7 +28,7 @@ class Html2PdfBuilderTest extends TestCase
         /** @var Html2PdfBuilder&MockObject $builder */
         $builder = $this->getMockBuilder(Html2PdfBuilder::class)
             ->enableOriginalConstructor()
-            ->setMethodsExcept(['build'])
+            ->onlyMethods(['buildPdf'])
             ->getMock();
         $builder->expects($this->once())->method('buildPdf')->willReturn('foo');
 
@@ -46,7 +46,7 @@ class Html2PdfBuilderTest extends TestCase
         /** @var Html2PdfBuilder&MockObject $builder */
         $builder = $this->getMockBuilder(Html2PdfBuilder::class)
             ->enableOriginalConstructor()
-            ->setMethodsExcept(['buildPdf'])
+            ->onlyMethods(['convertNodeToHtml', 'convertHtmlToPdf'])
             ->getMock();
         $builder->expects($this->once())->method('convertNodeToHtml')->willReturn('html');
         $builder->expects($this->once())->method('convertHtmlToPdf')->willReturn('%PDF-1.5');

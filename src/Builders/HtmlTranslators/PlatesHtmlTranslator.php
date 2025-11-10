@@ -9,11 +9,10 @@ use PhpCfdi\CfdiToPdf\CfdiData;
 
 class PlatesHtmlTranslator implements HtmlTranslatorInterface
 {
-    /**
-     * PlatesHtmlTranslator constructor.
-     */
-    public function __construct(private string $directory, private string $template)
-    {
+    public function __construct(
+        private readonly string $directory,
+        private readonly string $template,
+    ) {
     }
 
     public function translate(CfdiData $cfdiData): string

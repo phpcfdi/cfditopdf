@@ -8,18 +8,21 @@ use RuntimeException;
 
 class ConvertOptions
 {
+    private readonly string $outputFile;
+
     public function __construct(
-        private string $resolverLocation,
-        private string $fontsDirectory,
-        private bool $doCleanInput,
-        private string $inputFile,
-        private string $outputFile,
-        private bool $askForHelp,
-        private bool $askForVersion
+        private readonly string $resolverLocation,
+        private readonly string $fontsDirectory,
+        private readonly bool $doCleanInput,
+        private readonly string $inputFile,
+        string $outputFile,
+        private readonly bool $askForHelp,
+        private readonly bool $askForVersion,
     ) {
-        if ('' === $this->outputFile && '' !== $this->inputFile) {
-            $this->outputFile = preg_replace('/\.xml$/', '', $this->inputFile) . '.pdf';
+        if ('' === $outputFile && '' !== $this->inputFile) {
+            $outputFile = preg_replace('/\.xml$/', '', $this->inputFile) . '.pdf';
         }
+        $this->outputFile = $outputFile;
     }
 
     public function askForHelp(): bool

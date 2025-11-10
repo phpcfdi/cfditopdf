@@ -47,7 +47,7 @@ class CfdiDataBuilderTest extends TestCase
         /** @var CfdiDataBuilder&MockObject $builder */
         $builder = $this->getMockBuilder(CfdiDataBuilder::class)
             ->enableOriginalConstructor()
-            ->setMethodsExcept(['build'])
+            ->onlyMethods(['createQrUrl', 'createTfdSourceString'])
             ->getMock();
         $builder->method('createQrUrl')->willReturn('qr');
         $builder->method('createTfdSourceString')->willReturn('tfd');
