@@ -8,40 +8,18 @@ use RuntimeException;
 
 class ConvertOptions
 {
-    private string $resolverLocation;
-
-    private string $fontsDirectory;
-
-    private bool $doCleanInput;
-
-    private string $inputFile;
-
-    private string $outputFile;
-
-    private bool $askForHelp;
-
-    private bool $askForVersion;
-
     public function __construct(
-        string $resolverLocation,
-        string $fontsDirectory,
-        bool $doCleanInput,
-        string $inputFile,
-        string $outputFile,
-        bool $askForHelp,
-        bool $askForVersion
+        private string $resolverLocation,
+        private string $fontsDirectory,
+        private bool $doCleanInput,
+        private string $inputFile,
+        private string $outputFile,
+        private bool $askForHelp,
+        private bool $askForVersion
     ) {
-        if ('' === $outputFile && '' !== $inputFile) {
-            $outputFile = preg_replace('/\.xml$/', '', $inputFile) . '.pdf';
+        if ('' === $this->outputFile && '' !== $this->inputFile) {
+            $this->outputFile = preg_replace('/\.xml$/', '', $this->inputFile) . '.pdf';
         }
-
-        $this->resolverLocation = $resolverLocation;
-        $this->fontsDirectory = $fontsDirectory;
-        $this->doCleanInput = $doCleanInput;
-        $this->inputFile = $inputFile;
-        $this->outputFile = $outputFile;
-        $this->askForHelp = $askForHelp;
-        $this->askForVersion = $askForVersion;
     }
 
     public function askForHelp(): bool

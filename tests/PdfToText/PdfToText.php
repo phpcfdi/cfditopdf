@@ -27,7 +27,7 @@ class PdfToText
             return false;
         }
 
-        return 'pdftotext ' === substr(trim($process->getErrorOutput()), 0, 10);
+        return str_starts_with(trim($process->getErrorOutput()), 'pdftotext ');
     }
 
     /**

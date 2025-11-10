@@ -11,11 +11,8 @@ use PhpCfdi\CfdiToPdf\Builders\BuilderInterface;
 
 class Converter
 {
-    private BuilderInterface $builder;
-
-    public function __construct(BuilderInterface $builder)
+    public function __construct(private BuilderInterface $builder)
     {
-        $this->builder = $builder;
     }
 
     public function createPdfAs(CfdiData $cfdiData, string $destination): void

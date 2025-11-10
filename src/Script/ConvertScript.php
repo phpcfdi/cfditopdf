@@ -96,7 +96,7 @@ class ConvertScript
 
     private function executionIsFromPhar(): bool
     {
-        return 'phar://' === substr(__FILE__, 0, 7);
+        return str_starts_with(__FILE__, 'phar://');
     }
 
     private function extractFontsToTemporaryFolder(): string
